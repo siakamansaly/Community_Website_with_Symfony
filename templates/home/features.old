@@ -1,0 +1,56 @@
+<!-- START: Features -->
+<div class="bg-primary text-white">
+    <div class="container-fluid">
+        <div class="row d-flex items-align-center justify-content-center  ">
+            <div class="col-md-6 col-lg-3 p-5">
+                <div class="row d-flex align-items-center justify-content-center">
+                    <div class="col-auto">
+                        <i class="fas fa-snowboarding fa-4x"></i>
+                    </div>
+                    <div class="col-auto text-center">
+                        <span class="h2 display-5 d-block">{{ trickCount }}</span>
+                        <span class="h5">Tricks</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3  p-5">
+                <div class="row d-flex align-items-center justify-content-center">
+                    <div class="col-auto">
+                        <i class="fas fa-layer-group fa-4x"></i>
+                    </div>
+                    <div class="col-auto text-center">
+                        <span class="h2 display-5 d-block">{{ typeTrickCount }}</span>
+                        <span class="h5">Tricks Categories</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3 p-5">
+                <div class="row d-flex align-items-center justify-content-center">
+                    <div class="col-auto">
+                        <i class="fas fa-users fa-4x"></i>
+                    </div>
+                    <div class="col-auto text-center">
+                        <span class="h2 display-5 d-block">{{ userCount }}</span>
+                        <span class="h5">Community</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3 p-5">
+                <div class="row d-flex align-items-center justify-content-center">
+                    <div class="col-auto">
+                        <i class="fas fa-comments fa-4x"></i>
+                    </div>
+                    <div class="col-auto text-center">
+                        <span class="h2 display-5 d-block">{{ commentCount }}</span>
+                        <span class="h5">Comments</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- END: Features -->
