@@ -26,6 +26,7 @@ class UserFixtures extends Fixture
             ->setPassword($password)
             ->setRegistrationDate($faker->dateTime())
             ->setStatus(1)
+            ->setPicture('https://i.pravatar.cc/300?u=a042581f4e29026704a')
             ->setRoles(['ROLE_ADMIN']);
 
         $manager->persist($user);
