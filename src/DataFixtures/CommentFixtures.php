@@ -10,6 +10,7 @@ use App\DataFixtures\TrickFixtures;
 use App\DataFixtures\UserFixtures;
 use App\Entity\Comment;
 use App\Entity\User;
+use DateTimeImmutable;
 
 class CommentFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -18,21 +19,20 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         $faker = \Faker\Factory::create();
         $trick = $manager->getRepository(Trick::class);
         $trick = $trick->findAll();
-        $user = $manager->getRepository(User::class);
-        $user = $user->findOneBy(['email' => 'admin@example.fr']);
+        $users = $manager->getRepository(User::class);
+        $users = $users->findAll();
+
 
         foreach ($trick as $key => $value) {
-            for ($i = 0; $i < rand(0, 10); $i++) {
-                $comment = new Comment();
-                $now = new \DateTime();
-                $interval = $now->diff($value->getCreatedAt());
-                $days = $interval->days;
-                $minimum = '-' . $days . ' days';
-                $comment->setContent($faker->paragraphs(2, true))
-                    ->setCreatedAt(new \DateTimeImmutable($minimum))
-                    ->setTrick($value)
-                    ->setUser($user);
-                $manager->persist($comment);
+            foreach ($users as $key => $user) {
+                for ($i = 0; $i < rand(0, 2); $i++) {
+                    $comment = new Comment();
+                    $comment->setContent($faker->paragraphs(2, true))
+                        ->setCreatedAt(new \DateTimeImmutable('now'))
+                        ->setTrick($value)
+                        ->setUser($user);
+                    $manager->persist($comment);
+                }
             }
         }
         $manager->flush();

@@ -52,7 +52,7 @@ class MediaFixtures extends Fixture implements DependentFixtureInterface
         foreach ($trick as $key => $value) {
             for ($i = 0; $i < rand(0, 5); $i++) {
                 $media = new Media();
-                $media->setName($faker->imageUrl(408, 200, $value->getTitle(), true))
+                $media->setName("https://picsum.photos/seed/".$faker->words(1, true)."/1280/720")
                 ->setTrick($value)
                 ->setType('TYPE_IMAGE');
                 $manager->persist($media);

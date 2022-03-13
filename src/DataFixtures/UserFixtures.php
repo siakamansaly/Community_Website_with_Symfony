@@ -28,8 +28,20 @@ class UserFixtures extends Fixture
             ->setStatus(1)
             ->setPicture('https://i.pravatar.cc/300?u=a042581f4e29026704a')
             ->setRoles(['ROLE_ADMIN']);
-
         $manager->persist($user);
+        for ($i = 0; $i < rand(3, 15); $i++) {
+            $user = new User();
+            $password = $this->hasher->hashPassword($user, 'password');
+            $user->setFirstname($faker->firstName())
+                ->setLastname($faker->lastName())
+                ->setEmail($faker->email())
+                ->setPassword($password)
+                ->setRegistrationDate($faker->dateTime())
+                ->setStatus(1)
+                ->setPicture('https://i.pravatar.cc/300?img='.$i)
+                ->setRoles(['ROLE_USER']);
+            $manager->persist($user);
+        }
         $manager->flush();
     }
 }

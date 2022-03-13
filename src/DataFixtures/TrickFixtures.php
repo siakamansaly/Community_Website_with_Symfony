@@ -27,8 +27,8 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             for ($i = 0; $i < rand(0, 8); $i++) {
                 $trick = new Trick();
                 $trick->setContent($faker->paragraphs(4, true))
-                    ->setCreatedAt(new \DateTimeImmutable('now'))
-                    ->setFeaturedPicture("https://picsum.photos/408/200?random=".mt_rand(1, 55000))
+                    ->setCreatedAt(new \DateTimeImmutable('- 1 week'))
+                    ->setFeaturedPicture("https://picsum.photos/seed/".$faker->words(1, true)."/1280/720")
                     ->setSlug($faker->slug(3, false))
                     ->setTitle($faker->words(3, true))
                     ->setType($value)
