@@ -1,0 +1,63 @@
+{% extends "base.html.twig" %}
+{% block body %}
+<header class="bg-primary">
+  <div class="container" style="padding-top: 7rem;padding-bottom: 7rem;">
+    <div id="portfolio" class="card bg-white d-flex align-items-center">
+
+      <div class="jumbotron jumbotron-fluid">
+        <h1 class="text-primary text-center mt-4">{{trick.title|upper}}</h1>
+        <a class="portfolio-box" href="{{trick.featuredPicture}}" title="{{trick.title}}"><img src="{{trick.featuredPicture}}" class="card-img w-100 p-5" style="max-width: 1280px;"
+          alt="{{trick.title}}" /></a>
+      </div>
+
+
+      <div>
+        <div class="container-fluid px-2">
+          <div class="row g-0 d-flex justify-content-center text-center">
+
+            {% for picture in trick.medias %}
+            {% if picture.type == 'TYPE_IMAGE' %}
+            <div class="col-auto p-2">
+              <a class="portfolio-box" href="{{picture.name}}" title="{{trick.title ~ " " ~ picture.id}}">
+                <img class="img-fluid image-snowtricks" src="{{picture.name}}" alt="{{trick.title ~ " " ~ picture.id}}" />
+              </a>
+            </div>
+            {% else %}
+            <div class="col-auto embed-responsive embed-responsive-16by9 ">
+              <iframe class="embed-responsive-item image-snowtricks p-2" src="{{picture.name}}"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </div>
+            {% endif %}
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+
+      <p class="p-3 p-lg-5">{{trick.content}}
+      </p>
+      <div class="d-flex flex-row w-100 justify-content-evenly">
+        <span class="badge bg-secondary fs-6 mb-4">{{trick.type.name|upper}}</span>
+        <span class="badge bg-primary fs-6 mb-4">Created at {{trick.createdAt|date("m/d/Y")}}</span>
+        {% if trick.updatedTo %}
+        <span class="badge text-primary border border-primary fs-6 mb-4">Updated to
+          {{trick.updatedTo|date("m/d/Y")}}</span>
+        {% endif %}
+        <a href="#comments"><span
+            class="badge text-secondary border border-secondary fs-6 mb-4">{{trick.comments|length}}
+            Commentaires</span></a>
+      </div>
+
+
+
+      {% include "single/comments.html.twig" %}
+
+    </div>
+  </div>
+</header>
+
+
+
+{% endblock %}
