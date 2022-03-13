@@ -11389,15 +11389,22 @@ hr.divider-light {
 }
 
 header.masthead {
-  padding-top: 10rem;
-  padding-bottom: calc(10rem - 4.5rem);
   background: url("../home.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-size: cover;
 }
-header.masthead h1, header.masthead .h1, section.masthead h1 {
+
+.masthead {
+  padding-top: 10rem;
+  padding-bottom: calc(10rem - 4.5rem);
+}
+.slavehead {
+  padding-top: 5rem;
+  padding-bottom: calc(10rem - 4.5rem);
+}
+header.masthead h1, header.masthead .h1, section.masthead h1, section.slavehead h1 {
   font-size: 2.25rem;
 }
 @media (min-width: 992px) {
@@ -11410,12 +11417,12 @@ header.masthead h1, header.masthead .h1, section.masthead h1 {
   header.masthead p {
     font-size: 1.15rem;
   }
-  header.masthead h1, header.masthead .h1, section.masthead h1 {
+  header.masthead h1, header.masthead .h1, section.masthead h1, section.slavehead h1 {
     font-size: 3rem;
   }
 }
 @media (min-width: 1200px) {
-  header.masthead h1, header.masthead .h1, section.masthead h1 {
+  header.masthead h1, header.masthead .h1, section.masthead h1, section.slavehead h1 {
     font-size: 3.5rem;
   }
 }
