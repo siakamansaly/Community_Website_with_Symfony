@@ -1,0 +1,21 @@
+<div id="comments" class="col-12 col-lg-8 p-4 my-4">
+    <div>
+        <h2>Comments</h2>
+    </div>
+    {% include "single/commentForm.html.twig" %}
+    <ul class="list-unstyled">
+       {% for comment in trick.comments %}
+           <li class="row clearfix my-3 border border-secondary rounded py-2">
+            <div class="col-md-2 col-4"><img class="img-fluid img-thumbnail"
+                    src="{{comment.user.picture}}" alt="Photo {{comment.user.firstname|capitalize ~ " " ~ comment.user.lastname|capitalize}}"></div>
+            <div class="text-box col-md-10 col-8">
+                <ul class="list-inline text-primary">
+                    <li>{{comment.createdAt|date("m/d/Y H:i")}}</li>
+                </ul>
+                <h5>{{comment.user.firstname|capitalize ~ " " ~ comment.user.lastname|capitalize}}</h5>
+                <p>{{comment.content}} </p>
+            </div>
+        </li>
+       {% endfor %}
+    </ul>
+</div>

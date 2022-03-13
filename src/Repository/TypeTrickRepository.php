@@ -45,16 +45,6 @@ class TypeTrickRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @return int Return number of Type Trick
-     */
-    public function countTypeTricks($value = null): int
-    {
-        return $this->createQueryBuilder('t')
-            ->select('count(t.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
 
     // /**
     //  * @return TypeTrick[] Returns an array of TypeTrick objects

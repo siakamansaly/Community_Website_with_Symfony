@@ -11,17 +11,14 @@
     <meta name="author" content="Siaka MANSALY" />
     {% endblock %}
 
-    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
     {% block stylesheets %}
-    {{ encore_entry_link_tags('app') }}
     {% endblock %}
     {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
     {% endblock %}
 
 </head>
 
-<body id="page-top">
+<body data-spy="scroll" data-target="#mainNav" data-offset="100" id="page-top">
     {% include "core/navbar.html.twig" %}
     {% block body %}{% endblock %}
     {% include "core/footer.html.twig" %}

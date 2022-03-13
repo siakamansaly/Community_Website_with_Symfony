@@ -62,14 +62,4 @@ class TrickRepository extends ServiceEntityRepository
     }
     */
 
-    /**
-     * @return int Return number of Trick
-     */
-    public function countTricks($value = null): int
-    {
-        return $this->createQueryBuilder('t')
-            ->select('count(t.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
 }

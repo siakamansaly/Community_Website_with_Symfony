@@ -1,6 +1,6 @@
 <!-- Tricks-->
-<section class="masthead" id="tricks">
-    <div class="container p-0 mt-5">
+<section  id="tricks" class="masthead" >
+    <div class="container p-0 mt-5" >
         <div class="row g-0">
             <h1 class="text-primary text-center font-weight-bold">Tricks</h1>
             <hr class="divider" />
@@ -8,7 +8,7 @@
         <div class="row p-4 d-flex justify-content-around">
             {% for trick in tricks %}
             <div class="col-12 col-md-10 col-lg-6 col-xl-4 mb-4">
-                <a href="#" title="{{ trick.title }}">
+                <a href="{{ path('trickShow',{'id':trick.id}) }}" title="{{ trick.title }}">
                     <img class="img-fluid featuredPicture" src="{{ trick.featuredPicture }}" alt="..." />
                     <div class="text-center">
                         <div class="bg-primary text-white text-decoration-none p-2 h5">{{ trick.title }}</div>
