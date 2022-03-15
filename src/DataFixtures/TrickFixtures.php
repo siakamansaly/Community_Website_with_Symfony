@@ -10,6 +10,7 @@ use App\DataFixtures\TypeTrickFixtures;
 use App\DataFixtures\UserFixtures;
 use App\Entity\TypeTrick;
 use App\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class TrickFixtures extends Fixture implements DependentFixtureInterface

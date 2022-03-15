@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User preferences{% endblock %}
+
+{% block body %}
+<section id="forgot" class="masthead bg-primary">
+    <div class="container bg-white py-5 rounded">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-lg-6">
+                <div class="row mb-2">
+                    <h1 class="text-center">User preferences</h1>
+                    <hr class="divider" />
+                </div>
+                {% include "core/flashbag.html.twig" %}
+
+                {{ form_start(userPreferencesForm) }}
+
+                    {{ form_row(userPreferencesForm.email, {'attr':{'placeholder':'Enter your email'}}) }}
+        
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                {{ form_end(userPreferencesForm) }}
+            </div>
+        </div>
+    </div>
+</section>
+    
+{% endblock %}

@@ -16,6 +16,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
+        date_default_timezone_set('Europe/Paris');
         $faker = \Faker\Factory::create();
         $trick = $manager->getRepository(Trick::class);
         $trick = $trick->findAll();
