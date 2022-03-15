@@ -7,9 +7,15 @@
             <ul class="navbar-nav ms-auto my-2 my-lg-0">
                 <li class="nav-item"><a class="nav-link" data-target="#home" href="/#home">Home</a></li>
                 <li class="nav-item"><a class="nav-link" data-target="#tricks" href="/#tricks">Tricks</a></li>
-                <li class="nav-item"><a class="nav-link" href="./#portfolio">Sign in</a></li>
-                <li class="nav-item"><a class="nav-link" href="./#contact">Sign up</a></li>
+                
+                {% if app.user %}
+                <li class="nav-item"><a class="nav-link text-lowercase text-secondary" href="#">{{ app.user.username }}</a></li>
+                <li class="nav-item"><a class="nav-link btn btn-outline-primary" href="{{ path('app_logout') }}">Logout</a></li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link" data-target="#login" href="{{ path('app_login') }}">Sign in</a></li>
+                <li class="nav-item"><a class="nav-link" data-target="#register" href="{{ path('app_register') }}">Sign up</a></li>
+                {% endif %}
             </ul>
         </div>
-    </div>
+    </div>   
 </nav>

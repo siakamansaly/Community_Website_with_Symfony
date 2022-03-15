@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block body %}
+<section id="register" class="masthead bg-primary">
+    <div class="container bg-white py-5 rounded">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-lg-6">
+                <div class="row mb-2">
+                    <h1 class="text-center">Sign Up</h1>
+                    <hr class="divider" />
+                </div>
+
+                {{ form_start(registrationForm) }}
+                    {{ form_row(registrationForm.firstname, {'attr':{'placeholder':'Enter your firtsname'}}) }}
+                    {{ form_row(registrationForm.lastname, {'attr':{'placeholder':'Enter your lastname'}}) }}
+                    <br/>
+                    {{ form_row(registrationForm.email, {'attr':{'placeholder':'Enter your email'}}) }}
+                    <br/>
+                    {{ form_row(registrationForm.password, {
+                        label: 'Password'
+                    }) }}
+                    {{ form_row(registrationForm.agreeTerms, {'label':'I agree privacy policy'}) }}
+            
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+</section>
+    
+{% endblock %}
