@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block body %}
+<section id="admin" class="masthead bg-primary">
+    <div class="container bg-white py-5 rounded">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-lg-6">
+                <div class="col">
+                    <div class="row mb-2">
+                        <h1 class="text-center">Admin</h1>
+                        <hr class="divider" />
+                    </div>
+
+                    <div class="col-12 m-3">
+
+                        <div class="row border border-primary text-center p-3">
+                            <h2>Admin access</h2>
+                            <div class="col"><a href="{{ path('app_users') }}" class="btn btn-primary my-1">Users</a>
+                            </div>
+                            <div class="col"><a href="{{ path('app_user_edit',{id:app.user.id }) }}"
+                                    class="btn btn-warning my-1">Comments</a></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
