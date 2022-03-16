@@ -54,13 +54,14 @@ class RegistrationController extends AbstractController
             $loginLinkDetails = $this->generateUrl('activation',['token' => $token]);
 
             // prepare and send email
-            $context['to'] = $user->getEmail();
-            $context['from'] = $adminEmail;
-            $context['token'] = $loginLinkDetails;
-            $context['subject'] = 'SnowTricks - Account creation validation link';
-            $context['content'] = "<p>Hi,</p>
-            <p>To validate the creation of your SnowTricks user account, please click on the following link :</p>";
-            $context['template'] = "email/registration.html.twig";
+            $context = [
+                'to' => $user->getEmail(),
+                'from' => $adminEmail,
+                'token' => $loginLinkDetails,
+                'subject' => 'SnowTricks - Account creation validation link',
+                'content' => "<p>Hi,</p><p>To validate the creation of your SnowTricks user account, please click on the following link :</p>",
+                'template' => "email/registration.html.twig"
+            ];
             $mailer->sendEmailTemplate($context);
 
             // Add message Flash and redirect to home

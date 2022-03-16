@@ -50,8 +50,7 @@ class SecurityController extends AbstractController
         $adminEmail = $this->getParameter('default_admin_email');
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $datas = $form->getData();
-            $user = $userRepository->findOneBy(['email' => $datas['email']]);
+            $user = $userRepository->findOneBy(['email' => $form->get('email')->getData()]);
             if ($user) {
                 $token = $user->generateToken();
                 $user->setToken($token);
@@ -59,14 +58,14 @@ class SecurityController extends AbstractController
                 // create Login Link
                 $loginLinkDetails = $this->generateUrl('app_reset_password', ['token' => $token]);
                 // prepare and send email
-
-                $context['to'] = $user->getEmail();
-                $context['from'] = $adminEmail;
-                $context['token'] = $loginLinkDetails;
-                $context['subject'] = 'SnowTricks - Forgot password link';
-                $context['content'] = "<p>Hi,</p>
-                <p>To change password of your SnowTricks user account, please click on the following link :</p>";
-                $context['template'] = "email/registration.html.twig";
+                $context = [
+                    'to' => $user->getEmail(),
+                    'from' => $adminEmail,
+                    'token' => $loginLinkDetails,
+                    'subject' => 'SnowTricks - Forgot password link',
+                    'content' => "<p>Hi,</p><p>To change password of your SnowTricks user account, please click on the following link :</p>",
+                    'template' => "email/registration.html.twig"
+                ];
                 $mailer->sendEmailTemplate($context);
 
                 // Add message Flash and redirect to home
@@ -77,10 +76,7 @@ class SecurityController extends AbstractController
                 $this->addFlash('danger', "This email address not exist.");
             }
         }
-
-        return $this->render('security/forgot_password.html.twig', [
-            'forgotPasswordForm' => $form->createView(),
-        ]);
+        return $this->render('security/forgot_password.html.twig', ['forgotPasswordForm' => $form->createView(),]);
     }
 
     /**
@@ -88,7 +84,6 @@ class SecurityController extends AbstractController
      */
     public function resetPassword(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
-        $adminEmail = $this->getParameter('default_admin_email');
         if ($request->get('token')) {
             $user = $userRepository->findOneBy(['token' => $request->get('token')]);
             if ($user) {
@@ -96,29 +91,19 @@ class SecurityController extends AbstractController
                 $form->handleRequest($request);
 
                 if ($form->isSubmitted() && $form->isValid()) {
-                    $datas = $form->getData();
 
                     if ($user->getEmail() !== $form->get('email')->getData()) {
                         $this->addFlash('danger', 'This email is not assigned to this token');
                     } else {
-                        $user->setPassword(
-                            $userPasswordHasher->hashPassword(
-                                $user,
-                                $form->get('password')->getData()
-                            )
-                        );
+                        $user->setPassword($userPasswordHasher->hashPassword($user, $form->get('password')->getData()));
                         $user->setToken(NULL);
                         $user->setTokenDate(NULL);
                         $userRepository->add($user);
-
                         $this->addFlash('success', 'Password successfully changed! You can now connect !');
                         return $this->redirectToRoute('index');
                     }
                 }
-
-                return $this->render('security/reset_password.html.twig', [
-                    'resetPasswordForm' => $form->createView(),
-                ]);
+                return $this->render('security/reset_password.html.twig', ['resetPasswordForm' => $form->createView(),]);
             }
             $this->addFlash('danger', 'Invalid or expired token !');
         }
