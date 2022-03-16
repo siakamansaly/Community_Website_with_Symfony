@@ -1,20 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CommentController!{% endblock %}
+{% block title %}Comments{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<section id="admin" class="masthead bg-primary">
+    <div class="container bg-white py-5 rounded">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-lg-9">
+                <div class="row mb-2">
+                    <h1 class="text-center">Comments</h1>
+                    <hr class="divider" />
+                </div>
+                {% include "core/flashbag.html.twig" %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                <table class="table text-primary">
+                    <thead>
+                        <th>ID</th>
+                        <th>Content</th>
+                        <th>Trick</th>
+                        <th>Author</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        {% for comment in comments %}
+                        <tr>
+                            <td class="align-middle">{{ comment.id }}</td>
+                            <td class="align-middle">{{ comment.content|raw }}</td>
+                            <td class="align-middle">{{ comment.trick.title }}</td>
+                            <td class="align-middle">{{ comment.user.firstname|capitalize ~ " " ~ comment.user.lastname|upper }}
+                            </td>
+                            <td class="align-middle">{{ comment.createdAt|date("m/d/Y") }}</td>
+                            <td class="align-middle">
+                                <a href="{{ path('app_comment_delete',{id:comment.id }) }}" class="btn btn-danger my-1">Delete</a>
+                            </td>
+                        </tr>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/OneDrive/PERSO/Administratif/_Siaka/Openclassrooms/DA_Symfony/Cours_Projets/P6/Livrables/Community_Website_with_Symfony/src/Controller/CommentController.php'|file_link(0) }}">src/Controller/CommentController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/OneDrive/PERSO/Administratif/_Siaka/Openclassrooms/DA_Symfony/Cours_Projets/P6/Livrables/Community_Website_with_Symfony/templates/comment/index.html.twig'|file_link(0) }}">templates/comment/index.html.twig</a></code></li>
-    </ul>
-</div>
+                        {% else %}
+                        <tr>
+                            <td colspan="5">No comments</td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock %}
