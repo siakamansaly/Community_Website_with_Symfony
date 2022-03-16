@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class UserPreferencesFormType extends AbstractType
 {
@@ -15,7 +16,7 @@ class UserPreferencesFormType extends AbstractType
             ->add('lastname')
             ->add('firstname')
             ->add('email')
-            ->add('picture')
+            ->add('picture',FileType::class, array('data_class' => null))
         ;
     }
 

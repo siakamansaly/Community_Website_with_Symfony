@@ -111,6 +111,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Image(
+     *     maxSize = "10M",
+     *     mimeTypes = {
+     *      "image/jpeg",
+     *      "image/jpg",
+     *      "image/png"
+     *     }
+     * )
      */
     private $picture;
 
