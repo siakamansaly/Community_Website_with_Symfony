@@ -1,7 +1,19 @@
+{% if app.user %}
+<div class="row my-5">
+    <div class="col">
+        {{ form_start(commentForm) }}
+        {{ form_widget(commentForm.content) }}
+        <button type="submit" class="btn btn-outline-secondary mt-2">Submit</button>
+        {{ form_end(commentForm) }}
+    </div>
+</div>
+{% else %}
+<div class="row my-5 text-center">
+    <div class="col-12 alert alert-warning">Log in to add a comment</span>
+    <div class="col-12">
+        
+        <a href="{{path('app_login')}}" class="btn btn-outline-primary mt-2">Sign In</a>
+    </div>
+</div>
+{% endif %}
 
-    <form class="clearfix my-5">
-        <div class="form-group mb-2">
-            <textarea rows="2" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
-        </div>
-        <button class="btn btn-outline-secondary">Submit</button>
-    </form>

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Comments{% endblock %}
+
+{% block body %}
+<section id="admin" class="masthead bg-primary">
+    <div class="container bg-white py-5 rounded">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-lg-9">
+                <div class="row mb-2">
+                    <h1 class="text-center">Comments</h1>
+                    <hr class="divider" />
+                </div>
+                {% include "core/flashbag.html.twig" %}
+
+                <table class="table text-primary">
+                    <thead>
+                        <th>ID</th>
+                        <th>Content</th>
+                        <th>Trick</th>
+                        <th>Author</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        {% for comment in comments %}
+                        <tr>
+                            <td class="align-middle">{{ comment.id }}</td>
+                            <td class="align-middle">{{ comment.content|raw }}</td>
+                            <td class="align-middle">{{ comment.trick.title }}</td>
+                            <td class="align-middle">{{ comment.user.firstname|capitalize ~ " " ~ comment.user.lastname|upper }}
+                            </td>
+                            <td class="align-middle">{{ comment.createdAt|date("m/d/Y") }}</td>
+                            <td class="align-middle">
+                                <a href="{{ path('app_comment_delete',{id:comment.id }) }}" class="btn btn-danger my-1">Delete</a>
+                            </td>
+                        </tr>
+
+                        {% else %}
+                        <tr>
+                            <td colspan="5">No comments</td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

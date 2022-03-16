@@ -3,8 +3,9 @@
 {% block body %}
 <section class="bg-primary">
   <div class="container masthead">
+    
     <div id="portfolio" class="card bg-white d-flex align-items-center">
-
+{% include "core/flashbag.html.twig" %}
       <div class="jumbotron jumbotron-fluid">
         <h1 class="text-primary text-center mt-4">{{trick.title|upper}}</h1>
         <a class="portfolio-box" href="{{trick.featuredPicture}}" title="{{trick.title}}"><img src="{{trick.featuredPicture}}" class="card-img w-100 p-5" style="max-width: 1280px;"
