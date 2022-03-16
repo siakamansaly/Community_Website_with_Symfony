@@ -6,6 +6,8 @@
 parameters:
      default_admin_email: '%env(ADMIN_EMAIL)%'
      app.timezone: '%env(APP_TIMEZONE)%'
+     profiles_directory: '%kernel.project_dir%/public/assets/profiles'
+     profiles_directory_path: '/assets/profiles'
 
 services:
     # default configuration for services in *this* file
@@ -24,3 +26,7 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    # Uploader file directory argument 
+    App\Service\FileUploader:
+        arguments:
+            $targetDirectory: '%profiles_directory%'

@@ -47,10 +47,11 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
         // Check user status
         $userConnected = $this->user->findOneBy(['email' => $email]);
-        $userStatus = $this->user->checkStatus($userConnected);
-
-        if ($userStatus !== ""){
-            throw new CustomUserMessageAuthenticationException($userStatus);
+        if ($userConnected) {
+            $userStatus = $this->user->checkStatus($userConnected);
+            if ($userStatus !== "") {
+                throw new CustomUserMessageAuthenticationException($userStatus);
+            }
         }
 
         return new Passport(

@@ -70,6 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="json")
+     * @Assert\NotBlank(groups={"edit_role"})
      */
     private $roles = [];
 
@@ -111,6 +112,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Image(
+     *     maxSize = "10M",
+     *     mimeTypes = {
+     *      "image/jpeg",
+     *      "image/jpg",
+     *      "image/png"
+     *     }
+     * )
      */
     private $picture;
 
