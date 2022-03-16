@@ -70,6 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="json")
+     * @Assert\NotBlank(groups={"edit_role"})
      */
     private $roles = [];
 
