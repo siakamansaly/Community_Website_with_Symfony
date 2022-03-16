@@ -1,10 +1,17 @@
 <?php
 
 namespace App\Controller;
+
+use App\Entity\Comment;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Trick;
+use App\Form\CommentFormType;
+use App\Repository\CommentRepository;
+use DateTimeImmutable;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class TricksController  extends AbstractController
@@ -24,8 +31,22 @@ class TricksController  extends AbstractController
     /**
      * @Route("/trick/{id}", name="trickShow")
      */
-    public function trickShow(Trick $trick)
+    public function trickShow(Trick $trick, Request $request, CommentRepository $commentRepository) : Response
     {
-        return $this->render('single/index.html.twig', ['trick' => $trick]);
+        date_default_timezone_set($this->getParameter('app.timezone'));
+        $comment = new Comment();
+        $form = $this->createForm(CommentFormType::class, $comment);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $comment->setCreatedAt(new DateTimeImmutable('now'));
+            $comment->setTrick($trick);
+            $comment->setUser($this->getUser());
+            $commentRepository->add($comment);
+            $this->addFlash('success','Comment successfully added !!');
+            return $this->redirectToRoute('trickShow',['id'=>$trick->getId()]);
+        }
+
+        return $this->render('single/index.html.twig', ['trick' => $trick, 'commentForm' => $form->createView()]);
     }
 }
