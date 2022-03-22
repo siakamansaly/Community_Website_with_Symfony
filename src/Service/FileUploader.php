@@ -1,30 +1,41 @@
-<?php 
+<?php
 
 namespace App\Service;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FileUploader
 {
-    private $targetDirectory;
-    private $slugger;
+    private $targetProfile;
+    private $targetTricks;
 
-    public function __construct($targetDirectory, SluggerInterface $slugger)
+    public function __construct($targetTricks, $targetProfile)
     {
-        $this->targetDirectory = $targetDirectory;
-        $this->slugger = $slugger;
+        $this->targetProfile = $targetProfile;
+        $this->targetTricks = $targetTricks;
     }
 
-    public function upload(UploadedFile $file)
+    public function upload(UploadedFile $file, string $target = 'profile')
     {
-        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = $this->slugger->slug($originalFilename);
-        $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+        switch ($target) {
+            case 'profile':
+                $targetPath = $this->getTargetProfile();
+                break;
+            case 'tricks':
+                $targetPath = $this->getTargetTricks();
+                break;
+            default:
+                $targetPath = $this->getTargetTricks();
+                break;
+        }
+
+        $target = $target.'-'.date("Ymd-His");
+        $fileName = $target . '-' . uniqid() . '.' . $file->guessExtension();
 
         try {
-            $file->move($this->getTargetDirectory(), $fileName);
+            $file->move($targetPath, $fileName);
         } catch (FileException $e) {
             // ... handle exception if something happens during file upload
         }
@@ -32,8 +43,13 @@ class FileUploader
         return $fileName;
     }
 
-    public function getTargetDirectory()
+    public function getTargetProfile()
     {
-        return $this->targetDirectory;
+        return $this->targetProfile;
+    }
+
+    public function getTargetTricks()
+    {
+        return $this->targetTricks;
     }
 }

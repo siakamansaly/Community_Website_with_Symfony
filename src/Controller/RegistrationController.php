@@ -23,7 +23,7 @@ class RegistrationController extends AbstractController
      * @Route("/register", name="app_register")
      */
 
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, Mailer $mailer, FlashBagInterface $flashBagInterface): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, Mailer $mailer): Response
     {
         date_default_timezone_set($this->getParameter('app.timezone'));
         $adminEmail = $this->getParameter('default_admin_email');
@@ -65,7 +65,7 @@ class RegistrationController extends AbstractController
             $mailer->sendEmailTemplate($context);
 
             // Add message Flash and redirect to home
-            $flashBagInterface->add('success', "To finalize your registration, please consult your email address.");
+            $this->addFlash('success', "To finalize your registration, please consult your email address.");
             return $this->redirectToRoute('index');
         }
 

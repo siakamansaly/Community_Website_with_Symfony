@@ -26,7 +26,7 @@
                         {% for comment in comments %}
                         <tr>
                             <td class="align-middle">{{ comment.id }}</td>
-                            <td class="align-middle">{{ comment.content|raw }}</td>
+                            <td class="align-middle text-justify">{{ comment.content|raw }}</td>
                             <td class="align-middle">{{ comment.trick.title }}</td>
                             <td class="align-middle">{{ comment.user.firstname|capitalize ~ " " ~ comment.user.lastname|upper }}
                             </td>

@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}User Edit{% endblock %}
+{% if page == "false" %}
+{% set titlePage = 'My Profile' %}
+{% else %}
+{% set titlePage = 'User Edit' %}
+{% endif %}
+{% set limit = 10 %}
+{% block title %}{{ titlePage }}{% endblock %}
 
 {% block body %}
 <section id="profile" class="masthead bg-primary">
@@ -8,7 +13,8 @@
         {% if page == "true" %}
         <div class="row col-10">
             <div class="">
-                <a href="{{ path('app_users') }}" class="btn btn-primary">< Previous page</a>
+                <a href="{{ path('app_users') }}" class="btn btn-primary">
+                    < Previous page</a>
             </div>
         </div>
         {% endif %}
@@ -16,10 +22,12 @@
             <div class="col-12 col-lg-6">
                 <div class="col">
                     <div class="row mb-2">
-                        <h1 class="text-center">User Edit</h1>
+                        <h1 class="text-center">{{ titlePage }}</h1>
                         <hr class="divider" />
                     </div>
-                    
+
+
+
                     {% include "core/flashbag.html.twig" %}
                     <div class="col-12 text-center pb-3">{% if picture %}<img src="{{ picture }}" class="img-thumbnail"
                             width="150px" />{% else %}<i class="fas fa-user fa-3x text-primary"></i>{% endif %}</div>
@@ -31,12 +39,72 @@
 
                     <button type="submit" class="btn btn-primary">Update</button>
                     {{ form_end(userPreferencesForm) }}
+
+                    {% if is_granted('ROLE_ADMIN') and page == "false" %}
+                    <div class="row border border-info rounded mt-5 p-2 text-center">
+                        <div class="col">
+                            <a href="{{ path('app_users') }}" class="btn btn-info my-1">Users
+                                Administration</a>
+                                &nbsp;&nbsp;
+                                <a href="{{ path('app_comments') }}"
+                                class="btn btn-info my-1">Comments Administration</a></div>
+                    </div>
+                    {% endif %}
                 </div>
 
             </div>
-
         </div>
+
+        <h2 class="text-center mt-5">My Tricks</h2>
+        <div class="row mt-2 px-4">
+            <div class="col"><a href="{{ path('app_add_trick') }}" class="btn btn-primary my-1">Add Trick</a></div>
+        </div>
+        <div class="row container mt-2">
+            <div class="col table-responsive">
+                <table id="element" data-id="{{ limit }}" class="table text-primary ">
+                    <thead>
+                        <th>ID</th>
+                        <th>Trick</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        {% for key, trick in user.tricks %}
+                        <tr id="{{'trick-' ~ key}}" class="d-none">
+                            <td class="align-middle">{{ trick.id }}</td>
+                            <td class="align-middle"><span class="fw-bold">{{ trick.title|upper }}</span><small
+                                    class="d-block">{{ trick.type.name }}</small></td>
+                            <td class="align-middle"><span class="fw-bold">{{ trick.createdAt|date("m/d/Y") }}</span>{%
+                                if trick.updatedTo %}<small class="d-block">(updated to {{ trick.updatedTo|date("m/d/Y")
+                                    }})</small>{% endif %}</td>
+                            <td class="align-middle">
+                                <a href="{{ path('app_show_trick',{slug:trick.slug }) }}"
+                                    class="btn btn-info my-1">Show</a>
+                                <a href="{{ path('app_edit_trick',{id:trick.id }) }}"
+                                    class="btn btn-warning my-1">Edit</a>
+                                <a href="#"
+                                    class="btn btn-danger my-1 deleteTrick" title="Delete Trick" href="#" data-id="{{trick.id}}" data-title="{{trick.title}}"  data-bs-toggle="modal" data-bs-target="#delete">Delete</a>
+                            </td>
+                        </tr>
+
+                        {% else %}
+                        <tr>
+                            <td class="text-center" colspan="4">No tricks</td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <a href="#" class="btn btn-primary" id="loadMore">
+                        Load More
+                    </a>
+                    <div id="loadMoreEnd" class="trickload">No more tricks</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </section>
-
+{% include "trick/modal_delete.html.twig" %}
 {% endblock %}

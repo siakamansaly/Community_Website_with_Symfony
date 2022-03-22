@@ -107,6 +107,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="user")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $tricks;
 
@@ -123,10 +124,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $picture;
 
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->tricks = new ArrayCollection();
+        $this->tricksEdit = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -378,4 +381,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return md5(uniqid());
     }
+
+    
 }

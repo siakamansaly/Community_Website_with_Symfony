@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Trick{% endblock %}
+
+{% block body %}
+<section id="addTrick" class="masthead bg-primary">
+    <div class="container bg-white p-5 rounded">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12">
+                <div class="row mb-2">
+                    <h1 class="text-center">Add Trick</h1>
+                    <hr class="divider" />
+                </div>
+
+                {{ form_start(trickForm) }}
+                <div class="row p-3">
+                    <div class="col-12 col-lg-6">
+                        <div class="h4 mb-3 border border-primary text-center">Title - Content - Category</div>
+
+                        {{ form_widget(trickForm.title, {'attr':{'placeholder':'Enter title'}}) }}
+                        <br />
+                        {{ form_widget(trickForm.content, {'attr':{'placeholder':'Enter content'}}) }}
+                        <br />
+                        {{ form_widget(trickForm.type) }}
+                        <br />
+
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="h4 mb-3 border border-primary text-center">Featured picture</div>
+                        {{ form_widget(trickForm.featuredPicture,{'attr':{'class':'form-control'}}) }}
+                        <br />
+                        <!--Add pictures-->
+                        <div class="h4 mb-3 border border-primary text-center">Other pictures</div>
+                        <div class="mb-3"><button type="button"
+                                class="btn btn-outline-primary add-another-collection-widget"
+                                data-list-selector="#picture-fields-list">Add picture</button></div>
+                        {{ form_label(trickForm.mediasPicture) }}
+                        <ul id="picture-fields-list" class="px-3"
+                            data-prototype="{{ form_widget(trickForm.mediasPicture.vars.prototype)|e }}"
+                            data-widget-tags="{{ '<div></div>'|e }}"
+                            data-widget-counter="{{ trickForm.mediasPicture|length }}">
+                            {% for picture in trickForm.mediasPicture %}
+                            <div class='col-12'>
+                                {{ form_errors(picture) }}
+                                <div class='col-sm-2'><button type='button' class='btn btn-danger btn-xs'
+                                        onclick='removeFile($(this));'><i class='fa fa-times'
+                                            aria-hidden='true'></i></button></div>
+                                <div class='col-auto'>{{ form_widget(picture) }}</div>
+
+                            </div>
+                            {% endfor %}
+                        </ul>
+
+                        <!--Add video-->
+                        <div class="h4 mb-3 border border-primary text-center">Videos</div>
+                        <div class="mb-3"><button type="button"
+                                class="btn btn-outline-primary  add-another-collection-widget text-center"
+                                data-list-selector="#video-fields-list">Add video</button></div>
+
+                        <ul id="video-fields-list" class="px-3"
+                            data-prototype="{{ form_widget(trickForm.mediasVideos.vars.prototype)|e }}"
+                            data-widget-tags="{{ '<div></div>'|e }}"
+                            data-widget-counter="{{ trickForm.mediasVideos|length }}">
+                            {% for video in trickForm.mediasVideos %}
+                            <div>
+                                {{ form_errors(video) }}
+                                <div class='col-sm-2'><button type='button' class='btn btn-danger btn-xs'
+                                        onclick='removeFile($(this));'><i class='fa fa-times'
+                                            aria-hidden='true'></i></button></div>
+                                <div class='col-auto'>{{ form_widget(video) }}</div>
+                            </div>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12 col-lg-6"><button type="submit" class="btn btn-primary w-100">Submit</button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(trickForm) }}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

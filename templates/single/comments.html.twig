@@ -1,21 +1,41 @@
-<div id="comments" class="col-12 col-lg-8 p-4 my-4">
+{% set limit = 10 %}
+<div id="comments" class="col-12 col-lg-8 p-4 my-2">
     <div>
         <h2>Comments</h2>
     </div>
     {% include "single/commentForm.html.twig" %}
-    <ul class="list-unstyled">
-       {% for comment in trick.comments %}
-           <li class="row clearfix my-3 border border-secondary rounded py-2">
-            <div class="col-md-2 col-4"><img class="img-fluid img-thumbnail"
-                    src="{{comment.user.picture}}" alt="Photo {{comment.user.firstname|capitalize ~ " " ~ comment.user.lastname|capitalize}}"></div>
-            <div class="text-box col-md-10 col-8">
+    <div id="element" data-id="{{ limit }}">
+        {% for key, comment in trick.comments %}
+        <div id="{{'trick-' ~ key}}" class="row d-flex d-none my-3 border border-secondary rounded py-2">
+            <div class="col-4 col-md-2 text-center">
+                {% if comment.user.picture starts with 'http' %}
+
+                <img class="img-fluid img-thumbnail" src="{{comment.user.picture}}"
+                    alt="Photo {{comment.user.firstname|capitalize ~ " " ~ comment.user.lastname|capitalize}}">
+                {% elseif comment.user.picture %}
+                <img class="img-fluid img-thumbnail" src="{{" /assets/profiles/" ~ comment.user.picture}}"
+                    alt="Photo {{comment.user.firstname|capitalize ~ " " ~ comment.user.lastname|capitalize}}">
+                {% else %}
+                <i class="fas fa-user fa-5x text-primary"></i>
+                {% endif %}
+
+            </div>
+            <div class="col-12 col-md-10">
                 <ul class="list-inline text-primary">
                     <li>{{comment.createdAt|date("m/d/Y H:i")}}</li>
                 </ul>
                 <h5>{{comment.user.firstname|capitalize ~ " " ~ comment.user.lastname|capitalize}}</h5>
-                <p>{{comment.content}} </p>
+                <p class="text-justify">{{comment.content}} </p>
             </div>
-        </li>
-       {% endfor %}
-    </ul>
+        </div>
+        {% endfor %}
+    </div>
+    {% if trick.comments|length >= limit %}
+    <div class="text-center">
+        <a href="#" class="btn btn-primary" id="loadMore">
+            Load More
+        </a>
+        <div id="loadMoreEnd" class="trickload">No more comments</div>
+    </div>
+    {% endif %}
 </div>
