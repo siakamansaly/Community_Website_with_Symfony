@@ -23,21 +23,27 @@
 
                 <div class="bg-primary text-white  p-2 h5 d-flex justify-content-between">
                     <a href="{{ path('app_show_trick',{'slug':trick.slug}) }}" title="{{ trick.title }}">
-                        <div class="col-auto text-white">{{ trick.title }}</div>
+                        <span class="col-auto text-white">{{ trick.title }}</span>
                     </a>
-                    {% if app.user %}
-                    <a href="{{ path('app_edit_trick',{'id':trick.id}) }}" class="text-light" title="Edit Trick">
-                        <div class="col-auto"><i class="fa fa-pen fa-1x" title="Edit Trick"></i></a>
-                            &nbsp;&nbsp;&nbsp;
-                    <a href="#" class="text-white deleteTrick" title="Delete Trick" href="#" data-id="{{trick.id}}" data-title="{{trick.title}}" data-bs-toggle="modal" data-bs-target="#delete">
-                        <i class="fa fa-trash fa-1x" title="Delete Trick"></i></a>
-                </div>
-                {% endif %}
-            </div>
+                    <span class="col-auto text-white">
+                        {% if is_granted("TRICK_EDIT", trick) %}
+                        <a href="{{ path('app_edit_trick',{'id':trick.id}) }}" class="text-light mx-3" title="Edit Trick">
+                            <i class="fa fa-pen fa-1x" title="Edit Trick"></i></a>
+                        {% endif %}
+                        {% if is_granted("TRICK_DELETE", trick) %}
 
+                        <a href="#" class="text-white deleteTrick" title="Delete Trick" href="#" data-id="{{trick.id}}"
+                            data-title="{{trick.title}}" data-bs-toggle="modal" data-bs-target="#delete">
+                            <i class="fa fa-trash fa-1x" title="Delete Trick"></i></a>
+                        {% endif %}
+                    </span>
+                </div>
+
+            </div>
+{% endfor %}
 
         </div>
-        {% endfor %}
+        
     </div>
     <div class="text-center">
         <a href="#" class="btn btn-primary" id="loadMore">

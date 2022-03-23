@@ -37,7 +37,7 @@ class SecurityController extends AbstractController
      */
     public function logout(): void
     {
-        //throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+ 
     }
 
     /**
@@ -70,7 +70,7 @@ class SecurityController extends AbstractController
 
                 // Add message Flash and redirect to home
                 $this->addFlash('success', "A password reset link has been sent, please consult your email address.");
-                //return $this->redirectToRoute('index');
+
             } else {
                 // Add message Flash and redirect to home
                 $this->addFlash('danger', "This email address not exist.");

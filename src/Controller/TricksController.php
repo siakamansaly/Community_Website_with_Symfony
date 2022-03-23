@@ -36,7 +36,7 @@ class TricksController  extends AbstractController
     private $slugger;
     private $fileUploader;
 
-    public function __construct(TrickRepository $trickRepository, MediaPictureRepository $mediaPictureRepo, MediaVideoRepository $mediaVideoRepo, CommentRepository $commentRepository, UrlComposer $urlComposer, SluggerInterface $slugger, FileUploader $fileUploader)
+    public function __construct(TrickRepository $trickRepository, MediaPictureRepository $mediaPictureRepo, MediaVideoRepository $mediaVideoRepo, UrlComposer $urlComposer, SluggerInterface $slugger, FileUploader $fileUploader)
     {
         $this->trickRepository = $trickRepository;
         $this->mediaPictureRepo = $mediaPictureRepo;
@@ -152,6 +152,7 @@ class TricksController  extends AbstractController
      */
     public function editTrickPage(Trick $trick, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
         date_default_timezone_set($this->getParameter('app.timezone'));
 
         // Get old featured picture
@@ -236,6 +237,7 @@ class TricksController  extends AbstractController
 
     public function updateTrickContent($form, Trick $trick)
     {
+        $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
         $trick->setUpdatedTo(new \DateTime('now'))
             ->setSlug($trick->getId() . '-' . $this->slugger->slug($form->get('title')->getData()))
             ->setTitle($form->get('title')->getData())
@@ -247,6 +249,7 @@ class TricksController  extends AbstractController
 
     public function updateTrickFeatured($formFeatured, Trick $trick, $removePicture)
     {
+        $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
         $featuredPicture = $formFeatured->get('featuredPicture')->getData();
         if ($featuredPicture) {
             $featuredPictureFileName = $this->fileUploader->upload($featuredPicture, 'tricks');
@@ -262,6 +265,7 @@ class TricksController  extends AbstractController
 
     public function updateTrickPicture($formPictures, Trick $trick, $removeOtherPictures)
     {
+        $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
         $otherPicture = $formPictures->get('name')->getData();
         $otherPictureFileName = $this->fileUploader->upload($otherPicture, 'tricks');
         switch ($formPictures->get('pictureEdit')->getData()) {
@@ -285,6 +289,7 @@ class TricksController  extends AbstractController
 
     public function updateTrickVideo($formVideos, Trick $trick)
     {
+        $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
         $videoLink = $this->urlComposer->urlEmbed($formVideos->get('name')->getData());
         switch ($formVideos->get('videoEdit')->getData()) {
             case -1:
@@ -305,7 +310,9 @@ class TricksController  extends AbstractController
 
     public function deleteTrick(int $id, string $action): Response
     {
+        
         $trick = $this->trickRepository->find($id);
+        $this->denyAccessUnlessGranted('TRICK_DELETE',$trick);
 
         switch ($action) {
             case 'featured':
