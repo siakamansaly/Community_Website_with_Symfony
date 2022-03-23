@@ -6,9 +6,16 @@ use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
+ * @UniqueEntity(
+ *     fields={"title"},
+ *     errorPath="title",
+ *     message="This title is already in use."
+ * )
  */
 class Trick
 {
@@ -20,7 +27,7 @@ class Trick
     private $id;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
@@ -30,7 +37,7 @@ class Trick
     private $updatedTo;
 
     /**
-     * @ORM\Column(type="string", length=70)
+     * @ORM\Column(type="string", length=70, unique=true)
      */
     private $title;
 
@@ -50,12 +57,8 @@ class Trick
     private $featuredPicture;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $UserIdEdit;
-
-    /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $comments;
 
@@ -70,14 +73,21 @@ class Trick
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity=Media::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=MediaPicture::class, mappedBy="trick", orphanRemoval=true)
      */
-    private $medias;
+    private $mediasPicture;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MediaVideo::class, mappedBy="trick", orphanRemoval=true)
+     */
+    private $mediasVideos;
+
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->medias = new ArrayCollection();
+        $this->mediasPicture = new ArrayCollection();
+        $this->mediasVideos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,12 +95,12 @@ class Trick
         return $this->id;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -157,18 +167,6 @@ class Trick
         return $this;
     }
 
-    public function getUserIdEdit(): ?int
-    {
-        return $this->UserIdEdit;
-    }
-
-    public function setUserIdEdit(?int $UserIdEdit): self
-    {
-        $this->UserIdEdit = $UserIdEdit;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Comment>
      */
@@ -224,32 +222,64 @@ class Trick
     }
 
     /**
-     * @return Collection<int, Media>
+     * @return Collection<int, MediaPicture>
      */
-    public function getMedias(): Collection
+    public function getMediasPicture(): Collection
     {
-        return $this->medias;
+        return $this->mediasPicture;
     }
 
-    public function addMedia(Media $media): self
+    public function addMediasPicture(MediaPicture $mediaPicture): self
     {
-        if (!$this->medias->contains($media)) {
-            $this->medias[] = $media;
-            $media->setTrick($this);
+        if (!$this->mediasPicture->contains($mediaPicture)) {
+            $this->mediasPicture[] = $mediaPicture;
+            $mediaPicture->setTrick($this);
         }
 
         return $this;
     }
 
-    public function removeMedia(Media $media): self
+    public function removeMediasPicture(MediaPicture $mediaPicture): self
     {
-        if ($this->medias->removeElement($media)) {
+        if ($this->mediasPicture->removeElement($mediaPicture)) {
             // set the owning side to null (unless already changed)
-            if ($media->getTrick() === $this) {
-                $media->setTrick(null);
+            if ($mediaPicture->getTrick() === $this) {
+                $mediaPicture->setTrick(null);
             }
         }
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, MediaVideo>
+     */
+    public function getMediasVideos(): Collection
+    {
+        return $this->mediasVideos;
+    }
+
+    public function addMediasVideo(MediaVideo $mediaVideo): self
+    {
+        if (!$this->mediasVideos->contains($mediaVideo)) {
+            $this->mediasVideos[] = $mediaVideo;
+            $mediaVideo->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediasVideo(MediaVideo $mediaVideo): self
+    {
+        if ($this->mediasVideos->removeElement($mediaVideo)) {
+            // set the owning side to null (unless already changed)
+            if ($mediaVideo->getTrick() === $this) {
+                $mediaVideo->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
 }

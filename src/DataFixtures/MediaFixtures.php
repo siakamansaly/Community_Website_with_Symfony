@@ -8,6 +8,8 @@ use App\Entity\Trick;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\DataFixtures\TrickFixtures;
 use App\Entity\Media;
+use App\Entity\MediaPicture;
+use App\Entity\MediaVideo;
 
 class MediaFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -51,19 +53,17 @@ class MediaFixtures extends Fixture implements DependentFixtureInterface
 
         foreach ($trick as $key => $value) {
             for ($i = 0; $i < rand(0, 5); $i++) {
-                $media = new Media();
+                $media = new MediaPicture();
                 $media->setName("https://picsum.photos/seed/".$faker->words(1, true)."/1280/720")
-                ->setTrick($value)
-                ->setType('TYPE_IMAGE');
+                ->setTrick($value);
                 $manager->persist($media);
             }
 
             for ($j = 0; $j < rand(0, 5); $j++) {
-                $media = new Media();
+                $media = new MediaVideo();
                 $video_random =  $video[rand(1, 10)]['name'];
                 $media->setName($video_random)
-                ->setTrick($value)
-                ->setType('TYPE_VIDEO');
+                ->setTrick($value);
                 $manager->persist($media);
             }
         }

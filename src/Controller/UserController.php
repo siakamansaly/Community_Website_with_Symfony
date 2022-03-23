@@ -3,14 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\DeleteTrickFormType;
 use App\Form\UserProfileFormType;
 use App\Form\UserRoleFormType;
+use App\Repository\TrickRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\FileUploader;
+use App\Service\UrlComposer;
 use Symfony\Component\Filesystem\Filesystem;
 
 class UserController extends AbstractController
@@ -21,14 +24,6 @@ class UserController extends AbstractController
     public function adminUsers(UserRepository $users): Response
     {
         return $this->render('user/index.html.twig', ['users' => $users->findAll()]);
-    }
-
-    /**
-     * @Route("/admin", name="app_admin_index")
-     */
-    public function admin(UserRepository $users): Response
-    {
-        return $this->render('admin/index.html.twig');
     }
 
     /**
@@ -70,11 +65,11 @@ class UserController extends AbstractController
     /**
      * @Route("/profile/user/{id}/edit", name="app_user_edit")
      */
-    public function profileUser(User $user, Request $request, UserRepository $userRepository, FileUploader $fileUploader): Response
+    public function profileUser(User $user, Request $request, UserRepository $userRepository, TrickRepository $trickRepository, FileUploader $fileUploader, UrlComposer $urlComposer, TricksController $tricksController): Response
     {
         $user = $userRepository->find($user);
         $pictureTemp = "";
-        //
+        
         if($this->isGranted('ROLE_ADMIN')==false && $this->getUser()->getUserIdentifier()!=$user->getEmail())
         {
             return $this->redirectToRoute('index');
@@ -84,11 +79,9 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$user->setToken($token);
-
             $picture = $form->get('picture')->getData();
             if ($picture) {
-                $pictureFileName = $fileUploader->upload($picture);
+                $pictureFileName = $fileUploader->upload($picture,'profile');
                 $user->setPicture($pictureFileName);
             }
             if ($oldPicture) {
@@ -96,19 +89,24 @@ class UserController extends AbstractController
                 $filesystem->remove($this->getParameter('profiles_directory') . '/' . $oldPicture);
             }
             $userRepository->add($user);
-            // Add message Flash and redirect to home
             $this->addFlash('success', "Update done !");
             return $this->redirectToRoute('app_user_edit', ['id' => $user->getId()]);
         }
-        
-        if($user->getPicture())
-        {
-            $pictureTemp = $this->getParameter('profiles_directory_path') . '/' . $user->getPicture();
+
+        // Delete Trick Form
+        $formDeleteTrick = $this->createForm(DeleteTrickFormType::class);
+        $formDeleteTrick->handleRequest($request);
+
+        if ($formDeleteTrick->isSubmitted() && $formDeleteTrick->isValid()) {
+            $tricksController->deleteTrick($formDeleteTrick->get('delete')->getData(),'trick');
+            return $this->redirectToRoute('app_user_edit', ['id' => $user->getId()]);
         }
+
+        $pictureTemp = $urlComposer->url('profile',$user->getPicture());
         $page = "false";
         if($request->get('d')){
             $page = "true";
         }
-        return $this->render('user/profile.html.twig', ['userPreferencesForm' => $form->createView(), 'picture' => $pictureTemp, 'page' => $page]);
+        return $this->render('user/profile.html.twig', ['userPreferencesForm' => $form->createView(), 'picture' => $pictureTemp, 'page' => $page, 'user' =>$user, 'deleteForm' => $formDeleteTrick->createView()]);
     }
 }

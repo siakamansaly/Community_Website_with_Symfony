@@ -1,24 +1,52 @@
 <!-- Tricks-->
-<section  id="tricks" class="slavehead" >
-    <div class="container p-0" >
+{% set limit = 16 %}
+
+<section id="tricks" class="slavehead">
+    <div class="container p-0">
         <div class="row g-0">
             <h1 class="text-center">Tricks</h1>
             <hr class="divider" />
         </div>
-        <div class="row p-4 d-flex justify-content-around">
-            {% for trick in tricks %}
-            <div class="col-12 col-md-10 col-lg-6 col-xl-4 mb-4">
-                <a href="{{ path('trickShow',{'id':trick.id}) }}" title="{{ trick.title }}">
-                    <img class="img-fluid featuredPicture" src="{{ trick.featuredPicture }}" alt="..." />
-                    <div class="text-center">
-                        <div class="bg-primary text-white text-decoration-none p-2 h5">{{ trick.title }}</div>
-                    </div>
+        <div id="element" data-id="{{ limit }}" class="row p-4 d-flex justify-content-around">
+            {% for key, trick in tricks %}
+            <div id="{{'trick-' ~ key}}" class="col-12 col-md-10 col-lg-6 col-xl-4 mb-4 d-none">
+                <a href="{{ path('app_show_trick',{'slug':trick.slug}) }}" title="{{ trick.title }}">
+                    {% if trick.featuredPicture starts with 'http' %}
+                    <img class="img-fluid featuredPicture" src="{{ trick.featuredPicture }}" alt="{{ trick.title }}" />
+                    {% elseif trick.featuredPicture %}
+                    <img class="img-fluid featuredPicture" src="{{" /assets/tricks/" ~ trick.featuredPicture}}"
+                        alt="{{ trick.title }}" />
+                    {% else %}
+                    <img class="img-fluid featuredPicture" src="/SnowTricks.png" alt="{{ trick.title }}" />
+                    {% endif %}
                 </a>
+
+                <div class="bg-primary text-white  p-2 h5 d-flex justify-content-between">
+                    <a href="{{ path('app_show_trick',{'slug':trick.slug}) }}" title="{{ trick.title }}">
+                        <div class="col-auto text-white">{{ trick.title }}</div>
+                    </a>
+                    {% if app.user %}
+                    <a href="{{ path('app_edit_trick',{'id':trick.id}) }}" class="text-light" title="Edit Trick">
+                        <div class="col-auto"><i class="fa fa-pen fa-1x" title="Edit Trick"></i></a>
+                            &nbsp;&nbsp;&nbsp;
+                    <a href="#" class="text-white deleteTrick" title="Delete Trick" href="#" data-id="{{trick.id}}" data-title="{{trick.title}}" data-bs-toggle="modal" data-bs-target="#delete">
+                        <i class="fa fa-trash fa-1x" title="Delete Trick"></i></a>
+                </div>
+                {% endif %}
             </div>
-{% endfor %}
+
+
         </div>
-        
+        {% endfor %}
     </div>
+    <div class="text-center">
+        <a href="#" class="btn btn-primary" id="loadMore">
+            Load More
+        </a>
+        <div id="loadMoreEnd" class="trickload">No more tricks</div>
+    </div>
+
+
     <div class="container-fluid px-4 px-lg-5  mb-4">
         <div class="row">
             <div class="col-12 d-flex justify-content-end">

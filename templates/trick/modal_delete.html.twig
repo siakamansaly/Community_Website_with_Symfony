@@ -1,0 +1,21 @@
+<div class="modal" id="delete" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      {{ form_start(deleteForm, {'attr':{'class':'col-12'}}) }}
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 id="title_delete" class="modal-title">Confirm deletion</h5>
+          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          <p class="">{{ form(deleteForm) }}</p>
+          <p id="textDelete" class="text-uppercase"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Confirm delete</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+      {{ form_end(deleteForm) }}
+    </div>
+  </div>

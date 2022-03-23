@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Trick;
 use App\Repository\CommentRepository;
+use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,12 +13,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CommentController extends AbstractController
 {
+    private $commentRepository;
+
+    public function __construct(CommentRepository $commentRepository)
+    {
+        $this->commentRepository = $commentRepository;
+    }
     /**
-     * @Route("/comments", name="app_comments")
+     * @Route("/admin/comments", name="app_comments")
      */
     public function comments(CommentRepository $comments): Response
     {
-        
         return $this->render('comment/index.html.twig', ['comments' => $comments->findBy([],['createdAt' => 'DESC'])
         ]);
     }
@@ -37,6 +44,15 @@ class CommentController extends AbstractController
         
         return $this->render('comment/delete.html.twig', ['comment' => $comment
         ]);
+    }
+
+    public function addComment (Comment $comment, Trick $trick) :void
+    {
+        $comment->setCreatedAt(new DateTimeImmutable('now'));
+        $comment->setTrick($trick);
+        $comment->setUser($this->getUser());
+        $this->commentRepository->add($comment);
+        $this->addFlash('success', 'Comment successfully added !!');
     }
     
 }

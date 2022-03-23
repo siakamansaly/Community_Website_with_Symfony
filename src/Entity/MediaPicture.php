@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=MediaRepository::class)
  */
-class Media
+class MediaPicture
 {
     /**
      * @ORM\Id
@@ -23,12 +23,7 @@ class Media
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=10)
-     */
-    private $type;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="medias")
+     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="mediasPicture")
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
@@ -46,18 +41,6 @@ class Media
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }

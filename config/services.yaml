@@ -8,6 +8,8 @@ parameters:
      app.timezone: '%env(APP_TIMEZONE)%'
      profiles_directory: '%kernel.project_dir%/public/assets/profiles'
      profiles_directory_path: '/assets/profiles'
+     tricks_directory: '%kernel.project_dir%/public/assets/tricks'
+     tricks_directory_path: '/assets/tricks'
 
 services:
     # default configuration for services in *this* file
@@ -29,4 +31,9 @@ services:
     # Uploader file directory argument 
     App\Service\FileUploader:
         arguments:
-            $targetDirectory: '%profiles_directory%'
+            $targetProfile: '%profiles_directory%'
+            $targetTricks: '%tricks_directory%'
+    App\Service\UrlComposer:
+        arguments:
+            $targetTricksRelative: '%tricks_directory_path%'
+            $targetProfileRelative: '%profiles_directory_path%'

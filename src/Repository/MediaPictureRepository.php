@@ -2,30 +2,30 @@
 
 namespace App\Repository;
 
-use App\Entity\Media;
+use App\Entity\MediaPicture;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Media|null find($id, $lockMode = null, $lockVersion = null)
- * @method Media|null findOneBy(array $criteria, array $orderBy = null)
- * @method Media[]    findAll()
- * @method Media[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method MediaPicture|null find($id, $lockMode = null, $lockVersion = null)
+ * @method MediaPicture|null findOneBy(array $criteria, array $orderBy = null)
+ * @method MediaPicture[]    findAll()
+ * @method MediaPicture[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MediaRepository extends ServiceEntityRepository
+class MediaPictureRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Media::class);
+        parent::__construct($registry, MediaPicture::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Media $entity, bool $flush = true): void
+    public function add(MediaPicture $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class MediaRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Media $entity, bool $flush = true): void
+    public function remove(MediaPicture $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -46,7 +46,7 @@ class MediaRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Media[] Returns an array of Media objects
+    //  * @return MediaPicture[] Returns an array of MediaPicture objects
     //  */
     /*
     public function findByExampleField($value)
@@ -63,7 +63,7 @@ class MediaRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Media
+    public function findOneBySomeField($value): ?MediaPicture
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.exampleField = :val')

@@ -9,10 +9,10 @@
                 <li class="nav-item"><a class="nav-link" data-target="#tricks" href="/#tricks">Tricks</a></li>
                 
                 {% if app.user %}
-                <li class="nav-item"><a class="nav-link text-lowercase" data-target="#profile" href="{{ path('app_user_edit',{id:app.user.id }) }}">{{ app.user.username }}</a></li>
-                {% if is_granted('ROLE_ADMIN') %}
-                <li class="nav-item"><a class="nav-link" data-target="#admin" href="{{ path('app_admin_index') }}"><i class="fa fa-cog fa-1x" title="Administrer le Blog"></i></a></li>
-                {% endif %}
+                
+                
+                <li class="nav-item"><a class="nav-link text-capitalize" data-target="#profile" href="{{ path('app_user_edit',{id:app.user.id }) }}"><small>Welcome </small></span>{{ app.user.firstname|capitalize  }}</a></li>
+                <li class="nav-item" title="Add Trick"><a class="nav-link" title="Add Trick" data-target="#addTrick" href="{{ path('app_add_trick') }}"><i class="fa fa-plus fa-1x" title="Add Trick"></i></a></li>
                 <li class="nav-item"><a class="nav-link border" href="{{ path('app_logout') }}">Logout</a></li>
                 {% else %}
                 <li class="nav-item"><a class="nav-link" data-target="#login" href="{{ path('app_login') }}">Sign in</a></li>

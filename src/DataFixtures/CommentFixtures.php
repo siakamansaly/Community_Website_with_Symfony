@@ -29,7 +29,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
                 for ($i = 0; $i < rand(0, 2); $i++) {
                     $comment = new Comment();
                     $comment->setContent($faker->paragraphs(2, true))
-                        ->setCreatedAt(new \DateTimeImmutable('now'))
+                        ->setCreatedAt($faker->dateTimeBetween($value->getCreatedAt(),'now'))
                         ->setTrick($value)
                         ->setUser($user);
                     $manager->persist($comment);
