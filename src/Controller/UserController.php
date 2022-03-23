@@ -23,6 +23,7 @@ class UserController extends AbstractController
      */
     public function adminUsers(UserRepository $users): Response
     {
+        $this->denyAccessUnlessGranted('USER_DELETE',$this->getUser());
         return $this->render('user/index.html.twig', ['users' => $users->findAll()]);
     }
 
@@ -31,6 +32,7 @@ class UserController extends AbstractController
      */
     public function adminUserRole(User $user, Request $request, UserRepository $userRepository): Response
     {
+        $this->denyAccessUnlessGranted('USER_EDIT_ROLE',$this->getUser());
         $form = $this->createForm(UserRoleFormType::class, $user);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
@@ -49,6 +51,7 @@ class UserController extends AbstractController
      */
     public function adminUserDelete(User $user, Request $request, UserRepository $userRepository): Response
     {
+        $this->denyAccessUnlessGranted('USER_DELETE',$this->getUser());
         $user = $userRepository->find($user);
 
         if($request->request->count()>0) {
@@ -67,13 +70,11 @@ class UserController extends AbstractController
      */
     public function profileUser(User $user, Request $request, UserRepository $userRepository, TrickRepository $trickRepository, FileUploader $fileUploader, UrlComposer $urlComposer, TricksController $tricksController): Response
     {
+        
         $user = $userRepository->find($user);
+        $this->denyAccessUnlessGranted('USER_EDIT',$user);
         $pictureTemp = "";
         
-        if($this->isGranted('ROLE_ADMIN')==false && $this->getUser()->getUserIdentifier()!=$user->getEmail())
-        {
-            return $this->redirectToRoute('index');
-        }
         $oldPicture = $user->getPicture();
         $form = $this->createForm(UserProfileFormType::class, $user);
         $form->handleRequest($request);
