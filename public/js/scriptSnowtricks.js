@@ -101,7 +101,9 @@ jQuery(document).ready(function () {
         var $this = $(this);
         var id = $this.data("id");
         var title = $this.data("title");
-        $("#titleDelete").html(title);
+        var action = $this.data("action");
+        $("#textDelete").html(title);
         $("#delete_trick_form_delete").val(id);
+        $("#delete_trick_form_action").val(action);
 
     });

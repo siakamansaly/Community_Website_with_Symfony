@@ -4,17 +4,14 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Form\UserPreferencesFormType;
 use App\Repository\UserRepository;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\Mailer;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -23,7 +20,7 @@ class RegistrationController extends AbstractController
      * @Route("/register", name="app_register")
      */
 
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, Mailer $mailer): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository, Mailer $mailer): Response
     {
         date_default_timezone_set($this->getParameter('app.timezone'));
         $adminEmail = $this->getParameter('default_admin_email');
@@ -39,16 +36,14 @@ class RegistrationController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
-            // set Status, Registration Date and Role user
+            // set Status, Registration Date, Role and token user
             $user->setStatus(0);
             $user->setRegistrationDate(new DateTime('now'));
             $user->setRoles(['ROLE_USER']);
             $token = $user->generateToken();
             $user->setToken($token);
             $user->setTokenDate(new DateTime('now'));
-
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $userRepository->add($user);
 
             // create Login Link
             $loginLinkDetails = $this->generateUrl('activation',['token' => $token]);

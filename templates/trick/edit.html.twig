@@ -15,8 +15,7 @@
           <a href="#" data-bs-toggle="modal" data-bs-target="#featured" class="text-primary px-2"
             title="Edit Featured picture">
             <i class="fa fa-pen fa-1x" title="Edit Featured picture"></i></a>
-          <a href="#" class="text-danger px-2"
-            title="Delete Featured picture">
+            <a href="#" title="Delete Featured picture" class="text-danger px-2 deleteTrick" title="Delete Featured picture" data-id="{{trick.id}}" data-title="Featured picture" data-action="featured" data-bs-toggle="modal" data-bs-target="#delete">
             <i class="fa fa-trash fa-1x" title="Delete Featured picture"></i></a>
         </div>
       </div>
@@ -47,7 +46,8 @@
                 <a href="#" data-id="{{key}}" data-action="picture" data-form="picture_form_pictureEdit" data-bs-toggle="modal" data-bs-target="#pictures" class="text-primary edit" title="Edit picture">
                   <i class="fa fa-pen fa-1x" title="Edit picture"></i></a>
                 &nbsp;&nbsp;&nbsp;
-                <a href="#" class="text-danger" title="Delete picture">
+                <a href="#" title="Delete picture" class="text-danger deleteTrick" data-id="{{key}}" data-title="Picture No {{key}}" data-action="picture" data-bs-toggle="modal" data-bs-target="#delete">
+
                   <i class="fa fa-trash fa-1x" title="Delete picture"></i></a>
               </div>
 
@@ -65,7 +65,7 @@
               <a href="#" data-id="{{video.id}}" data-action="video" data-form="video_form_videoEdit" data-bs-toggle="modal" data-bs-target="#videos" class="text-primary edit" title="Edit video">
                 <i class="fa fa-pen fa-1x" title="Edit video"></i></a>
               &nbsp;&nbsp;&nbsp;
-              <a href="#" class="text-danger" title="Delete picture">
+              <a href="#" class="text-danger deleteTrick" data-id="{{video.id}}" title="Delete video" data-title="Video No {{video.id}}" data-action="video" data-bs-toggle="modal" data-bs-target="#delete">
                 <i class="fa fa-trash fa-1x" title="Delete video"></i></a>
               </div></div>
 
@@ -96,7 +96,7 @@
           <div class="d-flex justify-content-between mb-5">
             {{ form_widget(trickForm.type, {'attr':{'placeholder':'Enter content','class':' w-auto'}}) }}
             <span class=""><button type="submit" class="btn btn-primary ">Save</button>
-              <a href="#" class="btn btn-danger deleteTrick" data-id="{{trick.id}}" data-title="{{trick.title}}" data-bs-toggle="modal" data-bs-target="#delete">Delete</a>
+              <a href="#" class="btn btn-danger deleteTrick" data-id="{{trick.id}}" data-title="{{trick.title}}" data-action="trick" data-bs-toggle="modal" data-bs-target="#delete">Delete</a>
             </span>
           </div>
         </div>

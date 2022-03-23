@@ -69,7 +69,7 @@ class UserController extends AbstractController
     {
         $user = $userRepository->find($user);
         $pictureTemp = "";
-        //
+        
         if($this->isGranted('ROLE_ADMIN')==false && $this->getUser()->getUserIdentifier()!=$user->getEmail())
         {
             return $this->redirectToRoute('index');
@@ -79,8 +79,6 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$user->setToken($token);
-
             $picture = $form->get('picture')->getData();
             if ($picture) {
                 $pictureFileName = $fileUploader->upload($picture,'profile');
@@ -91,7 +89,6 @@ class UserController extends AbstractController
                 $filesystem->remove($this->getParameter('profiles_directory') . '/' . $oldPicture);
             }
             $userRepository->add($user);
-            // Add message Flash and redirect to home
             $this->addFlash('success', "Update done !");
             return $this->redirectToRoute('app_user_edit', ['id' => $user->getId()]);
         }
@@ -101,8 +98,7 @@ class UserController extends AbstractController
         $formDeleteTrick->handleRequest($request);
 
         if ($formDeleteTrick->isSubmitted() && $formDeleteTrick->isValid()) {
-            $trick = $trickRepository->find($formDeleteTrick->get('delete')->getData());
-            $tricksController->deleteTrick($trick,$trickRepository);
+            $tricksController->deleteTrick($formDeleteTrick->get('delete')->getData(),'trick');
             return $this->redirectToRoute('app_user_edit', ['id' => $user->getId()]);
         }
 

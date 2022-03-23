@@ -16,7 +16,11 @@ class DeleteTrickFormType extends AbstractType
         ->add('delete', HiddenType::class, [
             'mapped' => false,
             'attr' => ['class' => 'hidden-field', 'value' => '0', 'id' => 'delete']
-        ]);
+        ])
+        ->add('action', HiddenType::class, [
+            'mapped' => false,
+            'attr' => ['class' => 'hidden-field', 'value' => '', 'id' => 'action']
+        ])
         ;
     }
 
