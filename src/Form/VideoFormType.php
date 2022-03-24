@@ -22,6 +22,7 @@ class VideoFormType extends AbstractType
                 'mapped' => false,
                 'attr' => ['class' => 'hidden-field', 'value' => '0', 'id' => 'videoEdit']
             ]);
+        $options = [];
     }
 
     public function configureOptions(OptionsResolver $resolver): void

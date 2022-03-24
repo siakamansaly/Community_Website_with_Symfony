@@ -16,11 +16,11 @@ class UserProfileFormType extends AbstractType
             ->add('lastname')
             ->add('firstname')
             ->add('email')
-            ->add('picture',FileType::class, [
+            ->add('picture', FileType::class, [
                 'data_class' => null,
                 'required' => false,
-                ])
-        ;
+            ]);
+        $options = [];
     }
 
     public function configureOptions(OptionsResolver $resolver): void

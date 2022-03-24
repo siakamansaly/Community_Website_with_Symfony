@@ -90,9 +90,7 @@ class SecurityController extends AbstractController
 
                 if ($form->isSubmitted() && $form->isValid()) {
 
-                    if ($user->getEmail() !== $form->get('email')->getData()) {
-                        $this->addFlash('danger', 'This email is not assigned to this token');
-                    } else {
+                    if ($user->getEmail() === $form->get('email')->getData()) {
                         $user->setPassword($userPasswordHasher->hashPassword($user, $form->get('password')->getData()));
                         $user->setToken(NULL);
                         $user->setTokenDate(NULL);
@@ -101,6 +99,7 @@ class SecurityController extends AbstractController
                         $this->addFlash('success', 'Password successfully changed! You can now connect !');
                         return $this->redirectToRoute('index');
                     }
+                    $this->addFlash('danger', 'This email is not assigned to this token');
                 }
                 return $this->render('security/reset_password.html.twig', ['resetPasswordForm' => $form->createView(),]);
             }

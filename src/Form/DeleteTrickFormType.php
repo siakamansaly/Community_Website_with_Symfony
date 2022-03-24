@@ -13,15 +13,15 @@ class DeleteTrickFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('delete', HiddenType::class, [
-            'mapped' => false,
-            'attr' => ['class' => 'hidden-field', 'value' => '0', 'id' => 'delete']
-        ])
-        ->add('action', HiddenType::class, [
-            'mapped' => false,
-            'attr' => ['class' => 'hidden-field', 'value' => '', 'id' => 'action']
-        ])
-        ;
+            ->add('delete', HiddenType::class, [
+                'mapped' => false,
+                'attr' => ['class' => 'hidden-field', 'value' => '0', 'id' => 'delete']
+            ])
+            ->add('action', HiddenType::class, [
+                'mapped' => false,
+                'attr' => ['class' => 'hidden-field', 'value' => '', 'id' => 'action']
+            ]);
+        $options = [];
     }
 
     public function configureOptions(OptionsResolver $resolver): void

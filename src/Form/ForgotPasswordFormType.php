@@ -13,14 +13,13 @@ class ForgotPasswordFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class)
-        ;
+            ->add('email', EmailType::class);
+        $options = [];
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-
-        ]);
+        $resolver->setDefaults([]);
     }
 }
