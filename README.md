@@ -17,6 +17,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/47cef003789b459a9b72ac4e814a0cb3)](https://app.codacy.com/gh/siakamansaly/Community_Website_with_Symfony?utm_source=github.com&utm_medium=referral&utm_content=siakamansaly/Community_Website_with_Symfony&utm_campaign=Badge_Grade_Settings)
+
 <div align="center">
     <img src="public/img/Screenshot.png" alt="Screenshot" width="700px">
 </div>
