@@ -1,12 +1,14 @@
 <div id="top"></div>
 <div align="right">
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/84e30cbee58949cbad70ebaef13a299c)](https://www.codacy.com/gh/siakamansaly/Community_Website_with_Symfony/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=siakamansaly/Community_Website_with_Symfony&amp;utm_campaign=Badge_Grade)
+
 </div>
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/siakamansaly/Blog_PHP_MVC">
-    <img src="public/img/favicon/favicon.ico" alt="Logo">
+    <img src="public/favicon.ico" alt="Logo">
   </a>
   <h1 align="center">Community Website with Symfony</h1>
   <p align="center">
@@ -18,7 +20,7 @@
 ## About The Project
 
 <div align="center">
-    <img src="public/img/Screenshot.png" alt="Screenshot" width="700px">
+    <img src="public/Screenshot.png" alt="Screenshot" width="700px">
 </div>
 <p>Creation of a collaborative site to promote snowboarding and help learning tricks. Project developed with Symfony</p>
 <p>The project contains:</p>
@@ -42,7 +44,6 @@ This section list the main frameworks/libraries used to start your project.
   <li><a href="https://jquery.com" target="_blank">JQuery</a></li>
   <li><a href="https://www.php.net/" target="_blank">PHP</a></li>
   <li><a href="https://www.mysql.com/fr/">MySQL</a></li>
-  <li><a href="https://www.w3schools.com/php/php_ajax_php.asp">Ajax</a></li>
   <li><a href="https://twig.symfony.com/" target="_blank">Twig</a></li>
   <li><a href="https://getcomposer.org/" target="_blank">Composer</a></li>
 </ul>
