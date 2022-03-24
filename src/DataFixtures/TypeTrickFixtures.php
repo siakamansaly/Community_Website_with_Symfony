@@ -46,7 +46,7 @@ class TypeTrickFixtures extends Fixture
                 'description' => ""
             ]
         ];
-        foreach ($categories as $key => $value) {
+        foreach ($categories as $value) {
             $categorie = new TypeTrick();
             $categorie->setName($value['name']);
             $categorie->setDescription($value['description']);

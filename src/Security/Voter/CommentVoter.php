@@ -68,10 +68,9 @@ class CommentVoter extends Voter
                 return true;
                 break;
             default:
-                return true;
+                return false;
                 break;
         }
-        return false;
     }
 
 

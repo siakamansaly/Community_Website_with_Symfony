@@ -2,20 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Comment;
 use App\Entity\MediaPicture;
 use App\Entity\MediaVideo;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Trick;
-use App\Form\CommentFormType;
-use App\Form\DeleteTrickFormType;
-use App\Form\FeaturedPictureFormType;
-use App\Form\PictureFormType;
-use App\Form\TrickEditFormType;
-use App\Form\TrickFormType;
-use App\Form\VideoFormType;
-use App\Repository\CommentRepository;
 use App\Repository\MediaPictureRepository;
 use App\Repository\MediaVideoRepository;
 use App\Repository\TrickRepository;
@@ -23,7 +13,6 @@ use App\Service\FileUploader;
 use App\Service\UrlComposer;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -45,71 +34,14 @@ class TricksController  extends AbstractController
         $this->slugger = $slugger;
         $this->fileUploader = $fileUploader;
     }
-    /**
-     * @Route("/", name="index")
-     */
-    public function index(Request $request)
-    {
-        $tricksAll = $this->trickRepository->findBy([], ['createdAt' => 'DESC']);
-        // Delete Trick Form
-        $formDeleteTrick = $this->createForm(DeleteTrickFormType::class);
-        $formDeleteTrick->handleRequest($request);
-
-        if ($formDeleteTrick->isSubmitted() && $formDeleteTrick->isValid()) {
-            $trick = $this->trickRepository->find($formDeleteTrick->get('delete')->getData());
-            $this->deleteTrick($trick->getId(), 'trick');
-            return $this->redirectToRoute('index');
-        }
-        return $this->render('home/index.html.twig', ['tricks' => $tricksAll, 'deleteForm' => $formDeleteTrick->createView()]);
-    }
-
-    /**
-     * @Route("/trick/{slug}", name="app_show_trick")
-     */
-    public function trickShow(Trick $trick, Request $request, CommentController $commentController): Response
-    {
-        date_default_timezone_set($this->getParameter('app.timezone'));
-        $comment = new Comment();
-        $form = $this->createForm(CommentFormType::class, $comment);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commentController->addComment($comment, $trick);
-            return $this->redirectToRoute('app_show_trick', ['slug' => $trick->getSlug(), '_fragment' => 'trick-0']);
-        }
-
-        $FeaturedPicture = $this->urlComposer->url('tricks', $trick->getFeaturedPicture());
-        if (!$FeaturedPicture) {
-            $FeaturedPicture = '/SnowTricks.png';
-        }
-        $pictures = [];
-        $pictures = $this->urlComposer->urlArray('tricks', $trick->getMediasPicture());
-
-        return $this->render('single/index.html.twig', ['trick' => $trick, 'commentForm' => $form->createView(), 'FeaturedPicture' => $FeaturedPicture, 'pictures' => $pictures]);
-    }
-
-    /**
-     * @Route("/profile/trick/add", name="app_add_trick")
-     */
-    public function addTrickPage(Request $request)
-    {
-        $trick = new Trick();
-        $form = $this->createForm(TrickFormType::class);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->addTrick($form, $trick);
-            return $this->redirectToRoute('index');
-        }
-
-        return $this->render('trick/add.html.twig', ['trickForm' => $form->createView()]);
-    }
 
     public function addTrick($form, Trick $trick)
     {
         // If the featured image is not empty, upload the image
         $featuredPicture = $form->get('featuredPicture')->getData();
         if ($featuredPicture) {
-            $featuredPictureFileName = $this->fileUploader->upload($featuredPicture, 'tricks');
-            $trick->setFeaturedPicture($featuredPictureFileName);
+            $ImageFileName = $this->fileUploader->upload($featuredPicture, 'tricks');
+            $trick->setFeaturedPicture($ImageFileName);
         }
 
         $trick->setCreatedAt(new \DateTime('now'))
@@ -147,94 +79,6 @@ class TricksController  extends AbstractController
         $this->addFlash('success', 'The trick has added successfully !!');
     }
 
-    /**
-     * @Route("/profile/trick/{id}/edit", name="app_edit_trick")
-     */
-    public function editTrickPage(Trick $trick, Request $request): Response
-    {
-        $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
-        date_default_timezone_set($this->getParameter('app.timezone'));
-
-        // Get old featured picture
-        $removePicture = [];
-        $removePicture = $trick->getFeaturedPicture();
-
-        // Get all old pictures
-        $removeOtherPictures = [];
-        foreach ($trick->getMediasPicture() as $key => $value) {
-            $removeOtherPictures[$value->getId()] = $value->getName();
-        }
-
-        // Create content Form
-        $form = $this->createForm(TrickEditFormType::class, $trick);
-        $form->handleRequest($request);
-
-        // Create Featured Picture Form
-        $formFeatured = $this->createForm(FeaturedPictureFormType::class, $trick);
-        $formFeatured->handleRequest($request);
-
-        // Create other Picture Form
-        $formPictures = $this->createForm(PictureFormType::class);
-        $formPictures->handleRequest($request);
-
-        // Create video Form
-        $formVideos = $this->createForm(VideoFormType::class);
-        $formVideos->handleRequest($request);
-
-        // Delete Trick Form
-        $formDeleteTrick = $this->createForm(DeleteTrickFormType::class);
-        $formDeleteTrick->handleRequest($request);
-
-        // When delete Trick Form is submitted
-        if ($formDeleteTrick->isSubmitted() && $formDeleteTrick->isValid()) {
-            $this->deleteTrick($formDeleteTrick->get('delete')->getData(), $formDeleteTrick->get('action')->getData());
-        }
-
-        // When content Form is submitted
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->updateTrickContent($form, $trick);
-            return $this->redirectToRoute('app_edit_trick', ['id' => $trick->getId()]);
-        }
-        // When Featured picture Form is submitted
-        if ($formFeatured->isSubmitted()) {
-            if ($formFeatured->isValid()) {
-                $this->updateTrickFeatured($formFeatured, $trick, $removePicture);
-                return $this->redirectToRoute('app_edit_trick', ['id' => $trick->getId()]);
-            }
-            $this->addFlash('danger', 'Featured picture error upload !!');
-        }
-
-        // When other picture Form is submitted
-        if ($formPictures->isSubmitted()) {
-            if ($formPictures->isValid()) {
-                $this->updateTrickPicture($formPictures, $trick, $removeOtherPictures);
-                return $this->redirectToRoute('app_edit_trick', ['id' => $trick->getId()]);
-            }
-            $this->addFlash('danger', 'Picture error upload !!');
-        }
-
-        // When video Form is submitted
-        if ($formVideos->isSubmitted()) {
-            if ($formVideos->isValid()) {
-                $this->updateTrickVideo($formVideos, $trick);
-                return $this->redirectToRoute('app_edit_trick', ['id' => $trick->getId()]);
-            }
-            $this->addFlash('danger', 'Video error link !!');
-        }
-
-        // Generate URL Featured Picture 
-        $FeaturedPicture = $this->urlComposer->url('tricks', $trick->getFeaturedPicture());
-        if (!$FeaturedPicture) {
-            $FeaturedPicture = '/SnowTricks.png';
-        }
-
-        // Generate URL other pictures 
-        $pictures = [];
-        $pictures = $this->urlComposer->urlArray('tricks', $trick->getMediasPicture());
-
-        return $this->render('trick/edit.html.twig', ['trick' => $trick, 'trickForm' => $form->createView(), 'FeaturedPicture' => $FeaturedPicture, 'pictures' => $pictures, 'featuredForm' => $formFeatured->createView(), 'picturesForm' => $formPictures->createView(), 'videosForm' => $formVideos->createView(), 'deleteForm' => $formDeleteTrick->createView()]);
-    }
-
     public function updateTrickContent($form, Trick $trick)
     {
         $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
@@ -252,12 +96,12 @@ class TricksController  extends AbstractController
         $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
         $featuredPicture = $formFeatured->get('featuredPicture')->getData();
         if ($featuredPicture) {
-            $featuredPictureFileName = $this->fileUploader->upload($featuredPicture, 'tricks');
+            $ImageFileName = $this->fileUploader->upload($featuredPicture, 'tricks');
             if ($removePicture) {
                 $filesystemEdit = new Filesystem();
                 $filesystemEdit->remove($this->getParameter('tricks_directory') . '/' . $removePicture);
             }
-            $trick->setFeaturedPicture($featuredPictureFileName);
+            $trick->setFeaturedPicture($ImageFileName);
             $this->trickRepository->add($trick);
             $this->addFlash('success', 'Featured picture successfully updated !!');
         }
@@ -308,11 +152,11 @@ class TricksController  extends AbstractController
         $this->mediaVideoRepo->add($mediaVideo);
     }
 
-    public function deleteTrick(int $id, string $action): Response
+    public function deleteTrick(int $idTrick, string $action): Response
     {
         
-        $trick = $this->trickRepository->find($id);
-        $this->denyAccessUnlessGranted('TRICK_DELETE',$trick);
+        $trick = $this->trickRepository->find($idTrick);
+        
 
         switch ($action) {
             case 'featured':
@@ -322,13 +166,13 @@ class TricksController  extends AbstractController
                 $this->addFlash('success', 'Featured picture successfully deleted !!');
                 break;
             case 'picture':
-                $mediaPicture = $this->mediaPictureRepo->find($id);
+                $mediaPicture = $this->mediaPictureRepo->find($idTrick);
                 $id_redirect = $mediaPicture->getTrick()->getId();
                 $this->mediaPictureRepo->remove($mediaPicture);
                 $this->addFlash('success', 'Picture successfully deleted !!');
                 break;
             case 'video':
-                $mediaVideo = $this->mediaVideoRepo->find($id);
+                $mediaVideo = $this->mediaVideoRepo->find($idTrick);
                 $id_redirect = $mediaVideo->getTrick()->getId();
                 $this->mediaVideoRepo->remove($mediaVideo);
                 $this->addFlash('success', 'Video successfully deleted !!');
