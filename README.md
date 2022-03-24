@@ -39,7 +39,7 @@
 This section list the main frameworks/libraries used to start your project.
 <ul>
   <li><a href="https://symfony.com/doc/5.4/index.html" target="_blank">Symfony 5.4.6</a></li>
-  <li><a href="https://startbootstrap.com/theme/freelancer" target="_blank">Freelancer theme by StartBootstrap</a></li>
+  <li><a href="https://startbootstrap.com/theme/creative" target="_blank">Creative theme by StartBootstrap</a></li>
   <li><a href="https://getbootstrap.com/" target="_blank">Bootstrap</a></li>
   <li><a href="https://jquery.com" target="_blank">JQuery</a></li>
   <li><a href="https://www.php.net/" target="_blank">PHP</a></li>
@@ -55,7 +55,7 @@ This section list the main frameworks/libraries used to start your project.
 
 This is the list of things you need to use the software.
    ```sh
-      - PHP: >=7
+      - PHP: >=7.2.5
       - MySQL
       - Apache
       - Composer
@@ -96,7 +96,7 @@ To get a local copy up and running follow these simple example steps :
    ```sh
    php bin/console doctrine:fixtures:load
    ```
-4.&nbsp;Run project
+6.&nbsp;Run project
    ```sh
    php -S localhost:8000 -t public/
    ```
@@ -105,13 +105,13 @@ To get a local copy up and running follow these simple example steps :
    symfony server:start
    ```      
 
-5.&nbsp;Log in with the following administrator account :
+7.&nbsp;Log in with the following administrator account :
    ```sh
    -Username : admin@example.fr
    -Password : password
    ```
 
-6.&nbsp;Finally, change the **email** and **password** of administrator account ("My Account" section)
+8.&nbsp;Finally, change the **email** and use the "Forgot password" section to change **password** of administrator account
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -151,7 +151,7 @@ Project Link: [https://github.com/siakamansaly/Community_Website_with_Symfony](h
 Thanks to my mentor [Hamza](https://github.com/Hamzasakrani) for his guidance and support!
 
 <ul>
-  <li><a href="https://symfony.com/doc/current/components/http_foundation.html" target="_blank">faker</a></li>
+  <li><a href="https://github.com/FakerPHP/Faker" target="_blank">Faker</a></li>
 </ul>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
