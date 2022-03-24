@@ -187,6 +187,7 @@ class TricksController  extends AbstractController
 
         // When delete Trick Form is submitted
         if ($formDeleteTrick->isSubmitted() && $formDeleteTrick->isValid()) {
+            $this->denyAccessUnlessGranted('TRICK_DELETE',$trick);
             $this->deleteTrick($formDeleteTrick->get('delete')->getData(), $formDeleteTrick->get('action')->getData());
         }
 
@@ -312,7 +313,7 @@ class TricksController  extends AbstractController
     {
         
         $trick = $this->trickRepository->find($id);
-        $this->denyAccessUnlessGranted('TRICK_DELETE',$trick);
+        
 
         switch ($action) {
             case 'featured':

@@ -73,23 +73,22 @@ class UrlComposer
     public function urlEmbed(string $url): string
     {
         switch (true) {
-            case strpos($url, "youtu.be"):
-                $url = "https://www.youtube.com/embed" . parse_url($url, PHP_URL_PATH);
+
+            case strpos($url, "youtu.be") || strpos($url, "youtube.com"):
+                $url=str_replace("=","/",$url);
+                $array = explode('/',$url);
+                $url = "https://www.youtube.com/embed/" . end($array);
                 break;
-            case strpos($url, "youtube.com"):
-                parse_str(parse_url($url, PHP_URL_QUERY), $my_array_of_vars);
-                $url = "https://www.youtube.com/embed/" . $my_array_of_vars['v'];
+
+            case strpos($url, "dai.ly") || strpos($url, "dailymotion.com"):
+                $array = explode('/',$url);
+                $url = "https://www.dailymotion.com/embed/video/" . end($array);
                 break;
-            case strpos($url, "dai.ly"):
-                $url = "https://www.dailymotion.com/embed/video" . parse_url($url, PHP_URL_PATH);
-                break;
-            case strpos($url, "dailymotion.com"):
-                $url = "https://www.dailymotion.com/embed" . parse_url($url, PHP_URL_PATH);
-                break;
+
             case strpos($url, "vimeo.com"):
-                $url = "https://player.vimeo.com/video/" . str_replace('-', '', filter_var(parse_url($url, PHP_URL_PATH), FILTER_SANITIZE_NUMBER_INT));
+                $array = explode('/',str_replace("-","",$url));
+                $url = "https://player.vimeo.com/video/" . filter_var(end($array), FILTER_SANITIZE_NUMBER_INT);
                 break;
-                https: //vimeo.com/fr/stock/clip-345430482-flying-over-a-misty-autumn-forest-at-sunset-               
         }
         return $url;
     }
