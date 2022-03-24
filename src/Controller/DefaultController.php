@@ -102,7 +102,7 @@ class DefaultController  extends AbstractController
 
         // Get all old pictures
         $removeOtherPictures = [];
-        foreach ($trick->getMediasPicture() as $key => $value) {
+        foreach ($trick->getMediasPicture() as $value) {
             $removeOtherPictures[$value->getId()] = $value->getName();
         }
 

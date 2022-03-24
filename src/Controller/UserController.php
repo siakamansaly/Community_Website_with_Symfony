@@ -68,7 +68,7 @@ class UserController extends AbstractController
     /**
      * @Route("/profile/user/{id}/edit", name="app_user_edit")
      */
-    public function profileUser(User $user, Request $request, UserRepository $userRepository, TrickRepository $trickRepository, FileUploader $fileUploader, UrlComposer $urlComposer, TricksController $tricksController): Response
+    public function profileUser(User $user, Request $request, UserRepository $userRepository, FileUploader $fileUploader, UrlComposer $urlComposer, TricksController $tricksController): Response
     {
         
         $user = $userRepository->find($user);

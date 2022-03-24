@@ -26,7 +26,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $user = $manager->getRepository(User::class);
         $user = $user->findOneBy(['email' => 'admin@example.fr']);
         $slugId = 1;
-        foreach ($typeTrick as $key => $value) {
+        foreach ($typeTrick as $value) {
             for ($i = 0; $i < rand(0, 8); $i++) {
                 $trick = new Trick();
                 $trick->setContent($faker->paragraphs(4, true))
