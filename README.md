@@ -38,7 +38,7 @@
 
 This section list the main frameworks/libraries used to start your project.
 <ul>
-  <li><a href="https://symfony.com/doc/5.4/index.html" target="_blank">Symfony</a></li>
+  <li><a href="https://symfony.com/doc/5.4/index.html" target="_blank">Symfony 5.4.6</a></li>
   <li><a href="https://startbootstrap.com/theme/freelancer" target="_blank">Freelancer theme by StartBootstrap</a></li>
   <li><a href="https://getbootstrap.com/" target="_blank">Bootstrap</a></li>
   <li><a href="https://jquery.com" target="_blank">JQuery</a></li>
@@ -70,30 +70,46 @@ To get a local copy up and running follow these simple example steps :
    git clone https://github.com/siakamansaly/Community_Website_with_Symfony.git
    ```
 
-2.&nbsp;Import the **BlogPerso.sql** file from the **database** folder into your SQL database (You can delete the **database** folder after installing the database).
-
-3.&nbsp;Install composer packages
+2.&nbsp;Install composer packages
    ```sh
    cd Community_Website_with_Symfony
    composer install
    ```
-4.&nbsp;Youu customize variables of file **.env** as needed to run the environment.
+3.&nbsp;You customize variables of file **.env** as needed to run the environment.
    ```sh
+   APP_ENV=prod
+   APP_SECRET=
+   APP_TIMEZONE=Europe/Paris
+   MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0
    DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7&charset=utf8mb4"
+   ADMIN_EMAIL=admin@example.fr
+   MAILER_DSN=smtp://localhost
    ```
-
-5.&nbsp;Run project (Change **3000** by your local port)
+4.&nbsp;Create database
    ```sh
-   php -S localhost:3000 -t public/
+   php bin/console doctrine:database:create
+   php bin/console make:migration
    ```
+5.&nbsp;Load fixtures (optional)
+   ```sh
+   php bin/console doctrine:fixtures:load
+   ```
+4.&nbsp;Run project
+   ```sh
+   php -S localhost:8000 -t public/
+   ```
+   OR 
+   ```sh
+   symfony server:start
+   ```      
 
-6.&nbsp;Log in with the following administrator account :
+5.&nbsp;Log in with the following administrator account :
    ```sh
    -Username : admin@example.fr
    -Password : password
    ```
 
-7.&nbsp;Finally, change the **email** and **password** of administrator account ("My Account" section)
+6.&nbsp;Finally, change the **email** and **password** of administrator account ("My Account" section)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
