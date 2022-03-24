@@ -8,7 +8,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/siakamansaly/Blog_PHP_MVC">
-    <img src="public/favicon.ico" alt="Logo">
+    <img src="public/logo.png" alt="Logo">
   </a>
   <h1 align="center">Community Website with Symfony</h1>
   <p align="center">
