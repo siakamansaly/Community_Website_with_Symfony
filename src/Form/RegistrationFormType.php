@@ -35,7 +35,7 @@ class RegistrationFormType extends AbstractType
                 'first_options'  => ['label' => 'Password'],
                 'second_options' => ['label' => 'Repeat Password'],
             ]);
-        ;
+        $options = [];
     }
 
     public function configureOptions(OptionsResolver $resolver): void

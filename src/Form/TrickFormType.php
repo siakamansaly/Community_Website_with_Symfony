@@ -19,16 +19,15 @@ class TrickFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class,[
-            ])
+            ->add('title', TextType::class, [])
             ->add('content', TextareaType::class, [
                 'attr' => ['rows' => 6],
             ])
-            ->add('featuredPicture',FileType::class,[
-                'label_attr' => ['class'=>'d-none'],
+            ->add('featuredPicture', FileType::class, [
+                'label_attr' => ['class' => 'd-none'],
                 'required' => false,
                 'data_class' => null
-                ])
+            ])
             ->add('type', EntityType::class, [
                 'class' => TypeTrick::class,
                 'query_builder' => function (TypeTrickRepository $er) {
@@ -39,24 +38,24 @@ class TrickFormType extends AbstractType
             ])
             ->add('mediasVideos', CollectionType::class, [
                 'entry_type' => VideoFormType::class,
-                'label_attr' => ['class'=>'d-none'],
+                'label_attr' => ['class' => 'd-none'],
                 'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
-                
-                ])
-                ->add('mediasPicture', CollectionType::class, [
-                    'entry_type' => PictureFormType::class,
-                    'label_attr' => ['class'=>'d-none'],
-                    'by_reference' => false,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'prototype' => true,
 
-                    
-                    ])
-        ;
+            ])
+            ->add('mediasPicture', CollectionType::class, [
+                'entry_type' => PictureFormType::class,
+                'label_attr' => ['class' => 'd-none'],
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+
+
+            ]);
+        $options = [];
     }
 
     public function configureOptions(OptionsResolver $resolver): void
