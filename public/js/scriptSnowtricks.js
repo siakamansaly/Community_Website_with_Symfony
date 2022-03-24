@@ -48,7 +48,6 @@ $(function () {
 
 // See or Hide Medias
 $(function () {
-
     $("#seeMedias").on("click", function (e) {
         e.preventDefault();
         $("#medias").toggle("slow").removeClass("d-none");

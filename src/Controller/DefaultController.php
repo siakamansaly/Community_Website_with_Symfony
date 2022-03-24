@@ -42,6 +42,7 @@ class DefaultController  extends AbstractController
 
         if ($formDeleteTrick->isSubmitted() && $formDeleteTrick->isValid()) {
             $trick = $this->trickRepository->find($formDeleteTrick->get('delete')->getData());
+            $this->denyAccessUnlessGranted('TRICK_DELETE',$trick);
             $tricksController->deleteTrick($trick->getId(), 'trick');
             return $this->redirectToRoute('index');
         }
