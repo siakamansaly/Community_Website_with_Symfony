@@ -89,7 +89,7 @@ class DefaultController  extends AbstractController
     /**
      * @Route("/profile/trick/{id}/edit", name="app_edit_trick")
      */
-    public function editTrickPage(Trick $trick, Request $request, TricksController $tricksController): Response
+    public function editTrickPage(Trick $trick, Request $request, TricksController $tricksController, UrlComposer $urlComposer): Response
     {
         $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
         date_default_timezone_set($this->getParameter('app.timezone'));
