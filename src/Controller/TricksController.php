@@ -40,8 +40,8 @@ class TricksController  extends AbstractController
         // If the featured image is not empty, upload the image
         $featuredPicture = $form->get('featuredPicture')->getData();
         if ($featuredPicture) {
-            $featuredPictureFileName = $this->fileUploader->upload($featuredPicture, 'tricks');
-            $trick->setFeaturedPicture($featuredPictureFileName);
+            $ImageFileName = $this->fileUploader->upload($featuredPicture, 'tricks');
+            $trick->setFeaturedPicture($ImageFileName);
         }
 
         $trick->setCreatedAt(new \DateTime('now'))
@@ -96,12 +96,12 @@ class TricksController  extends AbstractController
         $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
         $featuredPicture = $formFeatured->get('featuredPicture')->getData();
         if ($featuredPicture) {
-            $featuredPictureFileName = $this->fileUploader->upload($featuredPicture, 'tricks');
+            $ImageFileName = $this->fileUploader->upload($featuredPicture, 'tricks');
             if ($removePicture) {
                 $filesystemEdit = new Filesystem();
                 $filesystemEdit->remove($this->getParameter('tricks_directory') . '/' . $removePicture);
             }
-            $trick->setFeaturedPicture($featuredPictureFileName);
+            $trick->setFeaturedPicture($ImageFileName);
             $this->trickRepository->add($trick);
             $this->addFlash('success', 'Featured picture successfully updated !!');
         }
@@ -152,10 +152,10 @@ class TricksController  extends AbstractController
         $this->mediaVideoRepo->add($mediaVideo);
     }
 
-    public function deleteTrick(int $id, string $action): Response
+    public function deleteTrick(int $idTrick, string $action): Response
     {
         
-        $trick = $this->trickRepository->find($id);
+        $trick = $this->trickRepository->find($idTrick);
         
 
         switch ($action) {
@@ -166,13 +166,13 @@ class TricksController  extends AbstractController
                 $this->addFlash('success', 'Featured picture successfully deleted !!');
                 break;
             case 'picture':
-                $mediaPicture = $this->mediaPictureRepo->find($id);
+                $mediaPicture = $this->mediaPictureRepo->find($idTrick);
                 $id_redirect = $mediaPicture->getTrick()->getId();
                 $this->mediaPictureRepo->remove($mediaPicture);
                 $this->addFlash('success', 'Picture successfully deleted !!');
                 break;
             case 'video':
-                $mediaVideo = $this->mediaVideoRepo->find($id);
+                $mediaVideo = $this->mediaVideoRepo->find($idTrick);
                 $id_redirect = $mediaVideo->getTrick()->getId();
                 $this->mediaVideoRepo->remove($mediaVideo);
                 $this->addFlash('success', 'Video successfully deleted !!');
