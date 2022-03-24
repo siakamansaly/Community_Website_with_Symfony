@@ -2,17 +2,15 @@
 
 namespace App\Service;
 
-use Doctrine\Common\Collections\Collection;
-
 class UrlComposer
 {
-    private $targetProfileRelative;
-    private $targetTricksRelative;
+    private $targetProfile;
+    private $targetTricks;
 
-    public function __construct($targetTricksRelative, $targetProfileRelative)
+    public function __construct($targetTricks, $targetProfile)
     {
-        $this->targetProfile = $targetProfileRelative;
-        $this->targetTricks = $targetTricksRelative;
+        $this->targetProfile = $targetProfile;
+        $this->targetTricks = $targetTricks;
     }
 
     public function url(string $target = 'profile', $picture)

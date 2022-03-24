@@ -17,6 +17,8 @@ use App\Repository\TrickRepository;
 use App\Service\UrlComposer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Controller\TricksController;
+use App\Controller\CommentController;
 
 class DefaultController  extends AbstractController
 {
@@ -89,7 +91,7 @@ class DefaultController  extends AbstractController
     /**
      * @Route("/profile/trick/{id}/edit", name="app_edit_trick")
      */
-    public function editTrickPage(Trick $trick, Request $request, TricksController $tricksController, UrlComposer $urlComposer): Response
+    public function editTrickPage(Trick $trick, Request $request, TricksController $tricksController): Response
     {
         $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
         date_default_timezone_set($this->getParameter('app.timezone'));
