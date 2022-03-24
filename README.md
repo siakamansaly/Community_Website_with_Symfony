@@ -88,6 +88,8 @@ To get a local copy up and running follow these simple example steps :
 4.&nbsp;Create database
    ```sh
    php bin/console doctrine:database:create
+   ```
+   ```sh
    php bin/console make:migration
    ```
 5.&nbsp;Load fixtures (optional)
@@ -98,7 +100,7 @@ To get a local copy up and running follow these simple example steps :
    ```sh
    php -S localhost:8000 -t public/
    ```
-   OR 
+   or if you are using Symfony Client you can use below command :
    ```sh
    symfony server:start
    ```      
