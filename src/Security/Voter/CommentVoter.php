@@ -36,6 +36,7 @@ class CommentVoter extends Voter
         if (!$user instanceof UserInterface) {
             return false;
         }
+        if($comment === null){return false;}
 
         // Check if user is admin
         if ($this->security->isGranted('ROLE_ADMIN')) return true;
