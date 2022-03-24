@@ -154,36 +154,37 @@ class TricksController  extends AbstractController
 
     public function deleteTrick(int $idTrick, string $action): Response
     {
-        
-        $trick = $this->trickRepository->find($idTrick);
-        
-
         switch ($action) {
             case 'featured':
+                $trick = $this->trickRepository->find($idTrick);
                 $id_redirect = $trick->getId();
                 $trick->setFeaturedPicture(NULL);
                 $this->trickRepository->add($trick);
                 $this->addFlash('success', 'Featured picture successfully deleted !!');
+                return $this->redirectToRoute('app_edit_trick', ['id' => $trick->getId()]);
                 break;
             case 'picture':
                 $mediaPicture = $this->mediaPictureRepo->find($idTrick);
                 $id_redirect = $mediaPicture->getTrick()->getId();
                 $this->mediaPictureRepo->remove($mediaPicture);
                 $this->addFlash('success', 'Picture successfully deleted !!');
+                return $this->redirectToRoute('app_edit_trick', ['id' => $id_redirect]);
                 break;
             case 'video':
                 $mediaVideo = $this->mediaVideoRepo->find($idTrick);
                 $id_redirect = $mediaVideo->getTrick()->getId();
                 $this->mediaVideoRepo->remove($mediaVideo);
                 $this->addFlash('success', 'Video successfully deleted !!');
+                return $this->redirectToRoute('app_edit_trick', ['id' => $id_redirect]);
                 break;
             case 'trick':
-                $id_redirect = $trick->getId();
+                $trick = $this->trickRepository->find($idTrick);
                 $this->trickRepository->remove($trick);
                 $this->addFlash('success', "The trick has deleted successfully !!");
                 return $this->redirectToRoute('index');
                 break;
         }
-        return $this->redirectToRoute('app_edit_trick', ['id' => $id_redirect]);
+        $this->addFlash('danger', "An error has occurred !!");
+        return $this->redirectToRoute('index');
     }
 }
