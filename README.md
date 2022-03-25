@@ -77,10 +77,6 @@ To get a local copy up and running follow these simple example steps :
    ```
 3.&nbsp;You customize variables of file **.env** as needed to run the environment.
    ```sh
-   APP_ENV=dev
-   APP_SECRET=
-   APP_TIMEZONE=Europe/Paris
-   MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0
    DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7&charset=utf8mb4"
    ADMIN_EMAIL=admin@example.fr
    MAILER_DSN=smtp://localhost
@@ -99,12 +95,7 @@ To get a local copy up and running follow these simple example steps :
 6.&nbsp;Run project
    ```sh
    php -S localhost:8000 -t public/
-   ```
-   or if you are using Symfony Client you can use below command :
-   ```sh
-   symfony server:start
-   ```      
-
+   ```  
 7.&nbsp;Log in with the following administrator account :
    ```sh
    -Username : admin@example.fr
