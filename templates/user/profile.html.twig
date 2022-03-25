@@ -40,21 +40,25 @@
                     <button type="submit" class="btn btn-primary">Update</button>
                     {{ form_end(userPreferencesForm) }}
 
-                    {% if is_granted('ROLE_ADMIN') and page == "false" %}
-                    <div class="row border border-info rounded mt-5 p-2 text-center">
-                        <div class="col">
-                            <a href="{{ path('app_users') }}" class="btn btn-info my-1">Users
-                                Administration</a>
-                                &nbsp;&nbsp;
-                                <a href="{{ path('app_comments') }}"
-                                class="btn btn-info my-1">Comments Administration</a></div>
-                    </div>
-                    {% endif %}
+                   
                 </div>
 
             </div>
+            {% if is_granted('ROLE_ADMIN') and page == "false" %}
+        <div class="row container border border-info rounded mt-5 p-2 text-center">
+            <div class="col">
+                <a href="{{ path('app_users') }}" class="btn btn-info my-1">Users
+                    Administration</a>
+                &nbsp;&nbsp;
+                <a href="{{ path('app_comments') }}" class="btn btn-info my-1">Comments Administration</a>
+                &nbsp;&nbsp;
+            <a href="{{ path('app_type') }}" class="btn btn-info my-1">Type Trick Administration</a>
+            </div>
+            
         </div>
-
+        {% endif %}
+        </div>
+        
         <h2 class="text-center mt-5">My Tricks</h2>
         <div class="row mt-2 px-4">
             <div class="col"><a href="{{ path('app_add_trick') }}" class="btn btn-primary my-1">Add Trick</a></div>
@@ -82,8 +86,9 @@
                                     class="btn btn-info my-1">Show</a>
                                 <a href="{{ path('app_edit_trick',{id:trick.id }) }}"
                                     class="btn btn-warning my-1">Edit</a>
-                                <a href="#"
-                                    class="btn btn-danger my-1 deleteTrick" title="Delete Trick" href="#" data-id="{{trick.id}}" data-title="{{trick.title}}"  data-bs-toggle="modal" data-bs-target="#delete">Delete</a>
+                                <a href="#" class="btn btn-danger my-1 deleteTrick" title="Delete Trick" href="#"
+                                    data-id="{{trick.id}}" data-title="{{trick.title}}" data-bs-toggle="modal"
+                                    data-bs-target="#delete">Delete</a>
                             </td>
                         </tr>
 
