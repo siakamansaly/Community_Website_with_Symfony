@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+{% block title %}{{status_text}}{% endblock %}
+{% block body %}
+<section class="bg-primary">
+    <div class="container masthead">
+        <div id="error" class="card bg-white d-flex align-items-center justify-content-center">
+            <p class="h1 text-secondary m-2 error">{{status_code}}</p>
+            <h1 class="text-center mb-4">{{status_text}}</h1>
+            <div class="text-center mb-4">
+                <a class="btn btn-xl btn-primary" href="{{path('index')}}" rel="noopener">
+                    Go to homepage
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

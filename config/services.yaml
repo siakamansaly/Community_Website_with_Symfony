@@ -35,5 +35,5 @@ services:
             $targetTricks: '%tricks_directory%'
     App\Service\UrlComposer:
         arguments:
-            $targetTricksRelative: '%tricks_directory_path%'
-            $targetProfileRelative: '%profiles_directory_path%'
+            $targetTricks: '%tricks_directory_path%'
+            $targetProfile: '%profiles_directory_path%'

@@ -13,14 +13,13 @@ class FeaturedPictureFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            
-            ->add('featuredPicture',FileType::class,[
-                'label_attr' => ['class'=>'d-none'],
+
+            ->add('featuredPicture', FileType::class, [
+                'label_attr' => ['class' => 'd-none'],
                 'required' => false,
                 'data_class' => null
-                ])
-            
-        ;
+            ]);
+        $options = [];
     }
 
     public function configureOptions(OptionsResolver $resolver): void

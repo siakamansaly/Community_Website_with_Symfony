@@ -32,7 +32,9 @@ class CommentController extends AbstractController
      */
     public function deleteComment(Comment $comment, Request $request, CommentRepository $commentRepository): Response
     {
+        
         $comment = $commentRepository->find($comment);
+        $this->denyAccessUnlessGranted('COMMENT_DELETE',$comment);
 
         if($request->request->count()>0) {
 
@@ -48,6 +50,7 @@ class CommentController extends AbstractController
 
     public function addComment (Comment $comment, Trick $trick) :void
     {
+        $this->denyAccessUnlessGranted('COMMENT_ADD',$comment);
         $comment->setCreatedAt(new DateTimeImmutable('now'));
         $comment->setTrick($trick);
         $comment->setUser($this->getUser());

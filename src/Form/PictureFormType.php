@@ -14,16 +14,16 @@ class PictureFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('name',FileType::class,[
-            'label' => false,
-            'data_class' => null,
-            
+            ->add('name', FileType::class, [
+                'label' => false,
+                'data_class' => null,
+
             ])
             ->add('pictureEdit', HiddenType::class, [
                 'mapped' => false,
                 'attr' => ['class' => 'hidden-field', 'value' => '0', 'id' => 'pictureEdit']
-            ])
-        ;
+            ]);
+        $options = [];
     }
 
     public function configureOptions(OptionsResolver $resolver): void

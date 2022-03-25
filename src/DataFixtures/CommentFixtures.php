@@ -24,8 +24,8 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         $users = $users->findAll();
 
 
-        foreach ($trick as $key => $value) {
-            foreach ($users as $key => $user) {
+        foreach ($trick as $value) {
+            foreach ($users as $user) {
                 for ($i = 0; $i < rand(0, 2); $i++) {
                     $comment = new Comment();
                     $comment->setContent($faker->paragraphs(2, true))

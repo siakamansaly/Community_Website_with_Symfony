@@ -1,12 +1,14 @@
 <div id="top"></div>
 <div align="right">
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/84e30cbee58949cbad70ebaef13a299c)](https://www.codacy.com/gh/siakamansaly/Community_Website_with_Symfony/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=siakamansaly/Community_Website_with_Symfony&amp;utm_campaign=Badge_Grade)
+
 </div>
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/siakamansaly/Blog_PHP_MVC">
-    <img src="public/img/favicon/favicon.ico" alt="Logo">
+    <img src="public/logo.png" alt="Logo">
   </a>
   <h1 align="center">Community Website with Symfony</h1>
   <p align="center">
@@ -18,7 +20,7 @@
 ## About The Project
 
 <div align="center">
-    <img src="public/img/Screenshot.png" alt="Screenshot" width="700px">
+    <img src="public/Screenshot.png" alt="Screenshot" width="700px">
 </div>
 <p>Creation of a collaborative site to promote snowboarding and help learning tricks. Project developed with Symfony</p>
 <p>The project contains:</p>
@@ -36,13 +38,12 @@
 
 This section list the main frameworks/libraries used to start your project.
 <ul>
-  <li><a href="https://symfony.com/doc/5.4/index.html" target="_blank">Symfony</a></li>
-  <li><a href="https://startbootstrap.com/theme/freelancer" target="_blank">Freelancer theme by StartBootstrap</a></li>
+  <li><a href="https://symfony.com/doc/5.4/index.html" target="_blank">Symfony 5.4.6</a></li>
+  <li><a href="https://startbootstrap.com/theme/creative" target="_blank">Creative theme by StartBootstrap</a></li>
   <li><a href="https://getbootstrap.com/" target="_blank">Bootstrap</a></li>
   <li><a href="https://jquery.com" target="_blank">JQuery</a></li>
   <li><a href="https://www.php.net/" target="_blank">PHP</a></li>
   <li><a href="https://www.mysql.com/fr/">MySQL</a></li>
-  <li><a href="https://www.w3schools.com/php/php_ajax_php.asp">Ajax</a></li>
   <li><a href="https://twig.symfony.com/" target="_blank">Twig</a></li>
   <li><a href="https://getcomposer.org/" target="_blank">Composer</a></li>
 </ul>
@@ -54,7 +55,7 @@ This section list the main frameworks/libraries used to start your project.
 
 This is the list of things you need to use the software.
    ```sh
-      - PHP: >=7
+      - PHP: >=7.2.5
       - MySQL
       - Apache
       - Composer
@@ -69,30 +70,39 @@ To get a local copy up and running follow these simple example steps :
    git clone https://github.com/siakamansaly/Community_Website_with_Symfony.git
    ```
 
-2.&nbsp;Import the **BlogPerso.sql** file from the **database** folder into your SQL database (You can delete the **database** folder after installing the database).
-
-3.&nbsp;Install composer packages
+2.&nbsp;Install composer packages
    ```sh
    cd Community_Website_with_Symfony
    composer install
    ```
-4.&nbsp;Youu customize variables of file **.env** as needed to run the environment.
+3.&nbsp;You customize variables of file **.env** as needed to run the environment.
    ```sh
    DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7&charset=utf8mb4"
+   ADMIN_EMAIL=admin@example.fr
+   MAILER_DSN=smtp://localhost
    ```
-
-5.&nbsp;Run project (Change **3000** by your local port)
+4.&nbsp;Create database
    ```sh
-   php -S localhost:3000 -t public/
+   php bin/console doctrine:database:create
    ```
-
-6.&nbsp;Log in with the following administrator account :
+   ```sh
+   php bin/console doctrine:migrations:migrate
+   ```
+5.&nbsp;Load fixtures (optional)
+   ```sh
+   php bin/console doctrine:fixtures:load
+   ```
+6.&nbsp;Run project
+   ```sh
+   php -S localhost:8000 -t public/
+   ```  
+7.&nbsp;Log in with the following administrator account :
    ```sh
    -Username : admin@example.fr
    -Password : password
    ```
 
-7.&nbsp;Finally, change the **email** and **password** of administrator account ("My Account" section)
+8.&nbsp;Finally, change the **email** and use the "Forgot password" section to change **password** of administrator account
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -132,7 +142,7 @@ Project Link: [https://github.com/siakamansaly/Community_Website_with_Symfony](h
 Thanks to my mentor [Hamza](https://github.com/Hamzasakrani) for his guidance and support!
 
 <ul>
-  <li><a href="https://symfony.com/doc/current/components/http_foundation.html" target="_blank">faker</a></li>
+  <li><a href="https://github.com/FakerPHP/Faker" target="_blank">Faker</a></li>
 </ul>
 
 <p align="right">(<a href="#top">back to top</a>)</p>

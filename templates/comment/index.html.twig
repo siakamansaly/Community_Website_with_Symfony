@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% set limit = 16 %}
 {% block title %}Comments{% endblock %}
 
 {% block body %}
@@ -13,7 +13,7 @@
                 </div>
                 {% include "core/flashbag.html.twig" %}
 
-                <table class="table text-primary">
+                <table id="element" data-id="{{ limit }}" class="table text-primary">
                     <thead>
                         <th>ID</th>
                         <th>Content</th>
@@ -23,8 +23,8 @@
                         <th>Actions</th>
                     </thead>
                     <tbody>
-                        {% for comment in comments %}
-                        <tr>
+                        {% for key, comment in comments %}
+                        <tr id="{{'trick-' ~ key}}" class="d-none">
                             <td class="align-middle">{{ comment.id }}</td>
                             <td class="align-middle text-justify">{{ comment.content|raw }}</td>
                             <td class="align-middle">{{ comment.trick.title }}</td>
@@ -44,6 +44,13 @@
                         {% endfor %}
                     </tbody>
                 </table>
+
+                <div class="text-center">
+                    <a href="#" class="btn btn-primary" id="loadMore">
+                        Load More
+                    </a>
+                    <div id="loadMoreEnd" class="trickload">No more comments</div>
+                </div>
 
 
             </div>

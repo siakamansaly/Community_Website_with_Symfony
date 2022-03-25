@@ -11477,3 +11477,6 @@ header.masthead h1, header.masthead .h1, section.masthead h1, section.slavehead 
 .text-justify{
   text-align: justify;
 }
+.error{
+  font-size: 6rem;
+}
