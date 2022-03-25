@@ -77,7 +77,7 @@ To get a local copy up and running follow these simple example steps :
    ```
 3.&nbsp;You customize variables of file **.env** as needed to run the environment.
    ```sh
-   APP_ENV=prod
+   APP_ENV=dev
    APP_SECRET=
    APP_TIMEZONE=Europe/Paris
    MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0
@@ -90,7 +90,7 @@ To get a local copy up and running follow these simple example steps :
    php bin/console doctrine:database:create
    ```
    ```sh
-   php bin/console make:migration
+   php bin/console doctrine:migrations:migrate
    ```
 5.&nbsp;Load fixtures (optional)
    ```sh
