@@ -7,8 +7,13 @@
 {% extends 'base.html.twig' %}
 {% if page == "false" %}
 {% set titlePage = 'My Profile' %}
+{% set titleTrick = 'My Tricks' %}
+{% set titleComment = 'My Comments' %}
+
 {% else %}
 {% set titlePage = 'User Edit' %}
+{% set titleTrick = 'Tricks' %}
+{% set titleComment = 'Comments' %}
 {% endif %}
 {% set limit = 10 %}
 {% block title %}{{ titlePage }}{% endblock %}
@@ -60,10 +65,12 @@
         {% endif %}
         </div>
         
-        <h2 class="text-center mt-5">My Tricks</h2>
+        <h2 class="text-center mt-5">{{ titleTrick }}</h2>
+        {% if page == "false" %}
         <div class="row mt-2 px-4">
             <div class="col"><a href="{{ path('app_add_trick') }}" class="btn btn-primary my-1">Add Trick</a></div>
         </div>
+        {% endif %}
         <div class="row container mt-2">
             <div class="col table-responsive">
                 <table id="element" data-id="{{ limit }}" class="table text-primary ">
@@ -112,7 +119,7 @@
             </div>
         </div>
 
-        <h2 class="text-center mt-5">My Comments</h2>
+        <h2 class="text-center mt-5">{{ titleComment }}</h2>
         
         <div class="row container mt-2">
             <div class="col table-responsive">
