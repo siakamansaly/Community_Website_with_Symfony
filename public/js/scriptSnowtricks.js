@@ -46,6 +46,20 @@ $(function () {
     });
 });
 
+// Load more Comment
+$(function () {
+    var id = $("#element").data("id");
+    $("[id^=\"comment\"]").slice(0, id).show().removeClass("d-none");
+    $("#loadMoreComment").on("click", function (e) {
+        e.preventDefault();
+        $("[id^=\"comment\"]:hidden").slice(0, id).fadeIn("slow").removeClass("d-none").slideDown();
+        if ($("[id^=\"comment\"]:hidden").length === 0) {
+            $("#loadMoreComment").fadeOut("slow");
+            $("#loadMoreEndComment").fadeIn("slow");
+        }
+    });
+});
+
 // See or Hide Medias
 $(function () {
     $("#seeMedias").on("click", function (e) {

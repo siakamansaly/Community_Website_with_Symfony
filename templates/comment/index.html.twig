@@ -1,10 +1,14 @@
+{% import '/macro/button.html.twig' as button %}
+{% set previousLink = path('app_user_edit',{id:app.user.id}) %}
 {% extends 'base.html.twig' %}
 {% set limit = 16 %}
 {% block title %}Comments{% endblock %}
 
 {% block body %}
 <section id="admin" class="masthead bg-primary">
-    <div class="container bg-white py-5 rounded">
+    <div class="container bg-white p-5 rounded">
+        {{button.previous(previousLink)}}
+
         <div class="row d-flex justify-content-center">
             <div class="col-12 col-lg-9">
                 <div class="row mb-2">

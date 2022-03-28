@@ -81,7 +81,7 @@ class TricksController  extends AbstractController
 
     public function updateTrickContent($form, Trick $trick)
     {
-        $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
+        $this->denyAccessUnlessGranted('TRICK_EDIT', $trick);
         $trick->setUpdatedTo(new \DateTime('now'))
             ->setSlug($trick->getId() . '-' . $this->slugger->slug($form->get('title')->getData()))
             ->setTitle($form->get('title')->getData())
@@ -93,7 +93,7 @@ class TricksController  extends AbstractController
 
     public function updateTrickFeatured($formFeatured, Trick $trick, $removePicture)
     {
-        $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
+        $this->denyAccessUnlessGranted('TRICK_EDIT', $trick);
         $featuredPicture = $formFeatured->get('featuredPicture')->getData();
         if ($featuredPicture) {
             $ImageFileName = $this->fileUploader->upload($featuredPicture, 'tricks');
@@ -109,7 +109,7 @@ class TricksController  extends AbstractController
 
     public function updateTrickPicture($formPictures, Trick $trick, $removeOtherPictures)
     {
-        $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
+        $this->denyAccessUnlessGranted('TRICK_EDIT', $trick);
         $otherPicture = $formPictures->get('name')->getData();
         $otherPictureFileName = $this->fileUploader->upload($otherPicture, 'tricks');
         switch ($formPictures->get('pictureEdit')->getData()) {
@@ -133,7 +133,7 @@ class TricksController  extends AbstractController
 
     public function updateTrickVideo($formVideos, Trick $trick)
     {
-        $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
+        $this->denyAccessUnlessGranted('TRICK_EDIT', $trick);
         $videoLink = $this->urlComposer->urlEmbed($formVideos->get('name')->getData());
         switch ($formVideos->get('videoEdit')->getData()) {
             case -1:
@@ -157,6 +157,10 @@ class TricksController  extends AbstractController
         switch ($action) {
             case 'featured':
                 $trick = $this->trickRepository->find($idTrick);
+                if ($trick->getFeaturedPicture()) {
+                    $filesystemEdit = new Filesystem();
+                    $filesystemEdit->remove($this->getParameter('tricks_directory') . '/' . $trick->getFeaturedPicture());
+                }
                 $id_redirect = $trick->getId();
                 $trick->setFeaturedPicture(NULL);
                 $this->trickRepository->add($trick);
@@ -165,6 +169,10 @@ class TricksController  extends AbstractController
                 break;
             case 'picture':
                 $mediaPicture = $this->mediaPictureRepo->find($idTrick);
+                if ($mediaPicture->getName()) {
+                    $filesystemEdit = new Filesystem();
+                    $filesystemEdit->remove($this->getParameter('tricks_directory') . '/' . $mediaPicture->getName());
+                }
                 $id_redirect = $mediaPicture->getTrick()->getId();
                 $this->mediaPictureRepo->remove($mediaPicture);
                 $this->addFlash('success', 'Picture successfully deleted !!');
@@ -179,6 +187,15 @@ class TricksController  extends AbstractController
                 break;
             case 'trick':
                 $trick = $this->trickRepository->find($idTrick);
+                if ($trick->getFeaturedPicture()) {
+                    $filesystemEdit = new Filesystem();
+                    $filesystemEdit->remove($this->getParameter('tricks_directory') . '/' . $trick->getFeaturedPicture());
+                }
+                $medias = $this->mediaPictureRepo->findBy(['trick' => $trick]);
+                foreach ($medias as $media) {
+                    $filesystemEdit = new Filesystem();
+                    $filesystemEdit->remove($this->getParameter('tricks_directory') . '/' . $media->getName());
+                }
                 $this->trickRepository->remove($trick);
                 $this->addFlash('success', "The trick has deleted successfully !!");
                 return $this->redirectToRoute('index');

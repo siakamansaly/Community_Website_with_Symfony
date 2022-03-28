@@ -24,6 +24,8 @@ class TrickEditFormType extends AbstractType
 
             ->add('type', EntityType::class, [
                 'class' => TypeTrick::class,
+                'required' => false,
+                'placeholder' => 'Uncategorized',
                 'query_builder' => function (TypeTrickRepository $er) {
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.name', 'ASC');
