@@ -19,6 +19,7 @@ class UserProfileFormType extends AbstractType
             ->add('picture', FileType::class, [
                 'data_class' => null,
                 'required' => false,
+                'empty_data' => '',
             ]);
         $options = [];
     }

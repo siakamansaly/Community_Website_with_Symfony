@@ -87,13 +87,14 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $picture = $form->get('picture')->getData();
+            $user->setPicture($oldPicture);
             if ($picture) {
                 $pictureFileName = $fileUploader->upload($picture,'profile');
                 $user->setPicture($pictureFileName);
-            }
-            if ($oldPicture) {
-                $filesystem = new Filesystem();
-                $filesystem->remove($this->getParameter('profiles_directory') . '/' . $oldPicture);
+                if ($oldPicture) {
+                    $filesystem = new Filesystem();
+                    $filesystem->remove($this->getParameter('profiles_directory') . '/' . $oldPicture);
+                }
             }
             $userRepository->add($user);
             $this->addFlash('success', "Update done !");
