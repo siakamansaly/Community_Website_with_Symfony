@@ -26,7 +26,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
 
         foreach ($trick as $value) {
             foreach ($users as $user) {
-                for ($i = 0; $i < rand(0, 2); $i++) {
+                for ($i = 0; $i < rand(0, 7); $i++) {
                     $comment = new Comment();
                     $comment->setContent($faker->paragraphs(2, true))
                         ->setCreatedAt($faker->dateTimeBetween($value->getCreatedAt(),'now'))
