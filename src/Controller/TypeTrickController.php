@@ -24,11 +24,13 @@ class TypeTrickController extends AbstractController
 
     /**
      * @Route("/admin/type/add", name="app_type_add")
+     * @Route("/admin/type/{id}/edit", name="app_type_edit")
      */
-    public function adminTypeAdd(Request $request, TypeTrickRepository $typeRepository): Response
+    public function adminTypeAdd(TypeTrick $type=null, Request $request, TypeTrickRepository $typeRepository): Response
     {
-
+        if (!$type) {
         $type= new TypeTrick();
+        }
         $form = $this->createForm(TypeTrickFormType::class, $type);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
@@ -38,7 +40,7 @@ class TypeTrickController extends AbstractController
             return $this->redirectToRoute('app_type');
         }
         
-        return $this->render('type/add.html.twig', ['typeTrickForm' => $form->createView()]);
+        return $this->render('type/add.html.twig', ['typeTrickForm' => $form->createView(), 'editMode'=>$type->getId()!== null]);
     }
 
     /**
@@ -50,6 +52,11 @@ class TypeTrickController extends AbstractController
         $form->handleRequest($request);
         // When delete Trick Form is submitted
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            foreach ($type->getTricks() as $trickRemove) {
+                $type->removeTrick($trickRemove);
+            }
+           
             $typeRepository->remove($type);
             $message = " The type of ".$type->getName()." has deleted successfully !!";
             $this->addFlash('success',$message);
@@ -59,13 +66,7 @@ class TypeTrickController extends AbstractController
         return $this->render('type/delete.html.twig', ['type' => $type, 'deleteForm' => $form->createView()]);
     }
 
-    /**
-     * @Route("/admin/type/{id}/edit", name="app_type_edit")
-     */
-    public function adminTypeEdit(TypeTrick $type, Request $request, TypeTrickRepository $typeRepository)
-    {
 
-    }
 
 
     

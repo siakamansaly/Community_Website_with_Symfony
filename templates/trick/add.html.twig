@@ -1,3 +1,5 @@
+{% import '/macro/button.html.twig' as button %}
+{% set previousLink = path('app_user_edit',{id:app.user.id}) %}
 {% extends 'base.html.twig' %}
 
 {% block title %}Add Trick{% endblock %}
@@ -5,6 +7,7 @@
 {% block body %}
 <section id="addTrick" class="masthead bg-primary">
     <div class="container bg-white p-5 rounded">
+        {{button.previous(previousLink)}}
         <div class="row d-flex justify-content-center">
             <div class="col-12">
                 <div class="row mb-2">
@@ -15,7 +18,7 @@
                 {{ form_start(trickForm) }}
                 <div class="row p-3">
                     <div class="col-12 col-lg-6">
-                        <div class="h4 mb-3 border border-primary text-center">Title - Content - Category</div>
+                        <div class="h4 mb-3 text-light bg-primary text-center p-2">Title* - Content* - Category</div>
 
                         {{ form_widget(trickForm.title, {'attr':{'placeholder':'Enter title'}}) }}
                         <br />
@@ -26,11 +29,11 @@
 
                     </div>
                     <div class="col-12 col-lg-6">
-                        <div class="h4 mb-3 border border-primary text-center">Featured picture</div>
+                        <div class="h4 mb-3 border border-primary text-center p-2">Featured picture</div>
                         {{ form_widget(trickForm.featuredPicture,{'attr':{'class':'form-control'}}) }}
                         <br />
                         <!--Add pictures-->
-                        <div class="h4 mb-3 border border-primary text-center">Other pictures</div>
+                        <div class="h4 mb-3 border border-primary text-center p-2">Other pictures</div>
                         <div class="mb-3"><button type="button"
                                 class="btn btn-outline-primary add-another-collection-widget"
                                 data-list-selector="#picture-fields-list">Add picture</button></div>
@@ -52,7 +55,7 @@
                         </ul>
 
                         <!--Add video-->
-                        <div class="h4 mb-3 border border-primary text-center">Videos</div>
+                        <div class="h4 mb-3 border border-primary text-center p-2">Videos</div>
                         <div class="mb-3"><button type="button"
                                 class="btn btn-outline-primary  add-another-collection-widget text-center"
                                 data-list-selector="#video-fields-list">Add video</button></div>

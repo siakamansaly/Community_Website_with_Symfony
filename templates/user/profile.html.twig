@@ -1,3 +1,6 @@
+{% import '/macro/button.html.twig' as button %}
+{% set previousLink = path('app_users') %}
+
 {% extends 'base.html.twig' %}
 {% if page == "false" %}
 {% set titlePage = 'My Profile' %}
@@ -9,14 +12,9 @@
 
 {% block body %}
 <section id="profile" class="masthead bg-primary">
-    <div class="container bg-white py-5 rounded">
+    <div class="container bg-white p-5 rounded">
         {% if page == "true" %}
-        <div class="row col-10">
-            <div class="">
-                <a href="{{ path('app_users') }}" class="btn btn-primary">
-                    < Previous page</a>
-            </div>
-        </div>
+        {{button.previous(previousLink)}}
         {% endif %}
         <div class="row d-flex justify-content-center">
             <div class="col-12 col-lg-6">
@@ -45,8 +43,8 @@
 
             </div>
             {% if is_granted('ROLE_ADMIN') and page == "false" %}
-        <div class="row container border border-info rounded mt-5 p-2 text-center">
-            <div class="col">
+        <div class="row container mt-5 px-4 text-center">
+            <div class="col py-4 border border-info rounded">
                 <a href="{{ path('app_users') }}" class="btn btn-info my-1">Users
                     Administration</a>
                 &nbsp;&nbsp;
@@ -77,14 +75,14 @@
                         <tr id="{{'trick-' ~ key}}" class="d-none">
                             <td class="align-middle">{{ trick.id }}</td>
                             <td class="align-middle"><span class="fw-bold">{{ trick.title|upper }}</span><small
-                                    class="d-block">{{ trick.type.name }}</small></td>
+                                    class="d-block">{{ trick.type.name|default('uncategorized') }}</small></td>
                             <td class="align-middle"><span class="fw-bold">{{ trick.createdAt|date("m/d/Y") }}</span>{%
                                 if trick.updatedTo %}<small class="d-block">(updated to {{ trick.updatedTo|date("m/d/Y")
                                     }})</small>{% endif %}</td>
                             <td class="align-middle">
-                                <a href="{{ path('app_show_trick',{slug:trick.slug }) }}"
+                                <a href="{{ path('app_show_trick',{slug:trick.slug, d:1}) }}"
                                     class="btn btn-info my-1">Show</a>
-                                <a href="{{ path('app_edit_trick',{id:trick.id }) }}"
+                                <a href="{{ path('app_edit_trick',{id:trick.id, d:1}) }}"
                                     class="btn btn-warning my-1">Edit</a>
                                 <a href="#" class="btn btn-danger my-1 deleteTrick" title="Delete Trick" href="#"
                                     data-id="{{trick.id}}" data-title="{{trick.title}}" data-bs-toggle="modal"
@@ -105,6 +103,46 @@
                         Load More
                     </a>
                     <div id="loadMoreEnd" class="trickload">No more tricks</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-center mt-5">My Comments</h2>
+        
+        <div class="row container mt-2">
+            <div class="col table-responsive">
+                <table id="element" data-id="{{ limit }}" class="table text-primary ">
+                    <thead>
+                        <th>ID</th>
+                        <th>Content</th>
+                        <th>Created At</th>
+                        {% if is_granted('ROLE_ADMIN') %}<th>Actions</th>{% endif %}
+                    </thead>
+                    <tbody>
+                        {% for key, comment in user.comments %}
+                        <tr id="{{'comment-' ~ key}}" class="d-none">
+                            <td class="align-middle">{{ comment.id }}</td>
+                            <td class="align-middle">{{ comment.content }}</td>
+                            <td class="align-middle"><span class="fw-bold">{{ comment.createdAt|date("m/d/Y") }}</span></td>
+                            {% if is_granted('ROLE_ADMIN') %}<td class="align-middle">
+                                <a href="{{ path('app_comment_delete',{id:comment.id }) }}"
+                                    class="btn btn-danger my-1"  title="Delete Trick">Delete</a>
+                            </td>{% endif %}
+                        </tr>
+
+                        {% else %}
+                        <tr>
+                            <td class="text-center" colspan="4">No comments</td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <a href="#" class="btn btn-primary" id="loadMoreComment">
+                        Load More
+                    </a>
+                    <div id="loadMoreEndComment" class="trickload">No more comments</div>
                 </div>
             </div>
         </div>

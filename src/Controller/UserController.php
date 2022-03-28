@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\DeleteTrickFormType;
+use App\Form\DeleteUserFormType;
 use App\Form\UserProfileFormType;
 use App\Form\UserRoleFormType;
 use App\Repository\TrickRepository;
@@ -52,17 +53,22 @@ class UserController extends AbstractController
     public function adminUserDelete(User $user, Request $request, UserRepository $userRepository): Response
     {
         $this->denyAccessUnlessGranted('USER_DELETE',$this->getUser());
-        $user = $userRepository->find($user);
+        $form = $this->createForm(DeleteUserFormType::class, $user);
+        $form->handleRequest($request);
+        // When delete User Form is submitted
+        if ($form->isSubmitted() && $form->isValid()) {
 
-        if($request->request->count()>0) {
-
+            if ($user->getPicture()) {
+                $filesystemEdit = new Filesystem();
+                $filesystemEdit->remove($this->getParameter('profiles_directory') . '/' . $user->getPicture());
+            }
             $userRepository->remove($user);
             $message = " The account of ".$user->getFirstname()." ".$user->getLastname()." has deleted successfully !!";
             $this->addFlash('success',$message);
             return $this->redirectToRoute('app_users');
         }
         
-        return $this->render('user/delete.html.twig', ['user' => $user]);
+        return $this->render('user/delete.html.twig', ['user' => $user, 'deleteForm' => $form->createView()]);
     }
 
     /**

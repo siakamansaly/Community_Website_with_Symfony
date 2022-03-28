@@ -70,7 +70,12 @@ class DefaultController  extends AbstractController
         $pictures = [];
         $pictures = $this->urlComposer->urlArray('tricks', $trick->getMediasPicture());
 
-        return $this->render('single/index.html.twig', ['trick' => $trick, 'commentForm' => $form->createView(), 'FeaturedPicture' => $FeaturedPicture, 'pictures' => $pictures]);
+        $page = "false";
+        if($request->get('d')){
+            $page = "true";
+        }
+
+        return $this->render('single/index.html.twig', ['trick' => $trick, 'commentForm' => $form->createView(), 'FeaturedPicture' => $FeaturedPicture, 'pictures' => $pictures, 'page' => $page]);
     }
 
     /**
@@ -174,8 +179,12 @@ class DefaultController  extends AbstractController
         // Generate URL other pictures 
         $pictures = [];
         $pictures = $this->urlComposer->urlArray('tricks', $trick->getMediasPicture());
+        $page = "false";
+        if($request->get('d')){
+            $page = "true";
+        }
 
-        return $this->render('trick/edit.html.twig', ['trick' => $trick, 'trickForm' => $form->createView(), 'FeaturedPicture' => $FeaturedPicture, 'pictures' => $pictures, 'featuredForm' => $formFeatured->createView(), 'picturesForm' => $formPictures->createView(), 'videosForm' => $formVideos->createView(), 'deleteForm' => $formDeleteTrick->createView()]);
+        return $this->render('trick/edit.html.twig', ['trick' => $trick, 'trickForm' => $form->createView(), 'FeaturedPicture' => $FeaturedPicture, 'pictures' => $pictures, 'featuredForm' => $formFeatured->createView(), 'picturesForm' => $formPictures->createView(), 'videosForm' => $formVideos->createView(), 'deleteForm' => $formDeleteTrick->createView(), 'page' => $page]);
     }
 
 
