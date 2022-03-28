@@ -97,7 +97,12 @@ class UserController extends AbstractController
             }
             $userRepository->add($user);
             $this->addFlash('success', "Update done !");
-            return $this->redirectToRoute('app_user_edit', ['id' => $user->getId()]);
+            $parameters='';
+            if($request->get('d'))
+            {
+                $parameters = $request->get('d');
+            }
+            return $this->redirectToRoute('app_user_edit', ['id' => $user->getId(), 'd'=>$parameters]);
         }
 
         // Delete Trick Form
