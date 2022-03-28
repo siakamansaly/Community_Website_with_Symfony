@@ -1,5 +1,8 @@
 {% import '/macro/button.html.twig' as button %}
+
+{% if app.user %}
 {% set previousLink = path('app_users') %}
+{% endif %}
 
 {% extends 'base.html.twig' %}
 {% if page == "false" %}
@@ -13,7 +16,7 @@
 {% block body %}
 <section id="profile" class="masthead bg-primary">
     <div class="container bg-white p-5 rounded">
-        {% if page == "true" %}
+        {% if page == "true" and app.user %}
         {{button.previous(previousLink)}}
         {% endif %}
         <div class="row d-flex justify-content-center">
@@ -43,7 +46,7 @@
 
             </div>
             {% if is_granted('ROLE_ADMIN') and page == "false" %}
-        <div class="row container mt-5 px-4 text-center">
+        <div id="menu_admin" class="row container mt-5 px-4 text-center">
             <div class="col py-4 border border-info rounded">
                 <a href="{{ path('app_users') }}" class="btn btn-info my-1">Users
                     Administration</a>
@@ -98,12 +101,14 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% if user.tricks|length > limit %}
                 <div class="text-center">
                     <a href="#" class="btn btn-primary" id="loadMore">
                         Load More
                     </a>
                     <div id="loadMoreEnd" class="trickload">No more tricks</div>
                 </div>
+                {% endif %}
             </div>
         </div>
 
@@ -116,7 +121,6 @@
                         <th>ID</th>
                         <th>Content</th>
                         <th>Created At</th>
-                        {% if is_granted('ROLE_ADMIN') %}<th>Actions</th>{% endif %}
                     </thead>
                     <tbody>
                         {% for key, comment in user.comments %}
@@ -124,10 +128,6 @@
                             <td class="align-middle">{{ comment.id }}</td>
                             <td class="align-middle">{{ comment.content }}</td>
                             <td class="align-middle"><span class="fw-bold">{{ comment.createdAt|date("m/d/Y") }}</span></td>
-                            {% if is_granted('ROLE_ADMIN') %}<td class="align-middle">
-                                <a href="{{ path('app_comment_delete',{id:comment.id }) }}"
-                                    class="btn btn-danger my-1"  title="Delete Trick">Delete</a>
-                            </td>{% endif %}
                         </tr>
 
                         {% else %}
@@ -138,12 +138,14 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% if user.comments|length > limit %}
                 <div class="text-center">
                     <a href="#" class="btn btn-primary" id="loadMoreComment">
                         Load More
                     </a>
                     <div id="loadMoreEndComment" class="trickload">No more comments</div>
                 </div>
+                {% endif %}
             </div>
         </div>
 

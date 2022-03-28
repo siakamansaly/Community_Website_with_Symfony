@@ -1,5 +1,8 @@
 {% import '/macro/button.html.twig' as button %}
-{% set previousLink = path('app_user_edit',{id:app.user.id}) %}
+
+{% if app.user %}
+{% set previousLink = path('app_user_edit',{id:app.user.id,_fragment:'menu_admin'}) %}
+{% endif %}
 {% extends 'base.html.twig' %}
 
 {% block title %}Type Trick{% endblock %}
@@ -7,9 +10,12 @@
 {% block body %}
 <section id="type" class="masthead bg-primary">
     <div class="container bg-white p-5 rounded">
+        {% if app.user %}
         {{button.previous(previousLink)}}
+        {% endif %}
+
         <div class="row d-flex justify-content-center">
-            <div class="col-12 col-lg-9">
+            <div class="col-12">
                 <div class="row mb-2">
                     <h1 class="text-center">Type Trick</h1>
                     <hr class="divider" />

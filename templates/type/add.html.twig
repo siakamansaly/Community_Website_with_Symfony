@@ -1,5 +1,8 @@
 {% import '/macro/button.html.twig' as button %}
+{% if app.user %}
 {% set previousLink = path('app_type') %}
+{% endif %}
+
 {% if editMode %}
 {% set titleTrick = "Edit Type Trick" %}
 {% set buttonTrick = "Update" %}
@@ -14,7 +17,10 @@
 {% block body %}
 <section id="add_typeTrick" class="masthead bg-primary">
     <div class="container bg-white p-5 rounded">
+        {% if app.user %}
         {{button.previous(previousLink)}}
+        {% endif %}
+
         <div class="row d-flex justify-content-center">
             <div class="col-12 col-lg-6">
                 <div class="col">

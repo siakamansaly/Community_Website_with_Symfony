@@ -1,5 +1,8 @@
 {% import '/macro/button.html.twig' as button %}
-{% set previousLink = path('app_user_edit',{id:app.user.id}) %}
+{% if app.user %}
+{% set previousLink = path('app_user_edit',{id:app.user.id,_fragment:'menu_admin' }) %}
+{% endif %}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Users{% endblock %}
@@ -7,9 +10,12 @@
 {% block body %}
 <section id="admin" class="masthead bg-primary">
     <div class="container bg-white p-5 rounded">
+
+        {% if app.user %}
         {{button.previous(previousLink)}}
+        {% endif %}
         <div class="row d-flex justify-content-center">
-            <div class="col-12 col-lg-9">
+            <div class="col-12">
                 <div class="row mb-2">
                     <h1 class="text-center">Users</h1>
                     <hr class="divider" />
@@ -23,6 +29,7 @@
                         <th>Email</th>
                         <th>Roles</th>
                         <th>Tricks</th>
+                        <th>Comments</th>
                         <th>Actions</th>
                     </thead>
                     <tbody>
@@ -37,10 +44,14 @@
                                 {% endfor %}
                             </td>
                             <td class="align-middle">{{ user.tricks|length }}</td>
+                            <td class="align-middle">{{ user.comments|length }}</td>
                             <td class="align-middle">
-                                <a href="{{ path('app_user_edit',{id:user.id, d:1 }) }}" class="btn btn-primary my-1">Edit Profile</a>
-                                <a href="{{ path('app_user_role',{id:user.id, d:1 }) }}" class="btn btn-warning my-1">Edit Role</a>
-                                <a href="{{ path('app_user_delete',{id:user.id }) }}" class="btn btn-danger my-1">Delete</a>
+                                <a href="{{ path('app_user_edit',{id:user.id, d:1 }) }}"
+                                    class="btn btn-primary my-1">Edit Profile</a>
+                                <a href="{{ path('app_user_role',{id:user.id, d:1 }) }}"
+                                    class="btn btn-warning my-1">Edit Role</a>
+                                <a href="{{ path('app_user_delete',{id:user.id }) }}"
+                                    class="btn btn-danger my-1">Delete</a>
                             </td>
                         </tr>
 

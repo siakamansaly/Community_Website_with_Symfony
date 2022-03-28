@@ -1,4 +1,8 @@
 {% import '/macro/button.html.twig' as button %}
+{% if app.user %}
+{% set previousLink = path('app_user_edit',{id:app.user.id}) %}
+{% endif %}
+
 {% set previousLink = path('app_user_edit',{id:app.user.id}) %}
 {% extends "base.html.twig" %}
 {% block title %}Edit Trick | {{trick.title|upper}}{% endblock %}
@@ -9,7 +13,7 @@
     <div id="portfolio" class="card bg-white d-flex align-items-center py-3">
       
       {% include "core/flashbag.html.twig" %}
-      {% if page == "true" %}
+      {% if page == "true" and app.user %}
       {{button.previous(previousLink)}}
       {% endif %}
       <div class="jumbotron jumbotron-fluid">

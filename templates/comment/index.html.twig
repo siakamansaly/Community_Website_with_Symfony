@@ -1,7 +1,7 @@
 {% import '/macro/button.html.twig' as button %}
-{% set previousLink = path('app_user_edit',{id:app.user.id}) %}
+{% set previousLink = path('app_user_edit',{id:app.user.id,_fragment:'menu_admin'}) %}
 {% extends 'base.html.twig' %}
-{% set limit = 16 %}
+{% set limit = 10 %}
 {% block title %}Comments{% endblock %}
 
 {% block body %}
@@ -10,7 +10,7 @@
         {{button.previous(previousLink)}}
 
         <div class="row d-flex justify-content-center">
-            <div class="col-12 col-lg-9">
+            <div class="col-12">
                 <div class="row mb-2">
                     <h1 class="text-center">Comments</h1>
                     <hr class="divider" />
