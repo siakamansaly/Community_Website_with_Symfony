@@ -13,8 +13,8 @@ class TypeTrickFormType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
-        ;
+            ->add('description');
+        $options = [];
     }
 
     public function configureOptions(OptionsResolver $resolver): void

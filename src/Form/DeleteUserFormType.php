@@ -21,7 +21,7 @@ class DeleteUserFormType extends AbstractType
                 'class' => 'btn btn-danger w-100'
             ]
         ]);
-        ;
+        $options = [];
     }
 
     public function configureOptions(OptionsResolver $resolver): void
