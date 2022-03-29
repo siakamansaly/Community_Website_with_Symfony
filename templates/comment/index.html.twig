@@ -8,7 +8,6 @@
 <section id="admin" class="masthead bg-primary">
     <div class="container bg-white p-5 rounded">
         {{button.previous(previousLink)}}
-
         <div class="row d-flex justify-content-center">
             <div class="col-12">
                 <div class="row mb-2">
@@ -32,31 +31,28 @@
                             <td class="align-middle">{{ comment.id }}</td>
                             <td class="align-middle text-justify">{{ comment.content|raw }}</td>
                             <td class="align-middle">{{ comment.trick.title }}</td>
-                            <td class="align-middle">{{ comment.user.firstname|capitalize ~ " " ~ comment.user.lastname|upper }}
+                            <td class="align-middle">{{ comment.user.firstname|capitalize ~ " " ~
+                                comment.user.lastname|upper }}
                             </td>
                             <td class="align-middle">{{ comment.createdAt|date("m/d/Y") }}</td>
                             <td class="align-middle">
-                                <a href="{{ path('app_comment_delete',{id:comment.id }) }}" class="btn btn-danger my-1">Delete</a>
+                                <a href="{{ path('app_comment_delete',{id:comment.id }) }}"
+                                    class="btn btn-danger my-1">Delete</a>
                             </td>
                         </tr>
-
                         {% else %}
                         <tr>
                             <td colspan="5">No comments</td>
                         </tr>
-
                         {% endfor %}
                     </tbody>
                 </table>
-
                 <div class="text-center">
                     <a href="#" class="btn btn-primary" id="loadMore">
                         Load More
                     </a>
                     <div id="loadMoreEnd" class="trickload">No more comments</div>
                 </div>
-
-
             </div>
         </div>
     </div>

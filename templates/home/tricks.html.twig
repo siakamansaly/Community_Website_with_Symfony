@@ -27,7 +27,8 @@
                     </a>
                     <span class="col-auto text-white">
                         {% if is_granted("TRICK_EDIT", trick) %}
-                        <a href="{{ path('app_edit_trick',{'id':trick.id}) }}" class="text-light mx-3" title="Edit Trick">
+                        <a href="{{ path('app_edit_trick',{'id':trick.id}) }}" class="text-light mx-3"
+                            title="Edit Trick">
                             <i class="fa fa-pen fa-1x" title="Edit Trick"></i></a>
                         {% endif %}
                         {% if is_granted("TRICK_DELETE", trick) %}
@@ -38,12 +39,9 @@
                         {% endif %}
                     </span>
                 </div>
-
             </div>
-{% endfor %}
-
+            {% endfor %}
         </div>
-        
     </div>
     <div class="text-center">
         <a href="#" class="btn btn-primary" id="loadMore">
@@ -51,8 +49,6 @@
         </a>
         <div id="loadMoreEnd" class="trickload">No more tricks</div>
     </div>
-
-
     <div class="container-fluid px-4 px-lg-5  mb-4">
         <div class="row">
             <div class="col-12 d-flex justify-content-end">

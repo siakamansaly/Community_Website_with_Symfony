@@ -11,23 +11,19 @@
                     <h1 class="text-center">Sign Up</h1>
                     <hr class="divider" />
                 </div>
-
                 {{ form_start(registrationForm) }}
-                    {{ form_row(registrationForm.firstname, {'attr':{'placeholder':'Enter your firtsname'}}) }}
-                    {{ form_row(registrationForm.lastname, {'attr':{'placeholder':'Enter your lastname'}}) }}
-                    <br/>
-                    {{ form_row(registrationForm.email, {'attr':{'placeholder':'Enter your email'}}) }}
-                    <br/>
-                    {{ form_row(registrationForm.password, {
-                        label: 'Password'
-                    }) }}
-                    {{ form_row(registrationForm.agreeTerms, {'label':'I agree privacy policy'}) }}
-            
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                {{ form_row(registrationForm.firstname, {'attr':{'placeholder':'Enter your firtsname'}}) }}
+                {{ form_row(registrationForm.lastname, {'attr':{'placeholder':'Enter your lastname'}}) }}
+                <br />
+                {{ form_row(registrationForm.email, {'attr':{'placeholder':'Enter your email'}}) }}
+                <br />
+                {{ form_row(registrationForm.password, {'label': 'Password'}) }}
+                {{ form_row(registrationForm.agreeTerms, {'label':'I agree privacy policy'}) }}
+                <button type="submit" class="btn btn-primary">Submit</button>
                 {{ form_end(registrationForm) }}
             </div>
         </div>
     </div>
 </section>
-    
+
 {% endblock %}

@@ -19,7 +19,8 @@
                         <div class="col-12 alert alert-primary text-center">
                             Confirm deletion of the following comment :
                             <br />
-                            {{ comment.user.firstname|capitalize ~ " " ~ comment.user.lastname|upper ~ " - " ~ comment.createdAt|date("m/d/Y") }}
+                            {{ comment.user.firstname|capitalize ~ " " ~ comment.user.lastname|upper ~ " - " ~
+                            comment.createdAt|date("m/d/Y") }}
                             <br>
                             <span>{{ comment.content }}</span>
                         </div>
@@ -28,8 +29,7 @@
                         <div class="col-12 text-center">
                             <form action="" method="post">
                                 <input type="hidden" name="delete" value="{{ comment.id }}" />
-
-                                        <button type="submit" class="btn btn-primary w-100">Confirm</button>
+                                <button type="submit" class="btn btn-primary w-100">Confirm</button>
                             </form>
                         </div>
                     </div>

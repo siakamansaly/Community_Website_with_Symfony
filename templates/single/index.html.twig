@@ -16,68 +16,62 @@
       <div class="jumbotron jumbotron-fluid">
         <h1 class="text-primary text-center my-4">{{trick.title|upper}}</h1>
 
-      <a class="portfolio-box" href="{{FeaturedPicture}}" title="{{trick.title}}">
-        <img src="{{FeaturedPicture}}" class="card-img w-100 px-5 pb-5" style="max-width: 1280px;"
-          alt="{{trick.title}}" />
-      </a>
-    </div>
+        <a class="portfolio-box" href="{{FeaturedPicture}}" title="{{trick.title}}">
+          <img src="{{FeaturedPicture}}" class="card-img w-100 px-5 pb-5" style="max-width: 1280px;"
+            alt="{{trick.title}}" />
+        </a>
+      </div>
 
-    <div class="text-center d-block d-md-none mb-3">
-      <a href="#" class="btn btn-primary" id="seeMedias">
-        See Medias
-      </a>
+      <div class="text-center d-block d-md-none mb-3">
+        <a href="#" class="btn btn-primary" id="seeMedias">
+          See Medias
+        </a>
+      </div>
+      <div id="medias" class="mb-2 d-none d-md-block">
+        <div class="container-fluid px-2">
+          <div class="row g-0 d-flex justify-content-center text-center">
 
-    </div>
-    <div id="medias" class="mb-2 d-none d-md-block">
-      <div class="container-fluid px-2">
-        <div class="row g-0 d-flex justify-content-center text-center">
-
-          {% for key, picture in pictures %}
-          <div class="col-auto p-2">
-            <a class="portfolio-box" href="{{picture}}" title="{{trick.title ~ " -" ~ key}}">
-              <img class="img-fluid image-snowtricks" src="{{picture}}" alt="{{trick.title ~ " -" ~ key}}" />
-            </a>
+            {% for key, picture in pictures %}
+            <div class="col-auto p-2">
+              <a class="portfolio-box" href="{{picture}}" title="{{trick.title ~ " -" ~ key}}">
+                <img class="img-fluid image-snowtricks" src="{{picture}}" alt="{{trick.title ~ " -" ~ key}}" />
+              </a>
+            </div>
+            {% endfor %}
+            {% for video in trick.mediasVideos %}
+            <div class="col-auto embed-responsive embed-responsive-16by9 ">
+              <iframe class="embed-responsive-item image-snowtricks p-2" src="{{video.name}}"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </div>
+            {% endfor %}
           </div>
-          {% endfor %}
-          {% for video in trick.mediasVideos %}
-          <div class="col-auto embed-responsive embed-responsive-16by9 ">
-            <iframe class="embed-responsive-item image-snowtricks p-2" src="{{video.name}}" title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen></iframe>
-          </div>
-          {% endfor %}
-
         </div>
       </div>
-    </div>
 
-    <p class="my-4 px-3 px-lg-5 text-justify">{{trick.content}}
-    </p>
-    <div class="row container justify-content-center">
-      <div
-        class="col-12 col-lg-auto p-3 fs-6 text-left text-lg-center fw-bold border border-primary d-flex flex-column flex-lg-row">
-        <span class="text-primary mb-2"><i class="fa fa-layer-group fa-1x"
-            title="Group"></i>&nbsp;{{trick.type.name|default('uncategorized')|upper}}</span>
-        <span class="d-none d-lg-block">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <span class="text-muted mb-2"><i class="fa fa-calendar fa-1x"
-            title="Date"></i>&nbsp;{{trick.createdAt|date("m/d/Y H:i")}} {% if trick.updatedTo %}
-          <small class="text-muted">(Updated to&nbsp;{{trick.updatedTo|date("m/d/Y")}})</small>
-          {% endif %}</span>
-        <span class="d-none d-lg-block">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <span class="text-muted mb-2"><i class="fa fa-snowboarding fa-1x"
-            title="Author"></i>&nbsp;{{trick.user.firstname|capitalize ~ " " ~ trick.user.lastname|upper}}</span>
-        <span class="d-none d-lg-block">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="#comments" class="text-secondary text-decoration-none mb-2"><i class="fa fa-comments fa-1x"
-            title="comments"></i>&nbsp;{{trick.comments|length}}&nbsp;Commentaires</a>
-
+      <p class="my-4 px-3 px-lg-5 text-justify">{{trick.content}}
+      </p>
+      <div class="row container justify-content-center">
+        <div
+          class="col-12 col-lg-auto p-3 fs-6 text-left text-lg-center fw-bold border border-primary d-flex flex-column flex-lg-row">
+          <span class="text-primary mb-2"><i class="fa fa-layer-group fa-1x"
+              title="Group"></i>&nbsp;{{trick.type.name|default('uncategorized')|upper}}</span>
+          <span class="d-none d-lg-block">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          <span class="text-muted mb-2"><i class="fa fa-calendar fa-1x"
+              title="Date"></i>&nbsp;{{trick.createdAt|date("m/d/Y H:i")}} {% if trick.updatedTo %}
+            <small class="text-muted">(Updated to&nbsp;{{trick.updatedTo|date("m/d/Y")}})</small>
+            {% endif %}</span>
+          <span class="d-none d-lg-block">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          <span class="text-muted mb-2"><i class="fa fa-snowboarding fa-1x"
+              title="Author"></i>&nbsp;{{trick.user.firstname|capitalize ~ " " ~ trick.user.lastname|upper}}</span>
+          <span class="d-none d-lg-block">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          <a href="#comments" class="text-secondary text-decoration-none mb-2"><i class="fa fa-comments fa-1x"
+              title="comments"></i>&nbsp;{{trick.comments|length}}&nbsp;Commentaires</a>
+        </div>
       </div>
+      {% include "single/comments.html.twig" %}
     </div>
-
-
-    {% include "single/comments.html.twig" %}
-
-  </div>
   </div>
 </section>
 
