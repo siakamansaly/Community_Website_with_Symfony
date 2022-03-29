@@ -15,7 +15,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class TrickFixtures extends Fixture implements DependentFixtureInterface
 {
     private $slugger;
-    
+
     public function __construct(SluggerInterface $slugger)
     {
         $this->slugger = $slugger;

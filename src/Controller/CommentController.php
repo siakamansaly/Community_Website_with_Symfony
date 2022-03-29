@@ -33,7 +33,7 @@ class CommentController extends AbstractController
     public function deleteComment(Comment $comment, Request $request, CommentRepository $commentRepository): Response
     {
         $comment = $commentRepository->find($comment);
-        
+
         $this->denyAccessUnlessGranted('COMMENT_DELETE', $comment);
 
         if ($request->request->count()>0) {
@@ -42,7 +42,7 @@ class CommentController extends AbstractController
             $this->addFlash('success', $message);
             return $this->redirectToRoute('app_comments');
         }
-        
+
         return $this->render('comment/delete.html.twig', ['comment' => $comment
         ]);
     }
@@ -50,7 +50,7 @@ class CommentController extends AbstractController
     /**
      * Add a comment to a trick
      */
-    public function addComment(Comment $comment, Trick $trick) :void
+    public function addComment(Comment $comment, Trick $trick): void
     {
         $this->denyAccessUnlessGranted('COMMENT_ADD', $comment);
 

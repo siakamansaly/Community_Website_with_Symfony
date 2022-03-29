@@ -15,7 +15,6 @@ use App\Service\Mailer;
 
 class RegistrationController extends AbstractController
 {
-
     /**
      * @Route("/register", name="app_register")
      */

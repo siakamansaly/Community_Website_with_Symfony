@@ -62,7 +62,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    public function checkStatus(User $entity):string
+    public function checkStatus(User $entity): string
     {
         $user = $this->findOneBy(['email' => $entity->getEmail()]);
         switch ($user->getStatus()) {
@@ -78,7 +78,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
     }
 
-    
+
 
     // /**
     //  * @return User[] Returns an array of User objects

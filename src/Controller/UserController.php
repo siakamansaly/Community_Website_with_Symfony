@@ -45,7 +45,7 @@ class UserController extends AbstractController
             $this->addFlash('success', $message);
             return $this->redirectToRoute('app_users');
         }
-        
+
         return $this->render('user/role.html.twig', ['userRoleForm' => $form->createView()]);
     }
 
@@ -73,7 +73,7 @@ class UserController extends AbstractController
             $this->addFlash('success', $message);
             return $this->redirectToRoute('app_users');
         }
-        
+
         return $this->render('user/delete.html.twig', ['user' => $user, 'deleteForm' => $form->createView()]);
     }
 
@@ -85,7 +85,7 @@ class UserController extends AbstractController
         $user = $userRepository->find($user);
         $this->denyAccessUnlessGranted('USER_EDIT', $user);
         $pictureTemp = "";
-        
+
         $oldPicture = $user->getPicture();
         // Create form for user profile
         $form = $this->createForm(UserProfileFormType::class, $user);

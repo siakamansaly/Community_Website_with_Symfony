@@ -15,7 +15,6 @@ class UrlComposer
 
     public function url(string $target = 'profile', $picture)
     {
-
         switch ($target) {
             case 'profile':
                 $targetPath = $this->getTargetProfile();
@@ -29,16 +28,14 @@ class UrlComposer
         }
 
 
-            if (!filter_var($picture, FILTER_VALIDATE_URL) && $picture) {
-                $picture = $targetPath . '/' . $picture;
-            }
-            return $picture;
-
+        if (!filter_var($picture, FILTER_VALIDATE_URL) && $picture) {
+            $picture = $targetPath . '/' . $picture;
+        }
+        return $picture;
     }
 
     public function urlArray(string $target = 'profile', $collection, $getname = 'getName'): array
     {
-
         switch ($target) {
             case 'profile':
                 $targetPath = $this->getTargetProfile();
@@ -73,18 +70,18 @@ class UrlComposer
         switch (true) {
 
             case strpos($url, "youtu.be") || strpos($url, "youtube.com"):
-                $url=str_replace("=","/",$url);
-                $array = explode('/',$url);
+                $url=str_replace("=", "/", $url);
+                $array = explode('/', $url);
                 $url = "https://www.youtube.com/embed/" . end($array);
                 break;
 
             case strpos($url, "dai.ly") || strpos($url, "dailymotion.com"):
-                $array = explode('/',$url);
+                $array = explode('/', $url);
                 $url = "https://www.dailymotion.com/embed/video/" . end($array);
                 break;
 
             case strpos($url, "vimeo.com"):
-                $array = explode('/',str_replace("-","",$url));
+                $array = explode('/', str_replace("-", "", $url));
                 $url = "https://player.vimeo.com/video/" . filter_var(end($array), FILTER_SANITIZE_NUMBER_INT);
                 break;
         }

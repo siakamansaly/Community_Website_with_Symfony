@@ -39,7 +39,7 @@ class TypeTrickController extends AbstractController
             $this->addFlash('success', "The type of has changed successfully !!");
             return $this->redirectToRoute('app_type');
         }
-        
+
         return $this->render('type/add.html.twig', ['typeTrickForm' => $form->createView(), 'editMode'=>$type->getId()!== null]);
     }
 
@@ -57,14 +57,14 @@ class TypeTrickController extends AbstractController
             foreach ($type->getTricks() as $trickRemove) {
                 $type->removeTrick($trickRemove);
             }
-           
+
             // Delete type
             $typeRepository->remove($type);
             $message = " The type of ".$type->getName()." has deleted successfully !!";
             $this->addFlash('success', $message);
             return $this->redirectToRoute('app_type');
         }
-        
+
         return $this->render('type/delete.html.twig', ['type' => $type, 'deleteForm' => $form->createView()]);
     }
 }

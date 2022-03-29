@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
-
 class Mailer extends AbstractController
 {
     private $mailer;
@@ -26,5 +25,4 @@ class Mailer extends AbstractController
             ->context($context);
         $this->mailer->send($email);
     }
-
 }

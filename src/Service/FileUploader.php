@@ -18,7 +18,6 @@ class FileUploader
 
     public function upload(UploadedFile $file, string $target = 'profile')
     {
-
         switch ($target) {
             case 'profile':
                 $targetPath = $this->getTargetProfile();
