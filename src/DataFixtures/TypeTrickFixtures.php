@@ -5,13 +5,11 @@ namespace App\DataFixtures;
 use App\Entity\TypeTrick;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Doctrine\ORM\EntityManager;
 
 class TypeTrickFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-
         $categories = [
             1 => [
                 'name' => 'Straight airs',

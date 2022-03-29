@@ -7,7 +7,6 @@ use Doctrine\Persistence\ObjectManager;
 use App\Entity\Trick;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\DataFixtures\TrickFixtures;
-use App\Entity\Media;
 use App\Entity\MediaPicture;
 use App\Entity\MediaVideo;
 

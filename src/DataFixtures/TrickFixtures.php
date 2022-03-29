@@ -10,13 +10,12 @@ use App\DataFixtures\TypeTrickFixtures;
 use App\DataFixtures\UserFixtures;
 use App\Entity\TypeTrick;
 use App\Entity\User;
-use DateTimeImmutable;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TrickFixtures extends Fixture implements DependentFixtureInterface
 {
     private $slugger;
+    
     public function __construct(SluggerInterface $slugger)
     {
         $this->slugger = $slugger;
@@ -27,7 +26,6 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         date_default_timezone_set('Europe/Paris');
         $faker = \Faker\Factory::create();
         $typeTrick = $manager->getRepository(TypeTrick::class);
-        //$typeTrick = $typeTrick->findAll();
         $user = $manager->getRepository(User::class);
         $user = $user->findOneBy(['email' => 'admin@example.fr']);
         $slugId = 1;
@@ -52,7 +50,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             ],
             4 => [
                 'title' => 'Chicken salad',
-                'content' => 'The rear hand reaches between the legs and grabs the heel edge between the bindings while the front leg is boned. The wrist is rotated inward to complete the grab.', 
+                'content' => 'The rear hand reaches between the legs and grabs the heel edge between the bindings while the front leg is boned. The wrist is rotated inward to complete the grab.',
                 'featured_picture' => 'https://images.unsplash.com/photo-1617939533073-6c94c709370c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2072&q=80',
                 'type_trick' => 'Grabs',
             ],
@@ -97,15 +95,15 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             $typeTrick = $manager->getRepository(TypeTrick::class);
             $typeTrick = $typeTrick->findOneBy(['name' => $trickValue['type_trick']]);
             $trick = new Trick();
-                $trick->setContent($trickValue['content'])
-                    ->setCreatedAt($faker->dateTimeBetween('-30 days','now'))
-                    ->setFeaturedPicture($trickValue['featured_picture'] ? $trickValue['featured_picture'] : NULL)
+            $trick->setContent($trickValue['content'])
+                    ->setCreatedAt($faker->dateTimeBetween('-30 days', 'now'))
+                    ->setFeaturedPicture($trickValue['featured_picture'] ? $trickValue['featured_picture'] : null)
                     ->setSlug($this->slugger->slug($slugId . "-" . $trickValue['title']))
                     ->setTitle($trickValue['title'])
                     ->setType($typeTrick)
                     ->setUser($user);
-                $manager->persist($trick);
-                $slugId++;
+            $manager->persist($trick);
+            $slugId++;
         }
         $manager->flush();
     }

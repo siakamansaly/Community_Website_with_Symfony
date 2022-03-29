@@ -10,7 +10,6 @@ use App\DataFixtures\TrickFixtures;
 use App\DataFixtures\UserFixtures;
 use App\Entity\Comment;
 use App\Entity\User;
-use DateTimeImmutable;
 
 class CommentFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -29,7 +28,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
                 for ($i = 0; $i < rand(0, 7); $i++) {
                     $comment = new Comment();
                     $comment->setContent($faker->paragraphs(2, true))
-                        ->setCreatedAt($faker->dateTimeBetween($value->getCreatedAt(),'now'))
+                        ->setCreatedAt($faker->dateTimeBetween($value->getCreatedAt(), 'now'))
                         ->setTrick($value)
                         ->setUser($user);
                     $manager->persist($comment);
