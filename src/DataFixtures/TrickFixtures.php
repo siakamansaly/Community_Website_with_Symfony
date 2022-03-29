@@ -81,7 +81,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             9 => [
                 'title' => 'Tail-stall',
                 'content' => 'The opposite of a nose-stall, this trick involves stalling on an obstacle with the tail of the snowboard. Often performed by approaching an obstacle fakie or by doing a 180 after approaching the feature normally',
-                'featured_picture' => 'https://images.unsplash.com/photo-1576837839711-7db60e14a18f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80',
+                'featured_picture' => 'https://images.unsplash.com/photo-1522445263200-1b4b91053db8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
                 'type_trick' => 'Stalls',
             ],
             10 => [
