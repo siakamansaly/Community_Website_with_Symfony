@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Controller\TricksController;
 use App\Controller\CommentController;
 
-class DefaultController  extends AbstractController
+class DefaultController extends AbstractController
 {
     private $trickRepository;
     private $urlComposer;
@@ -40,9 +40,10 @@ class DefaultController  extends AbstractController
         $formDeleteTrick = $this->createForm(DeleteTrickFormType::class);
         $formDeleteTrick->handleRequest($request);
 
+        // When Delete Trick Form is submitted
         if ($formDeleteTrick->isSubmitted() && $formDeleteTrick->isValid()) {
             $trick = $this->trickRepository->find($formDeleteTrick->get('delete')->getData());
-            $this->denyAccessUnlessGranted('TRICK_DELETE',$trick);
+            $this->denyAccessUnlessGranted('TRICK_DELETE', $trick);
             $tricksController->deleteTrick($trick->getId(), 'trick');
             return $this->redirectToRoute('index');
         }
@@ -56,22 +57,28 @@ class DefaultController  extends AbstractController
     {
         date_default_timezone_set($this->getParameter('app.timezone'));
         $comment = new Comment();
+        // Create Comment Form
         $form = $this->createForm(CommentFormType::class, $comment);
         $form->handleRequest($request);
+
+        // When Comment Form is submitted
         if ($form->isSubmitted() && $form->isValid()) {
             $commentController->addComment($comment, $trick);
             return $this->redirectToRoute('app_show_trick', ['slug' => $trick->getSlug(), '_fragment' => 'trick-0']);
         }
 
+        // Formatted URL for the trick
         $FeaturedPicture = $this->urlComposer->url('tricks', $trick->getFeaturedPicture());
         if (!$FeaturedPicture) {
             $FeaturedPicture = '/SnowTricks.png';
         }
+        // Formatted pictures URL for the trick
         $pictures = [];
         $pictures = $this->urlComposer->urlArray('tricks', $trick->getMediasPicture());
 
+        // Check if "d" is in the URL
         $page = "false";
-        if($request->get('d')){
+        if ($request->get('d')) {
             $page = "true";
         }
 
@@ -84,8 +91,11 @@ class DefaultController  extends AbstractController
     public function addTrickPage(Request $request, TricksController $tricksController)
     {
         $trick = new Trick();
+        // Create Trick Form
         $form = $this->createForm(TrickFormType::class);
         $form->handleRequest($request);
+
+        // When Trick Form is submitted
         if ($form->isSubmitted() && $form->isValid()) {
             $tricksController->addTrick($form, $trick);
             return $this->redirectToRoute('index');
@@ -99,7 +109,7 @@ class DefaultController  extends AbstractController
      */
     public function editTrickPage(Trick $trick, Request $request, TricksController $tricksController): Response
     {
-        $this->denyAccessUnlessGranted('TRICK_EDIT',$trick);
+        $this->denyAccessUnlessGranted('TRICK_EDIT', $trick);
         date_default_timezone_set($this->getParameter('app.timezone'));
 
         // Get old featured picture
@@ -134,13 +144,12 @@ class DefaultController  extends AbstractController
 
         // When delete Trick Form is submitted
         if ($formDeleteTrick->isSubmitted() && $formDeleteTrick->isValid()) {
-            $this->denyAccessUnlessGranted('TRICK_DELETE',$trick);
+            $this->denyAccessUnlessGranted('TRICK_DELETE', $trick);
             $tricksController->deleteTrick($formDeleteTrick->get('delete')->getData(), $formDeleteTrick->get('action')->getData());
             if ($formDeleteTrick->get('action')->getData() == 'trick') {
                 return $this->redirectToRoute('index');
-            } 
+            }
             return $this->redirectToRoute('app_edit_trick', ['id' => $trick->getId()]);
-            
         }
 
         // When content Form is submitted
@@ -175,22 +184,20 @@ class DefaultController  extends AbstractController
             $this->addFlash('danger', 'Video error link !!');
         }
 
-        // Generate URL Featured Picture 
+        // Generate URL Featured Picture
         $FeaturedPicture = $this->urlComposer->url('tricks', $trick->getFeaturedPicture());
         if (!$FeaturedPicture) {
             $FeaturedPicture = '/SnowTricks.png';
         }
 
-        // Generate URL other pictures 
+        // Generate URL other pictures
         $pictures = [];
         $pictures = $this->urlComposer->urlArray('tricks', $trick->getMediasPicture());
         $page = "false";
-        if($request->get('d')){
+        if ($request->get('d')) {
             $page = "true";
         }
 
         return $this->render('trick/edit.html.twig', ['trick' => $trick, 'trickForm' => $form->createView(), 'FeaturedPicture' => $FeaturedPicture, 'pictures' => $pictures, 'featuredForm' => $formFeatured->createView(), 'picturesForm' => $formPictures->createView(), 'videosForm' => $formVideos->createView(), 'deleteForm' => $formDeleteTrick->createView(), 'page' => $page]);
     }
-
-
 }

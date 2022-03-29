@@ -24,7 +24,7 @@ class CommentController extends AbstractController
      */
     public function comments(CommentRepository $comments): Response
     {
-        return $this->render('comment/index.html.twig', ['comments' => $comments->findBy([],['createdAt' => 'DESC'])
+        return $this->render('comment/index.html.twig', ['comments' => $comments->findBy([], ['createdAt' => 'DESC'])
         ]);
     }
     /**
@@ -32,15 +32,14 @@ class CommentController extends AbstractController
      */
     public function deleteComment(Comment $comment, Request $request, CommentRepository $commentRepository): Response
     {
-        
         $comment = $commentRepository->find($comment);
-        $this->denyAccessUnlessGranted('COMMENT_DELETE',$comment);
+        
+        $this->denyAccessUnlessGranted('COMMENT_DELETE', $comment);
 
-        if($request->request->count()>0) {
-
+        if ($request->request->count()>0) {
             $commentRepository->remove($comment);
             $message = " The account of ".$comment->getUser()->getFirstname()." ".$comment->getUser()->getLastname()." has deleted successfully !!";
-            $this->addFlash('success',$message);
+            $this->addFlash('success', $message);
             return $this->redirectToRoute('app_comments');
         }
         
@@ -48,14 +47,19 @@ class CommentController extends AbstractController
         ]);
     }
 
-    public function addComment (Comment $comment, Trick $trick) :void
+    /**
+     * Add a comment to a trick
+     */
+    public function addComment(Comment $comment, Trick $trick) :void
     {
-        $this->denyAccessUnlessGranted('COMMENT_ADD',$comment);
+        $this->denyAccessUnlessGranted('COMMENT_ADD', $comment);
+
         $comment->setCreatedAt(new DateTimeImmutable('now'));
         $comment->setTrick($trick);
         $comment->setUser($this->getUser());
+
         $this->commentRepository->add($comment);
+
         $this->addFlash('success', 'Comment successfully added !!');
     }
-    
 }

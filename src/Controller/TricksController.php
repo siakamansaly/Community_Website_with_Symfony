@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class TricksController  extends AbstractController
+class TricksController extends AbstractController
 {
     private $trickRepository;
     private $mediaPictureRepo;
@@ -35,6 +35,10 @@ class TricksController  extends AbstractController
         $this->fileUploader = $fileUploader;
     }
 
+    /**
+     * Add a new trick
+     * @param Trick $trick
+     */
     public function addTrick($form, Trick $trick)
     {
         // If the featured image is not empty, upload the image
@@ -79,6 +83,10 @@ class TricksController  extends AbstractController
         $this->addFlash('success', 'The trick has added successfully !!');
     }
 
+    /**
+     * Update a trick content
+     * @param Trick $trick
+     */
     public function updateTrickContent($form, Trick $trick)
     {
         $this->denyAccessUnlessGranted('TRICK_EDIT', $trick);
@@ -91,12 +99,18 @@ class TricksController  extends AbstractController
         $this->addFlash('success', 'Trick successfully updated !!');
     }
 
+    /**
+     * Update a trick Featured Picture
+     * @param Trick $trick
+     */
     public function updateTrickFeatured($formFeatured, Trick $trick, $removePicture)
     {
         $this->denyAccessUnlessGranted('TRICK_EDIT', $trick);
         $featuredPicture = $formFeatured->get('featuredPicture')->getData();
+        // If the featured image is not empty, upload the image
         if ($featuredPicture) {
             $ImageFileName = $this->fileUploader->upload($featuredPicture, 'tricks');
+            // If the old featured image is not empty, remove the old picture
             if ($removePicture) {
                 $filesystemEdit = new Filesystem();
                 $filesystemEdit->remove($this->getParameter('tricks_directory') . '/' . $removePicture);
@@ -107,11 +121,18 @@ class TricksController  extends AbstractController
         }
     }
 
+    /**
+     * Update a trick medias picture
+     * @param Trick $trick
+     */
     public function updateTrickPicture($formPictures, Trick $trick, $removeOtherPictures)
     {
         $this->denyAccessUnlessGranted('TRICK_EDIT', $trick);
         $otherPicture = $formPictures->get('name')->getData();
+        // Upload the new picture
         $otherPictureFileName = $this->fileUploader->upload($otherPicture, 'tricks');
+
+        // If picture like -1, add the new picture else remove the old picture and add the new one
         switch ($formPictures->get('pictureEdit')->getData()) {
             case -1:
                 $mediaPicture = new MediaPicture();
@@ -131,10 +152,17 @@ class TricksController  extends AbstractController
         $this->mediaPictureRepo->add($mediaPicture);
     }
 
+    /**
+     * Update a trick medias video
+     * @param Trick $trick
+     */
     public function updateTrickVideo($formVideos, Trick $trick)
     {
         $this->denyAccessUnlessGranted('TRICK_EDIT', $trick);
+        // Formated the video url
         $videoLink = $this->urlComposer->urlEmbed($formVideos->get('name')->getData());
+
+        // If video like -1, add the new video else remove the old video and add the new one
         switch ($formVideos->get('videoEdit')->getData()) {
             case -1:
                 $mediaVideo = new MediaVideo();
@@ -152,8 +180,12 @@ class TricksController  extends AbstractController
         $this->mediaVideoRepo->add($mediaVideo);
     }
 
+    /**
+     * Delete a trick
+     */
     public function deleteTrick(int $idTrick, string $action): Response
     {
+        // Switch the action, delete featured picture, delete pictures, delete videos or delete the trick
         switch ($action) {
             case 'featured':
                 $trick = $this->trickRepository->find($idTrick);
@@ -162,7 +194,7 @@ class TricksController  extends AbstractController
                     $filesystemEdit->remove($this->getParameter('tricks_directory') . '/' . $trick->getFeaturedPicture());
                 }
                 $id_redirect = $trick->getId();
-                $trick->setFeaturedPicture(NULL);
+                $trick->setFeaturedPicture(null);
                 $this->trickRepository->add($trick);
                 $this->addFlash('success', 'Featured picture successfully deleted !!');
                 return $this->redirectToRoute('app_edit_trick', ['id' => $trick->getId()]);

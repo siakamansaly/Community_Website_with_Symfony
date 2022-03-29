@@ -20,6 +20,7 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        // If user is already logged in, redirect to homepage
         if ($this->getUser()) {
             return $this->redirectToRoute('index');
         }
@@ -45,12 +46,18 @@ class SecurityController extends AbstractController
     public function forgotPassword(Request $request, UserRepository $userRepository, Mailer $mailer): Response
     {
         $form = $this->createForm(ForgotPasswordFormType::class);
+        // Create Forgot Password Form
         $form->handleRequest($request);
         $adminEmail = $this->getParameter('default_admin_email');
 
+        // When Forgot Password Form is submitted
         if ($form->isSubmitted() && $form->isValid()) {
+            // Verify if user exists
             $user = $userRepository->findOneBy(['email' => $form->get('email')->getData()]);
+
+            // If user exists
             if ($user) {
+                // Generate token
                 $token = $user->generateToken();
                 $user->setToken($token);
                 $userRepository->add($user);
@@ -82,18 +89,28 @@ class SecurityController extends AbstractController
      */
     public function resetPassword(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
+        // If get token
         if ($request->get('token')) {
+            // Get user by token
             $user = $userRepository->findOneBy(['token' => $request->get('token')]);
+
+            // If user exists
             if ($user) {
+                // Create Reset Password Form
                 $form = $this->createForm(ResetPasswordFormType::class);
                 $form->handleRequest($request);
 
+                // When Reset Password Form is submitted
                 if ($form->isSubmitted() && $form->isValid()) {
 
+                    // If email is verified
                     if ($user->getEmail() === $form->get('email')->getData()) {
+                        // Hash password
                         $user->setPassword($userPasswordHasher->hashPassword($user, $form->get('password')->getData()));
-                        $user->setToken(NULL);
-                        $user->setTokenDate(NULL);
+                        // Remove token
+                        $user->setToken(null);
+                        $user->setTokenDate(null);
+                        // Activate user
                         $user->setStatus(1);
                         $userRepository->add($user);
                         $this->addFlash('success', 'Password successfully changed! You can now connect !');

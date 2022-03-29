@@ -25,9 +25,12 @@ class RegistrationController extends AbstractController
         date_default_timezone_set($this->getParameter('app.timezone'));
         $adminEmail = $this->getParameter('default_admin_email');
         $user = new User();
+
+        // Create Registration Form
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
+        // When Registration Form is submitted
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
@@ -46,7 +49,7 @@ class RegistrationController extends AbstractController
             $userRepository->add($user);
 
             // create Login Link
-            $loginLinkDetails = $this->generateUrl('activation',['token' => $token]);
+            $loginLinkDetails = $this->generateUrl('activation', ['token' => $token]);
 
             // prepare and send email
             $context = [
@@ -74,12 +77,16 @@ class RegistrationController extends AbstractController
      */
     public function activation(Request $request, UserRepository $userRepository): Response
     {
+        // If there are get token from url
         if ($request->get('token')) {
+            // Find user by token
             $user = $userRepository->findOneBy(['token' => $request->get('token')]);
+            // If user exist
             if ($user) {
+                // Set user status to 1 and remove token
                 $user->setStatus(1);
-                $user->setToken(NULL);
-                $user->setTokenDate(NULL);
+                $user->setToken(null);
+                $user->setTokenDate(null);
                 $userRepository->add($user);
                 $this->addFlash('success', 'Account activated successfully ! You can log in!');
                 return $this->redirectToRoute('index');
@@ -88,6 +95,4 @@ class RegistrationController extends AbstractController
         }
         return $this->redirectToRoute('index');
     }
-
-    
 }
