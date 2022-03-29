@@ -38,22 +38,26 @@ class TrickVoter extends Voter
         }
 
         // Check trick owner
-        if (null === $trick->getUser()) return false;
+        if (null === $trick->getUser()) {
+            return false;
+        }
 
         // Check if user is admin
-        if($this->security->isGranted('ROLE_ADMIN')) return true;
+        if ($this->security->isGranted('ROLE_ADMIN')) {
+            return true;
+        }
 
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::TRICK_EDIT:
                 // logic to determine if the user can TRICK_EDIT
                 // return true or false
-                return $this->canEdit($trick,$user);
+                return $this->canEdit($trick, $user);
                 break;
             case self::TRICK_DELETE:
                 // logic to determine if the user can TRICK_DELETE
                 // return true or false
-                return $this->canDelete($trick,$user);
+                return $this->canDelete($trick, $user);
                 break;
         }
 

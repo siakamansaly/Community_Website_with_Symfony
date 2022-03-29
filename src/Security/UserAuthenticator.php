@@ -74,7 +74,6 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
         $userConnected->setLastConnectionDate(new \DateTime('now'));
         $this->user->add($userConnected);
         return new RedirectResponse($this->urlGenerator->generate('index'));
-
     }
 
     protected function getLoginUrl(Request $request): string

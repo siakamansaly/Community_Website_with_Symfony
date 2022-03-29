@@ -2,7 +2,6 @@
 
 namespace App\Security\Voter;
 
-
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -39,7 +38,9 @@ class UserVoter extends Voter
         }
 
         // Check if user is admin
-        if ($this->security->isGranted('ROLE_ADMIN')) return true;
+        if ($this->security->isGranted('ROLE_ADMIN')) {
+            return true;
+        }
 
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
@@ -70,13 +71,17 @@ class UserVoter extends Voter
 
     private function canEditRole()
     {
-        if ($this->security->isGranted('ROLE_ADMIN')) return true;
+        if ($this->security->isGranted('ROLE_ADMIN')) {
+            return true;
+        }
         return false;
     }
 
     private function canDelete()
     {
-        if ($this->security->isGranted('ROLE_ADMIN')) return true;
+        if ($this->security->isGranted('ROLE_ADMIN')) {
+            return true;
+        }
         return false;
     }
 }
