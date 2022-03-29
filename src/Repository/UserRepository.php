@@ -62,6 +62,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    public function checkStatus(User $entity):string
+    {
+        $user = $this->findOneBy(['email' => $entity->getEmail()]);
+        switch ($user->getStatus()) {
+            case 0:
+                return "Validation link not enabled ! Please check your email.";
+                break;
+            case 2:
+                return "User disabled ! Please contact your administrator.";
+                break;
+            default:
+                return "";
+                break;
+        }
+    }
+
+    
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
