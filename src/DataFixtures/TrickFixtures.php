@@ -12,6 +12,9 @@ use App\Entity\TypeTrick;
 use App\Entity\User;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TrickFixtures extends Fixture implements DependentFixtureInterface
 {
     private $slugger;

@@ -6,6 +6,9 @@ use App\Entity\TypeTrick;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TypeTrickFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void

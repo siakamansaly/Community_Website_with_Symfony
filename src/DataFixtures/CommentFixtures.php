@@ -11,6 +11,9 @@ use App\DataFixtures\UserFixtures;
 use App\Entity\Comment;
 use App\Entity\User;
 
+/**
+ * @codeCoverageIgnore
+ */
 class CommentFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void

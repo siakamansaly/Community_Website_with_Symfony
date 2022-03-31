@@ -10,6 +10,9 @@ use App\DataFixtures\TrickFixtures;
 use App\Entity\MediaPicture;
 use App\Entity\MediaVideo;
 
+/**
+ * @codeCoverageIgnore
+ */
 class MediaFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void

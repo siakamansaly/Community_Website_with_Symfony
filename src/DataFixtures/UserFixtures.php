@@ -7,6 +7,9 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class UserFixtures extends Fixture
 {
     private UserPasswordHasherInterface $hasher;
@@ -23,6 +26,7 @@ class UserFixtures extends Fixture
         $user->setFirstname($faker->firstName())
             ->setLastname($faker->lastName())
             ->setEmail('admin@example.fr')
+            ->setToken('aaaaaa')
             ->setPassword($password)
             ->setRegistrationDate($faker->dateTime())
             ->setStatus(1)
