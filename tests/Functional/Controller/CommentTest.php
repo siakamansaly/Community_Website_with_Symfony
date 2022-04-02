@@ -7,8 +7,6 @@ use App\Repository\UserRepository;
 
 class CommentTest extends WebTestCase
 {
-    
-
     public function testPageAdminCommentWhenAdmin()
     {
         $client = static::createClient();
@@ -24,10 +22,6 @@ class CommentTest extends WebTestCase
     public function testPageAdminCommentWhenNotAdmin()
     {
         $client = static::createClient();
-
-        $userRepository = $client->getContainer()->get(UserRepository::class);
-        $user = $userRepository->findOneBy(['email' => 'admin@example.fr']);
-        
         $client->request('GET', "/admin/comments");
         $this->assertResponseStatusCodeSame(401);
     }
@@ -60,10 +54,4 @@ class CommentTest extends WebTestCase
         $client->request('GET', "/admin/comment/".$commentId."/delete");
         $this->assertResponseStatusCodeSame(401);
     }
-
-    
-
-
-   
-
 }

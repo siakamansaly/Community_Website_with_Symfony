@@ -39,7 +39,6 @@ class TrickTest extends TestCase
 
     public function testIsFalse(): void
     {
-
         $date = new \DateTime();
         $dateFalse = new \DateTime('-1 day');
         $type = new TypeTrick();
@@ -93,7 +92,6 @@ class TrickTest extends TestCase
 
         $trick->removeComment($comment);
         $this->assertEmpty($trick->getComments());
-
     }
 
     public function testAddGetRemovePicture(): void
@@ -108,7 +106,6 @@ class TrickTest extends TestCase
 
         $trick->removeMediasPicture($picture);
         $this->assertEmpty($trick->getMediasPicture());
-
     }
 
     public function testAddGetRemoveVideo(): void
@@ -123,6 +120,5 @@ class TrickTest extends TestCase
 
         $trick->removeMediasVideo($video);
         $this->assertEmpty($trick->getMediasVideos());
-
     }
 }

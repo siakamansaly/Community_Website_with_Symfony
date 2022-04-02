@@ -48,6 +48,5 @@ class TypeTrickTest extends TestCase
 
         $typeTrick->removeTrick($trick);
         $this->assertEmpty($typeTrick->getTricks());
-
     }
 }

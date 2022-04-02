@@ -6,8 +6,6 @@ use App\Repository\UserRepository;
 
 class UserTest extends WebTestCase
 {
-    
-
     public function testPageAdminUserWhenAdmin()
     {
         $client = static::createClient();
@@ -23,10 +21,6 @@ class UserTest extends WebTestCase
     public function testPageAdminUserWhenNotAdmin()
     {
         $client = static::createClient();
-
-        $userRepository = $client->getContainer()->get(UserRepository::class);
-        $user = $userRepository->findOneBy(['email' => 'admin@example.fr']);
-        
         $client->request('GET', "/admin/users");
         $this->assertResponseStatusCodeSame(401);
     }
@@ -69,7 +63,6 @@ class UserTest extends WebTestCase
         $userId = $user->getId();
         $client->request('GET', "/admin/user/".$userId."/delete");
         $this->assertResponseIsSuccessful();
-
     }
 
     public function testPageUserDeleteWhenNotAdmin()
@@ -82,7 +75,6 @@ class UserTest extends WebTestCase
         $userId = $user->getId();
         $client->request('GET', "/admin/user/".$userId."/delete");
         $this->assertResponseStatusCodeSame(401);
-
     }
 
     public function testPageUserEditRoleWhenAdmin()
@@ -97,7 +89,6 @@ class UserTest extends WebTestCase
 
         $client->request('GET', "/admin/user/".$userId."/edit_role");
         $this->assertResponseIsSuccessful();
-
     }
 
     public function testPageUserEditRoleWhenNotAdmin()
@@ -111,10 +102,5 @@ class UserTest extends WebTestCase
 
         $client->request('GET', "/admin/user/".$userId."/edit_role");
         $this->assertResponseStatusCodeSame(401);
-
     }
-
-
-   
-
 }

@@ -36,9 +36,6 @@ class UserTest extends TestCase
         $this->assertTrue($user->getLastConnectionDate() === $date);
         $this->assertTrue($user->getTokenDate() === $date);
         $this->assertTrue($user->getPicture() === 'picture.jpg');
-        
-
-
     }
 
     public function testIsFalse(): void
@@ -90,7 +87,6 @@ class UserTest extends TestCase
     {
         $user = new User();
         $this->assertNotEmpty($user->generateToken());
-
     }
 
     public function testAddGetRemoveComment(): void
@@ -105,7 +101,6 @@ class UserTest extends TestCase
 
         $user->removeComment($comment);
         $this->assertEmpty($user->getComments());
-
     }
 
     public function testAddGetRemoveTrick(): void
@@ -120,6 +115,5 @@ class UserTest extends TestCase
 
         $user->removeTrick($trick);
         $this->assertEmpty($user->getTricks());
-
     }
 }

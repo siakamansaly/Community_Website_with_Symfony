@@ -7,8 +7,6 @@ use App\Repository\UserRepository;
 
 class TypeTest extends WebTestCase
 {
-    
-
     public function testPageAdminTypeWhenAdmin()
     {
         $client = static::createClient();
@@ -24,10 +22,6 @@ class TypeTest extends WebTestCase
     public function testPageAdminTypeWhenNotAdmin()
     {
         $client = static::createClient();
-
-        $userRepository = $client->getContainer()->get(UserRepository::class);
-        $user = $userRepository->findOneBy(['email' => 'admin@example.fr']);
-        
         $client->request('GET', "/admin/type");
         $this->assertResponseStatusCodeSame(401);
     }
@@ -102,7 +96,6 @@ class TypeTest extends WebTestCase
 
         $client->request('GET', "/admin/type/add");
         $this->assertResponseIsSuccessful();
-
     }
 
     public function testPageTypeAddWhenNotAdmin()
@@ -110,10 +103,5 @@ class TypeTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', "/admin/type/add");
         $this->assertResponseStatusCodeSame(401);
-
     }
-
-
-   
-
 }

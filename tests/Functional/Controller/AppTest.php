@@ -5,7 +5,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AppTest extends WebTestCase
 {
-
     public function testPageHomepage()
     {
         $client = static::createClient();
@@ -47,5 +46,4 @@ class AppTest extends WebTestCase
         $client->request('GET', '/activation/?token=aaaaaa');
         $this->assertResponseStatusCodeSame(301);
     }
-
 }

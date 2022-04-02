@@ -8,7 +8,6 @@ use App\Repository\UserRepository;
 
 class TrickTest extends WebTestCase
 {
-    
     public function testPageTrickShow()
     {
         $client = static::createClient();
@@ -34,10 +33,6 @@ class TrickTest extends WebTestCase
     public function testPageTrickAddWhenNotLogged()
     {
         $client = static::createClient();
-
-        $userRepository = $client->getContainer()->get(UserRepository::class);
-        $user = $userRepository->findOneBy([]);
-        
         $client->request('GET', "/profile/trick/add");
         $this->assertResponseStatusCodeSame(401);
     }
@@ -71,10 +66,4 @@ class TrickTest extends WebTestCase
         $client->request('GET', "/profile/trick/".$trickId."/edit");
         $this->assertResponseStatusCodeSame(401);
     }
-
-    
-
-
-   
-
 }
