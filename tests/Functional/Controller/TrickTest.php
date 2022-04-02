@@ -5,6 +5,7 @@ use App\Repository\TrickRepository;
 use App\Repository\TypeTrickRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\Response;
 
 class TrickTest extends WebTestCase
 {
@@ -26,8 +27,22 @@ class TrickTest extends WebTestCase
         $user = $userRepository->findOneBy([]);
         $client->loginUser($user, 'test');
         
-        $client->request('GET', "/profile/trick/add");
+        $crawler = $client->request('GET', "/profile/trick/add");
         $this->assertResponseIsSuccessful();
+
+        $buttonCrawlerNode = $crawler->selectButton('Submit');
+        
+        $form = $buttonCrawlerNode->form([
+            'trick_form[title]'    => 'TestAddTrick',
+            'trick_form[content]'    => 'TestAddTrick',           
+        ]);
+        $crawler = $client->submit($form);
+        $this->assertResponseRedirects('/', Response::HTTP_FOUND); // 302
+
+        $trickRepository = $client->getContainer()->get(TrickRepository::class);
+        $trick = $trickRepository->findOneBy(['title' => 'TestAddTrick']);
+        $trickRepository->remove($trick);
+
     }
 
     public function testPageTrickAddWhenNotLogged()
@@ -52,6 +67,7 @@ class TrickTest extends WebTestCase
 
         $client->request('GET', "/profile/trick/".$trickId."/edit");
         $this->assertResponseIsSuccessful();
+
     }
 
     public function testPageTrickEditWhenNotLogged()
