@@ -144,6 +144,7 @@ Thanks to my mentor [Hamza](https://github.com/Hamzasakrani) for his guidance an
 <ul>
   <li><a href="https://github.com/FakerPHP/Faker" target="_blank">Faker</a></li>
   <li><a href="https://cs.symfony.com/" target="_blank">PHP CS Fixer</a></li>
+  <li><a href="https://phpunit.de/index.html" target="_blank">PHP Unit</a></li>
 </ul>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
