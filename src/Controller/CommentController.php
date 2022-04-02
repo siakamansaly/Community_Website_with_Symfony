@@ -24,6 +24,7 @@ class CommentController extends AbstractController
      */
     public function comments(CommentRepository $comments): Response
     {
+        $this->denyAccessUnlessGranted('COMMENT_DELETE', $comments->findOneBy([]));
         return $this->render('comment/index.html.twig', ['comments' => $comments->findBy([], ['createdAt' => 'DESC'])
         ]);
     }

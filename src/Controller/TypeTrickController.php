@@ -18,6 +18,7 @@ class TypeTrickController extends AbstractController
      */
     public function adminTypeTrick(TypeTrickRepository $types): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('type/index.html.twig', ['types' => $types->findAll()]);
     }
 
@@ -27,6 +28,7 @@ class TypeTrickController extends AbstractController
      */
     public function adminTypeAdd(TypeTrick $type=null, Request $request, TypeTrickRepository $typeRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if (!$type) {
             $type= new TypeTrick();
         }
@@ -48,6 +50,7 @@ class TypeTrickController extends AbstractController
      */
     public function adminTypeDelete(TypeTrick $type, Request $request, TypeTrickRepository $typeRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         // Create Delete Trick form for type
         $form = $this->createForm(DeleteTypeFormType::class, $type);
         $form->handleRequest($request);

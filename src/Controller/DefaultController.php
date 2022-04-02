@@ -90,6 +90,7 @@ class DefaultController extends AbstractController
      */
     public function addTrickPage(Request $request, TricksController $tricksController)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $trick = new Trick();
         // Create Trick Form
         $form = $this->createForm(TrickFormType::class);
