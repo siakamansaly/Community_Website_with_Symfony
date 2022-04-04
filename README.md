@@ -57,7 +57,6 @@ This is the list of things you need to use the software.
    ```sh
       - PHP: >=7.2.5
       - MySQL
-      - Apache
       - Composer
    ```
 <!-- GETTING STARTED -->
