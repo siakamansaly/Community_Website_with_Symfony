@@ -60,22 +60,26 @@ class TricksController extends AbstractController
         $mediasVideos = $form->get('mediasVideos')->getData();
         if ($mediasVideos) {
             foreach ($mediasVideos as $key => $value) {
-                $video = new MediaVideo();
-                $video->setName($this->urlComposer->urlEmbed($value->getName()));
-                $video->setTrick($trick);
-                $this->mediaVideoRepo->add($video);
+                if ($value->getName()) {
+                    $video = new MediaVideo();
+                    $video->setName($this->urlComposer->urlEmbed($value->getName()));
+                    $video->setTrick($trick);
+                    $this->mediaVideoRepo->add($video);
+                }
             }
         }
 
         $mediasPicture = $form->get('mediasPicture')->getData();
         if ($mediasPicture) {
             foreach ($mediasPicture as $key => $value) {
-                $picture = new MediaPicture();
-                $upload = new UploadedFile($value->getName(), uniqid());
-                $pictureFileName = $this->fileUploader->upload($upload, 'tricks');
-                $picture->setName($pictureFileName);
-                $picture->setTrick($trick);
-                $this->mediaPictureRepo->add($picture);
+                if ($value->getName()) {
+                    $picture = new MediaPicture();
+                    $upload = new UploadedFile($value->getName(), uniqid());
+                    $pictureFileName = $this->fileUploader->upload($upload, 'tricks');
+                    $picture->setName($pictureFileName);
+                    $picture->setTrick($trick);
+                    $this->mediaPictureRepo->add($picture);
+                }
             }
         }
 
